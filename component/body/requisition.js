@@ -86,7 +86,7 @@ function loadRequisitionDefault(){
                     
                     <div class="uploadattachment">Add/Upload Attachment</div>
                     <div class="fileuploadDiv"> 
-                        <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" multiple />
+                        <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" />
                         <button class="btn btn-bg">Choose File</button>
                         <span class="number_files">No File Selected</span>
                     </div>

@@ -143,7 +143,37 @@ function saveOrderModule(){
     
 
 function saveRequisitionModule(){
-    dataOrderref = [];
+    let dataOrderref = [];
+    let count = true;
+    if(count){
+        count=false
+        fetch('/procurement/app/customroute/getAllorder')
+    .then(res=>res.json())
+    .then(data=>{
+        console.log("data",data)
+        if(data['status']){
+            let dataset ="<option>SELECT ORDER</option>"
+            document.getElementById('ordertype').innerHTML=""
+            data['data'].forEach((d,index)=>{
+                dataset += 
+                            `
+                                <option value=${d.id}>${d.ordertype}</option>
+                            `
+                dataOrderref.push(d.order_ref);
+            })
+            document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
+           
+        }
+        
+    })
+    .catch(err=> {
+        
+        console.log(err)
+       
+    })
+
+    }
+    
     fetch('/procurement/app/customroute/getAllSupplier')
     .then(res=>res.json())
     .then(data=>{
@@ -166,36 +196,13 @@ function saveRequisitionModule(){
        
     })
 
-    fetch('/procurement/app/customroute/getAllorder')
-    .then(res=>res.json())
-    .then(data=>{
-        console.log("data",data)
-        if(data['status']){
-            let dataset ="<option>SELECT ORDER</option>"
-            document.getElementById('ordertype').innerHTML=""
-            data['data'].forEach((d,index)=>{
-                dataset += 
-                            `
-                                <option value=${d.id}>${d.ordertype}</option>
-                            `
-                dataOrderref.push(d.order_ref);
-            })
-            document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
-                
-        }
-        
-    })
-    .catch(err=> {
-        
-        console.log(err)
-       
-    })
+    
 
     document.getElementById('ordertype').addEventListener('change',function(e){
-        let value = e.target.value
+        let value = parseInt(e.target.value) - 1;
     
         let ref = dataOrderref[value];
-        alert(ref)
+        document.getElementById('order_ref').value=ref;
     })
 
 
@@ -270,6 +277,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
     })
 
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
+       
         let totalfiles = document.getElementById('fileInput').files.length;
         let allsupplier = document.getElementById('allsupplier').value;
         let order = document.getElementById('ordertype').value;
@@ -286,8 +294,6 @@ let handleInput  = document.querySelector('.fileUploadInput');
 
 
 
-        return false;
-
         if(totalfiles === 0){
             Swal.fire('Upload Supplier Quotation','','error')
         }
@@ -299,19 +305,20 @@ let handleInput  = document.querySelector('.fileUploadInput');
         }
 
         if(totalfiles >0 && allsupplier!="" && order!=""){
-            var formdata = new FormData();
+            const formdata = new FormData();
 
-            for(let i=0;i<=totalfiles;i++){
-                formdata.append("files[]",document.getElementById('fileInput').files[i])
-            }
-
+            // for(let i=0;i<=totalfiles;i++){
+            //     formdata.append("files[]",document.getElementById('fileInput').files[i])
+            // }
+            console.log(document.getElementById('fileInput').files)
+            formdata.append("sample_image",document.getElementById('fileInput').files[0])
             formdata.append('ordertype',ordertype);
             formdata.append('supplier',allsupplier);
             formdata.append('username',username);
 
             fetch('/procurement/app/customroute/upoadrequisition',{
                 method:'POST',
-                headers: { "Content-type": "application/x-www-form-urlencoded"},
+                // headers: { "Content-type": "application/x-www-form-urlencoded"},
                 body:formdata
             })
             .then(response=>response.json())

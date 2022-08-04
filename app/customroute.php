@@ -98,7 +98,7 @@ $router->post('/createorder',function(array $params){
          if(mysqli_num_rows($res) > 0){
           $sid = mysqli_fetch_assoc($res);
           $autocreate = last_insert(strlen($sid['id']),$sid['id']+1);
-          $order_ref = 'MC-ENQ-'.$autocreate.'-'.$year;
+          $order_ref = 'MCN-ENQ-'.$autocreate.'-'.$year;
       
          }
          else{
@@ -240,21 +240,25 @@ $router->post('/upoadrequisition',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
-  $data = json_decode(file_get_contents('php://input'), true);
+  // $data = json_decode(file_get_contents('php://input'), true);
 
-  
-  if(isset($_FILES['filex'])){
-       echo json_encode('file is present');
+  $new_name;
+  if(isset($_FILES['sample_image'])){
+      $extension = pathinfo($_FILES['sample_image']['name'],PATHINFO_EXTENSION);
+      $new_name = time().'.'.$extension;
+      move_uploaded_file($_FILES['sample_image']['tmp_name'],'../quotation/'.$new_name);
+      // echo json_encode($new_name);
   }
   else{
-    echo json_encode($data.'file not found');
+    echo json_encode(["data"=>"Upload Error","status"=>false]);
   }
+  
   die;
 
  // echo json_encode(["data"=>$data['quotation'][1][1]['z'],"status"=>true]);
 
   for($i=0;$i<count($data['quotation']);$i++){
-      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,unit,total_price)VALUES('".$data['ordertype']."','".$data['allsupplier']."','".$data['username']."','".$data['quotation'][$i][1]['z']."','".$data['quotation'][$i][2]['z']."','".$data['quotation'][$i][3]['z']."','".$data['quotation'][$i][4]['z']."','".$data['quotation'][$i][5]['z']."','".$data['quotation'][$i][6]['z']."')";
+      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,unit,total_price,quotation_receipt)VALUES('".$data['ordertype']."','".$data['allsupplier']."','".$data['username']."','".$data['quotation'][$i][1]['z']."','".$data['quotation'][$i][2]['z']."','".$data['quotation'][$i][3]['z']."','".$data['quotation'][$i][4]['z']."','".$data['quotation'][$i][5]['z']."','".$data['quotation'][$i][6]['z']."',".$new_name.")";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
       

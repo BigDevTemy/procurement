@@ -70,9 +70,7 @@ function SwitcherContent(search){
         case 'Order':
             return saveOrderModule();
             break;
-        case 'Approval':
-            return saveApprovalModule();
-            break;
+       
         case 'Requisition':
             return saveRequisitionModule();
             break;
