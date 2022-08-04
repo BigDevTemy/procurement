@@ -1,174 +1,174 @@
-function AddRequisitionDefault(){
-    let username = document.getElementById('username').value
+// function AddRequisitionDefault(){
+//     let username = document.getElementById('username').value
     
-    return `
-                <div class="tab-body-order-2">
-                    <div>
-                        <label>User</label>
-                        <input type="text" class="form-control selector" value=${username} disabled placeholder="Create Order"/>
-                    </div>
-                    <div class="div-2-element">
-                        <div>
-                            <label>Select Order</label>
-                            <select class="form-control ordertype" id="ordertype">
-                                <option value="">SELECT ORDER TYPE</option>
+//     return `
+//                 <div class="tab-body-order-2">
+//                     <div>
+//                         <label>User</label>
+//                         <input type="text" class="form-control selector" value=${username} disabled placeholder="Create Order"/>
+//                     </div>
+//                     <div class="div-2-element">
+//                         <div>
+//                             <label>Select Order</label>
+//                             <select class="form-control ordertype" id="ordertype">
+//                                 <option value="">SELECT ORDER TYPE</option>
                                 
                             
-                            </select>
-                        </div>
-                        <div>
-                            <label>Select Supplier</label>
-                            <select class="form-control allsupplier" id="allsupplier">
-                                <option value="">SELECT SUPPLIER</option>
+//                             </select>
+//                         </div>
+//                         <div>
+//                             <label>Select Supplier</label>
+//                             <select class="form-control allsupplier" id="allsupplier">
+//                                 <option value="">SELECT SUPPLIER</option>
                                 
-                            </select>
-                        </div>
+//                             </select>
+//                         </div>
                         
-                    </div>
+//                     </div>
 
-                </div>
+//                 </div>
 
-                <div class="tab-body-more">
-                    <div class="contentHeader">
-                        <div>SN</div>
-                        <div>Description</div>
-                        <div>Quantity</div>
-                        <div>ABC Price</div>
-                        <div>ABC Total</div>
-                        <div>Unit Price</div>
-                        <div>Total Price</div>
-                    </div>
-                    <div class="contentParent">
-                        <div class="content">
-                            <div ><input type="text" value=1 class="form-control" /></div>
-                            <div><input type="text" placeholder="description" class="form-control"/></div>
-                            <div><input type="text" placeholder="quantity"  class="form-control"/></div>
-                            <div><input type="text" placeholder="abc price"  class="form-control"/></div>
-                            <div><input type="text" placeholder="abc total"  class="form-control"/></div>
-                            <div><input type="text" placeholder="unit price"  class="form-control"/></div>
-                            <div><input type="text" placeholder="total price"  class="form-control"/></div>
+//                 <div class="tab-body-more">
+//                     <div class="contentHeader">
+//                         <div>SN</div>
+//                         <div>Description</div>
+//                         <div>Quantity</div>
+//                         <div>ABC Price</div>
+//                         <div>ABC Total</div>
+//                         <div>Unit Price</div>
+//                         <div>Total Price</div>
+//                     </div>
+//                     <div class="contentParent">
+//                         <div class="content">
+//                             <div ><input type="text" value=1 class="form-control" /></div>
+//                             <div><input type="text" placeholder="description" class="form-control"/></div>
+//                             <div><input type="text" placeholder="quantity"  class="form-control"/></div>
+//                             <div><input type="text" placeholder="abc price"  class="form-control"/></div>
+//                             <div><input type="text" placeholder="abc total"  class="form-control"/></div>
+//                             <div><input type="text" placeholder="unit price"  class="form-control"/></div>
+//                             <div><input type="text" placeholder="total price"  class="form-control"/></div>
                             
-                        </div>
-                    </div>
-                    <div class="addrow">
-                    <button class="btn btn-secondary rowplus">+ Add row(s)</button>
-                    </div>
+//                         </div>
+//                     </div>
+//                     <div class="addrow">
+//                     <button class="btn btn-secondary rowplus">+ Add row(s)</button>
+//                     </div>
                     
-                    <div class="uploadattachment">Add/Upload Attachment</div>
-                    <div class="fileuploadDiv"> 
-                        <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" multiple />
-                        <button class="btn btn-bg">Choose File</button>
-                        <span class="number_files">No File Selected</span>
-                    </div>
-                    <div class="selectedFiles">
+//                     <div class="uploadattachment">Add/Upload Attachment</div>
+//                     <div class="fileuploadDiv"> 
+//                         <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" multiple />
+//                         <button class="btn btn-bg">Choose File</button>
+//                         <span class="number_files">No File Selected</span>
+//                     </div>
+//                     <div class="selectedFiles">
                         
                         
-                    </div>
+//                     </div>
 
                     
-                    <div class="submitBtnParent">
-                        <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
-                    </div>
-                </div>
+//                     <div class="submitBtnParent">
+//                         <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
+//                     </div>
+//                 </div>
     
-            `
+//             `
             
-}
+// }
 
-function AddRequisition(){
-    let username = document.getElementById('username').value
+// function AddRequisition(){
+//     let username = document.getElementById('username').value
     
-    let content = `
-                <div class="tab-body-order-2">
-                    <form method="POST" enctype="multipart/form-data">
-                        <div>
-                            <label>User</label>
-                            <input type="text" class="form-control selector" value=${username} disabled placeholder="Create Order"/>
-                        </div>
-                        <div class="div-2-element">
-                            <div>
-                                <label>Select Order</label>
-                                <select class="form-control ordertype" id="ordertype">
-                                    <option value="">SELECT ORDER TYPE</option>
+//     let content = `
+//                 <div class="tab-body-order-2">
+//                     <form method="POST" enctype="multipart/form-data">
+//                         <div>
+//                             <label>User</label>
+//                             <input type="text" class="form-control selector" value=${username} disabled placeholder="Create Order"/>
+//                         </div>
+//                         <div class="div-2-element">
+//                             <div>
+//                                 <label>Select Order</label>
+//                                 <select class="form-control ordertype" id="ordertype">
+//                                     <option value="">SELECT ORDER TYPE</option>
                                     
                                 
-                                </select>
-                            </div>
-                            <div>
-                                <label>Select Supplier</label>
-                                <select class="form-control allsupplier" id="allsupplier">
-                                    <option value="">SELECT SUPPLIER</option>
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label>Select Supplier</label>
+//                                 <select class="form-control allsupplier" id="allsupplier">
+//                                     <option value="">SELECT SUPPLIER</option>
                                     
-                                </select>
-                            </div>
+//                                 </select>
+//                             </div>
                             
-                        </div>
+//                         </div>
 
-                    </div>
+//                     </div>
 
-                    <div class="tab-body-more">
-                        <div class="contentHeader">
-                            <div>SN</div>
-                            <div>Description</div>
-                            <div>Quantity</div>
-                            <div>ABC Price</div>
-                            <div>ABC Total</div>
-                            <div>Unit Price</div>
-                            <div>Total Price</div>
-                        </div>
-                        <div class="contentParent">
-                            <div class="content">
-                                <div ><input type="text" value=1 class="form-control" /></div>
-                                <div><input type="text" placeholder="description" class="form-control"/></div>
-                                <div><input type="text" placeholder="quantity"  class="form-control"/></div>
-                                <div><input type="text" placeholder="abc price"  class="form-control"/></div>
-                                <div><input type="text" placeholder="abc total"  class="form-control"/></div>
-                                <div><input type="text" placeholder="unit price"  class="form-control"/></div>
-                                <div><input type="text" placeholder="total price"  class="form-control"/></div>
+//                     <div class="tab-body-more">
+//                         <div class="contentHeader">
+//                             <div>SN</div>
+//                             <div>Description</div>
+//                             <div>Quantity</div>
+//                             <div>ABC Price</div>
+//                             <div>ABC Total</div>
+//                             <div>Unit Price</div>
+//                             <div>Total Price</div>
+//                         </div>
+//                         <div class="contentParent">
+//                             <div class="content">
+//                                 <div ><input type="text" value=1 class="form-control" /></div>
+//                                 <div><input type="text" placeholder="description" class="form-control"/></div>
+//                                 <div><input type="text" placeholder="quantity"  class="form-control"/></div>
+//                                 <div><input type="text" placeholder="abc price"  class="form-control"/></div>
+//                                 <div><input type="text" placeholder="abc total"  class="form-control"/></div>
+//                                 <div><input type="text" placeholder="unit price"  class="form-control"/></div>
+//                                 <div><input type="text" placeholder="total price"  class="form-control"/></div>
                                 
-                            </div>
-                        </div>
-                        <div class="addrow">
-                        <button class="btn btn-secondary rowplus">+ Add row(s)</button>
-                        </div>
+//                             </div>
+//                         </div>
+//                         <div class="addrow">
+//                         <button class="btn btn-secondary rowplus">+ Add row(s)</button>
+//                         </div>
                         
-                        <div class="uploadattachment">Add/Upload Attachment</div>
-                        <div class="fileuploadDiv"> 
-                            <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" multiple />
-                            <button class="btn btn-bg">Choose File</button>
-                            <span class="number_files">No File Selected</span>
-                        </div>
-                        <div class="selectedFiles">
+//                         <div class="uploadattachment">Add/Upload Attachment</div>
+//                         <div class="fileuploadDiv"> 
+//                             <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" multiple />
+//                             <button class="btn btn-bg">Choose File</button>
+//                             <span class="number_files">No File Selected</span>
+//                         </div>
+//                         <div class="selectedFiles">
                             
                             
-                        </div>
+//                         </div>
 
                         
-                        <div class="submitBtnParent">
-                            <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
-                        </div>
-                    </form>
-                </div>
+//                         <div class="submitBtnParent">
+//                             <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
+//                         </div>
+//                     </form>
+//                 </div>
     
-            `
+//             `
 
-        document.querySelector('.render_body_content').innerHTML = content
+//         document.querySelector('.render_body_content').innerHTML = content
             
-}
+// }
 
 
 
 
 
-function AllRequisition(){
-    let content =  `
-                <h1>NO DATA</h1>
-            `
-        document.querySelector('.render_body_content').innerHTML = content
-}
+// function AllRequisition(){
+//     let content =  `
+//                 <h1>NO DATA</h1>
+//             `
+//         document.querySelector('.render_body_content').innerHTML = content
+// }
 
 function switchComponentBodyRender(tab_name){
-    console.log(tab_name)
+    
     switch(tab_name){
         case 'Add Requisition':
             return AddRequisition();
@@ -198,183 +198,96 @@ function switchComponentBodyRender(tab_name){
     }
 }
 
-function PendingApproval(){
-    approvalfetch();
-        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>ORDER TYPE</th>
-                            <th>STATUS</th>
-                            <th>DATE</th>
+// function PendingApproval(){
+//     approvalfetch();
+//         let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
+//                     <thead>
+//                         <tr>
+//                             <th>SN</th>
+//                             <th>ORDER TYPE</th>
+//                             <th>STATUS</th>
+//                             <th>DATE</th>
                             
-                        </tr>
-                    </thead>
-                </table>`
-        document.querySelector('.render_body_content').innerHTML = content
-}
+//                         </tr>
+//                     </thead>
+//                 </table>`
+//         document.querySelector('.render_body_content').innerHTML = content
+// }
 
-function TreatedApproval(){
-    allapproved();
-        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>ORDER TYPE</th>
-                            <th>SUPPLIER ASSIGNED</th>
-                            <th>STATUS</th>
-                            <th>DATE</th>
-                            <th>ACTION</th>
+// function TreatedApproval(){
+//     allapproved();
+//         let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
+//                     <thead>
+//                         <tr>
+//                             <th>SN</th>
+//                             <th>ORDER TYPE</th>
+//                             <th>SUPPLIER ASSIGNED</th>
+//                             <th>STATUS</th>
+//                             <th>DATE</th>
+//                             <th>ACTION</th>
                             
-                        </tr>
-                    </thead>
-                </table>`
-        document.querySelector('.render_body_content').innerHTML = content
-}
+//                         </tr>
+//                     </thead>
+//                 </table>`
+//         document.querySelector('.render_body_content').innerHTML = content
+// }
 
-function ApprovalHTML(){
+// function ApprovalHTML(){
 
-        approvalfetch();
-        return `<table id="example" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>ORDER TYPE</th>
-                            <th>STATUS</th>
-                            <th>DATE</th>
+//         approvalfetch();
+//         return `<table id="example" class="table table-striped table-bordered" style="width:100%">
+//                     <thead>
+//                         <tr>
+//                             <th>SN</th>
+//                             <th>ORDER TYPE</th>
+//                             <th>STATUS</th>
+//                             <th>DATE</th>
                             
                             
-                        </tr>
-                    </thead>
-                </table>`
-}
+//                         </tr>
+//                     </thead>
+//                 </table>`
+// }
 
-function approvalfetch(){
+// function approvalfetch(){
     
 
-       let table = $('#example').DataTable({
+//        let table = $('#example').DataTable({
         
-           "processing":true,
-            "destroy":true,
-           "serverSide":true,
-           "bFilter": true,
-           dom: "Bfrtip",
-           "ajax":{
-                url:'/procurement/app/customroute/getpendingApproval',
-                type:"GET",
+//            "processing":true,
+//             "destroy":true,
+//            "serverSide":true,
+//            "bFilter": true,
+//            dom: "Bfrtip",
+//            "ajax":{
+//                 url:'/procurement/app/customroute/getpendingApproval',
+//                 type:"GET",
                 
                
-           },
-           "columns":[
+//            },
+//            "columns":[
                 
-                    {data:"id"},
-                    {
-                      data:"order_title",
-                      render:function(data,type,row){
+//                     {data:"id"},
+//                     {
+//                       data:"order_title",
+//                       render:function(data,type,row){
                         
-                        return `<a href=#Approval/details/${row.id}>${data}</a>`
-                      }  
+//                         return `<a href=#Approval/details/${row.id}>${data}</a>`
+//                       }  
                         
-                    },
-                    {data:"level_1_approval"},
-                    {data:"created_at"},
+//                     },
+//                     {data:"level_1_approval"},
+//                     {data:"created_at"},
                 
-           ]   
+//            ]   
 
             
 
-        });
+//         });
 
 
     
-}
-
-function allapproved(){
-   
-
-       let table = $('#example').DataTable({
-        
-           "processing":true,
-            "destroy":true,
-           "serverSide":true,
-           "bFilter": true,
-           dom: "Bfrtip",
-           "ajax":{
-                url:'/procurement/app/customroute/allapproved',
-                type:"GET",
-                
-               
-           },
-           "columns":[
-                
-                    {data:"id"},
-                    {data:"order_title"},
-                    {data:"supplier_name"},
-                    {data:"level_1_approval"},
-                    {data:"created_at"},
-                    {
-                        data:'',
-                        render:function(data,type,row){
-                        
-                            return `<div style="text-decoration:underline;color:#ff0000" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
-                          } 
-                    }
-                
-           ]   
-
-            
-
-        });
-
-
-    
-}
-
-function deleteApprove(id,order_id){
-
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-            fetch('/procurement/app/customroute/delete_approval',{
-                method:'POST',
-                headers: { "Content-type": "application/x-www-form-urlencoded"},
-                body:JSON.stringify({
-                    order_id:order_id,
-                    id:id
-                    
-                })
-            })
-                
-                .then(result=>result.json())
-                .then(res=>{
-                    if(res.status){
-                        Swal.fire(
-                            'Deleted!',
-                            'Your Approval has been deleted.',
-                            'success'
-                          )
-                          allapproved();
-                    }
-                    else{
-                        Swal.fire(
-                            'Internal Server Error',
-                            '',
-                            'error'
-                          )
-                    }
-                })
-            
-        }
-      })
-    
-}
+// }
 
 function POHTML(){
 

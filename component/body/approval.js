@@ -19,8 +19,8 @@ function Approval(search){
 
 
 function loadApprovalDefault(){
-    approvalfetch();
-        return `<table id="example" class="table table-striped table-bordered" style="width:100%">
+    approvalfetchx();
+        return `<table id="example" class="table table-striped table-bordered" style="width:100%;">
                     <thead>
                         <tr>
                             <th>SN</th>
@@ -32,7 +32,25 @@ function loadApprovalDefault(){
                 </table>`
 }
 
-function approvalfetch(){
+
+function PendingApproval(){
+    
+    approvalfetchx();
+        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>ORDER TYPE</th>
+                            <th>STATUS</th>
+                            <th>DATE</th>   
+                        </tr>
+                    </thead>
+                </table>`
+        document.querySelector('.render_body_content').innerHTML = content
+}
+
+
+function approvalfetchx(){
     $(document).ready(function () {
 
        let table = $('#example').DataTable({
@@ -67,6 +85,107 @@ function approvalfetch(){
 
     });
 }
+
+function TreatedApproval(){
+    
+    allapproved();
+        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>ORDER TYPE</th>
+                            <th>SUPPLIER ASSIGNED</th>
+                            <th>STATUS</th>
+                            <th>DATE</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                </table>`
+        document.querySelector('.render_body_content').innerHTML = content
+}
+
+
+function allapproved(){
+    let table = $('#example').DataTable({
+     
+        "processing":true,
+        "destroy":true,
+        "serverSide":true,
+        "bFilter": true,
+        'dom': "Bfrtip",
+        "ajax":{
+             url:'/procurement/app/customroute/allapproved',
+             type:"GET",
+        },
+        "columns":[
+             
+                 {data:"id"},
+                 {data:"order_title"},
+                 {data:"supplier_name"},
+                 {data:"level_1_approval"},
+                 {data:"created_at"},
+                 {
+                     data:'',
+                     render:function(data,type,row){
+                     
+                         return `<div style="text-decoration:underline;color:#ff0000" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
+                       } 
+                 }
+             
+        ]   
+
+         
+
+     });
+}
+
+function deleteApprove(id,order_id){
+
+ Swal.fire({
+     title: 'Are you sure?',
+     text: "You won't be able to revert this!",
+     icon: 'warning',
+     showCancelButton: true,
+     confirmButtonColor: '#3085d6',
+     cancelButtonColor: '#d33',
+     confirmButtonText: 'Yes, delete it!'
+   }).then((result) => {
+     if (result.isConfirmed) {
+         fetch('/procurement/app/customroute/delete_approval',{
+             method:'POST',
+             headers: { "Content-type": "application/x-www-form-urlencoded"},
+             body:JSON.stringify({
+                 order_id:order_id,
+                 id:id
+                 
+             })
+         })
+             
+             .then(result=>result.json())
+             .then(res=>{
+                 if(res.status){
+                     Swal.fire(
+                         'Deleted!',
+                         'Your Approval has been deleted.',
+                         'success'
+                       )
+                       allapproved();
+                 }
+                 else{
+                     Swal.fire(
+                         'Internal Server Error',
+                         '',
+                         'error'
+                       )
+                 }
+             })
+         
+     }
+   })
+ 
+}
+
+
 
 
 function makeloader(id){

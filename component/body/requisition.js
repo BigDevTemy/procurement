@@ -100,7 +100,7 @@ function loadRequisitionDefault(){
 function AddRequisition(){
     let username = document.getElementById('username').value
     
-    return `
+    let content =  `
                 <div class="tab-body-order-2">
                     <div>
                         <label>User</label>
@@ -171,6 +171,7 @@ function AddRequisition(){
                 </div>
     
             `
+            document.querySelector('.render_body_content').innerHTML = content
 }
 
 
