@@ -1,6 +1,9 @@
 <?php
 session_start();
-    var_dump($_SESSION);
+   
+    if(!$_SESSION['user']['username']){
+        echo '<script>location="procurement/auth/login"</script>';
+    }
 ?>
 
 
@@ -86,6 +89,8 @@ session_start();
     
     </body>
     <script src="../component/body/commit.js"></script>
+    <script src="../component/body/supplier.js"></script>
+    <script src="../component/body/tabcomponent.js"></script>
     <script src="../component/body/othercomponent.js"></script>
     <script src="../component/body/dashboard.js"></script>
     <script src="../component/sidebar/index.js"></script>

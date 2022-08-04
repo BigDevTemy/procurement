@@ -152,7 +152,7 @@ function AddRequisition(){
     
             `
 
-            document.querySelector('.render_body_content').innerHTML = content
+        document.querySelector('.render_body_content').innerHTML = content
             
 }
 
@@ -175,6 +175,10 @@ function switchComponentBodyRender(tab_name){
             break;
         case 'All Requisition':
             return AllRequisition();
+        case 'Add Supplier':
+            return AddSupplier();
+        case 'All Supplier':
+            return AllSupplier();
         case 'Treated Approval':
             return TreatedApproval();
         case 'Pending Approval':

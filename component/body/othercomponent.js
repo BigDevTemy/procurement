@@ -22,7 +22,7 @@ function otherComponent(name){
         wrapper.innerHTML=getContent
     
         // document.querySelector('.tabDiv').children[0].classList.add('tab-body-active');
-        let getContentIDCall = SwitcherContent(search);
+        // let getContentIDCall = SwitcherContent(search);
         getBodyContent(search);
     }
     
@@ -62,66 +62,32 @@ function Switcher(search,additional){
 }
 
 
-function SwitcherContent(search){
+// function SwitcherContent(search){
 
-    switch(search){
-        case 'Supplier':
-            return saveSupplierModule();
-            break;
-        case 'Order':
-            return saveOrderModule();
-            break;
-        case 'Approval':
-            return saveApprovalModule();
-            break;
-        case 'Requisition':
-            return saveRequisitionModule();
-            break;
-        case 'Report':
-            return saveReportModule();
-            break;
+//     switch(search){
+//         case 'Supplier':
+//             return saveSupplierModule();
+//             break;
+//         case 'Order':
+//             return saveOrderModule();
+//             break;
+//         case 'Approval':
+//             return saveApprovalModule();
+//             break;
+//         case 'Requisition':
+//             return saveRequisitionModule();
+//             break;
+//         case 'Report':
+//             return saveReportModule();
+//             break;
        
 
-        default:
+//         default:
 
-    }
-}
+//     }
+// }
 
-function Supplier(search){
-    let content = ` 
-                    <div class="supplierDiv">
-                        <div class="tabDiv">
-                            <div>Add Supplier</div>
-                            <div>All Supplier</div>
-                        </div>
-                        <div class="tab-body">
-                            
-                            <div>
-                                <label>Company Name</label>
-                                <input type="text" class="form-control selector" placeholder="Provide Supplier Name" id="supplier_name"/>
-                            </div>
 
-                            <div>
-                                <label>Company Address</label>
-                                <input type="text" class="form-control selector" placeholder="Provide Company Address (optional)"/>
-                            </div>
-                            <div>
-                                <label>Company Contact</label>
-                                <input type="text" class="form-control selector" placeholder="Provide Company Contact Number (optional)"/>
-                            </div>
-                            <div>
-                                <input type="submit" class="form-control selectorSave" value="Save" id="saveSupplier"/>
-                            </div>
-
-                        </div>
-                    
-
-                    </div>
-    
-                `
-    return content;
-   
-}
 
 function Item(search){
     let content = ` 
@@ -306,7 +272,7 @@ function getBodyContent(){
     document.querySelector('.tabDiv').addEventListener('click',function(e){
         
         let x = document.querySelector('.tabDiv').children;
-        
+        console.log(x)
         for(let i=0;i<x.length;i++){
             if(x[i].classList.contains('tab-active')){
                 x[i].classList.remove('tab-active');
