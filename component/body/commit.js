@@ -178,7 +178,7 @@ function saveRequisitionModule(){
                             `
                                 <option value=${d.id}>${d.ordertype}</option>
                             `
-                            dataOrderref.push(d.order_ref);
+                dataOrderref.push(d.order_ref);
             })
             document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
                 

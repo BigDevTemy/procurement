@@ -93,14 +93,20 @@ $router->post('/createorder',function(array $params){
     else{
           $res = $connection->query("SELECT id FROM orders ORDER BY id desc LIMIT 1") or die(mysqli_error($connection));
           $year = date('y');
-          if(mysqli_num_rows($res)> 1){
-            $lastid = mysqli_fetch_row($res);
-            $autocreate = last_insert(strlen($lastid[0]),$lastid[0]+1);
-            $order_ref = 'MC-ENQ-'.$autocreate.'/'.$year;
-          }
-          else{
-            $order_ref = 'MCN-ENQ-001-'.$year;
-          }
+        
+         
+         if(mysqli_num_rows($res) > 0){
+          $sid = mysqli_fetch_assoc($res);
+          $autocreate = last_insert(strlen($sid['id']),$sid['id']+1);
+          $order_ref = 'MC-ENQ-'.$autocreate.'-'.$year;
+      
+         }
+         else{
+          $order_ref = 'MCN-ENQ-001-'.$year;
+          
+          
+         }
+        
          
           $query = "INSERT INTO orders(order_title,author,order_ref)VALUES('".$data['order_title']."','".$data['author']."','".$order_ref."')";
           $result = $connection->query($query)or die(mysqli_error($connection));
