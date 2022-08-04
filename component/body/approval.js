@@ -89,7 +89,7 @@ function approvalfetchx(){
 function TreatedApproval(){
     
     allapproved();
-        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
+        let content = `<table id="exampleapproved" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>SN</th>
@@ -106,7 +106,8 @@ function TreatedApproval(){
 
 
 function allapproved(){
-    let table = $('#example').DataTable({
+    
+    let table = $('#exampleapproved').DataTable({
      
         "processing":true,
         "destroy":true,
@@ -335,7 +336,7 @@ function action(id,supplierid){
                     window.location='/procurement/dashboard/app#Approval'
                 }
             })
-            .error(err=>console.log(err))
+            .catch(err=>console.log(err))
         }
     })
        
