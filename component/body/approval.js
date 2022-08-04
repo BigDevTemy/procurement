@@ -26,9 +26,7 @@ function loadApprovalDefault(){
                             <th>SN</th>
                             <th>ORDER TYPE</th>
                             <th>STATUS</th>
-                            <th>DATE</th>
-                            
-                            
+                            <th>DATE</th>   
                         </tr>
                     </thead>
                 </table>`
@@ -40,7 +38,7 @@ function approvalfetch(){
        let table = $('#example').DataTable({
         
            "processing":true,
-            "destroy":true,
+           "destroy":true,
            "serverSide":true,
            "bFilter": true,
            'dom': "Bfrtip",
@@ -64,17 +62,11 @@ function approvalfetch(){
                 
            ]   
 
-            
-
         });
 
 
     });
 }
-
-
-
-
 
 
 function makeloader(id){
