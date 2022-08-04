@@ -179,6 +179,10 @@ function switchComponentBodyRender(tab_name){
             return AddSupplier();
         case 'All Supplier':
             return AllSupplier();
+        case 'Add Order':
+             return AddOrder();
+        case 'All Order':
+            return AllOrder();
         case 'Treated Approval':
             return TreatedApproval();
         case 'Pending Approval':
@@ -246,7 +250,7 @@ function ApprovalHTML(){
 }
 
 function approvalfetch(){
-    $(document).ready(function () {
+    
 
        let table = $('#example').DataTable({
         
@@ -282,11 +286,11 @@ function approvalfetch(){
         });
 
 
-    });
+    
 }
 
 function allapproved(){
-    $(document).ready(function () {
+   
 
        let table = $('#example').DataTable({
         
@@ -323,7 +327,7 @@ function allapproved(){
         });
 
 
-    });
+    
 }
 
 function deleteApprove(id,order_id){

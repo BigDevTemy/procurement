@@ -6,7 +6,7 @@ function Supplier(search){
                             <div>All Supplier</div>
                         </div>
                         <div class="tab-body render_body_content">
-                            ${loadDefault()}
+                            ${loadSupplierDefault()}
                            
                         </div>
                     </div>
@@ -18,12 +18,12 @@ function Supplier(search){
 
 
 
-function loadDefault(){
+function loadSupplierDefault(){
     return `
-                    <div>
+                <div>
                     <label>Company Name</label>
                     <input type="text" class="form-control selector" placeholder="Provide Supplier Name" id="supplier_name"/>
-                    </div>
+                </div>
 
                 <div>
                     <label>Company Address</label>
