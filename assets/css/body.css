@@ -1,0 +1,287 @@
+body{
+    background-color: #f8f7fc;
+}
+
+.landing{
+    background-color: #f8f7fc;
+    width:100%;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+.component-aside{
+    flex:1 1 calc(5% - 20px);
+    background-color: #f8f7fc;
+}
+.component-body{
+    flex:1 1 calc(70% - 20px);
+    background-color: #f8f7fc;
+    padding-left: 20%;
+    margin: 10px;
+    min-height: 100vh;
+    height: 100%;
+    
+}
+
+.titlebar{
+    
+    height: 100%;
+    position: fixed;
+    min-height: 100vh;
+    background-color: #6f50ff;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.sidebar-logo-parent{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-direction: column;
+    
+}
+
+.sidebar-logo{
+    width:15%
+}
+.app-name{
+    font-size: 16px;
+    font-family: 'Roboto',sans-serif;
+    color:#fff;
+    margin-top: 5px;
+
+}
+
+.aside-nav{
+    width:80%;
+    margin-top: 20px;
+    height: 100vh;
+}
+
+
+
+.navNon{
+    display: flex;
+    width: 100%;
+    background-color: transparent;
+    padding: 10px;
+    cursor: pointer;
+    
+}
+
+.navNon > div:nth-child(1){
+    flex: 1 1 calc(5%);
+    display: flex;
+    align-items: center;
+
+}
+
+.navNon > div:nth-child(2){
+    flex: 1 1 calc(80%);
+    font-family: 'Jura',sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 5px;
+    color: #fff;
+    letter-spacing: 1;
+   
+}
+
+
+.navNon > div> img{
+    color:#fff;
+    font-weight: bold;
+    
+   
+}
+
+.textTitle{
+    font-size: 17px;
+    font-family: 'Jura',sans-serif;
+    font-weight: bold;
+}
+
+.active{
+    
+    width: 118%;
+    background-color: #f8f7fc;
+    border-radius: 20px;
+    cursor: pointer;
+  
+    
+   
+}
+.other-aside{
+    width:80%;
+    margin-top: 20px;
+    height: 100vh;
+
+}
+
+.bodyClass{
+    padding: 20px;
+    
+}
+
+.titlebarBody{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.search > input{
+    border-radius: 20px;
+}
+
+.parentCard{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.parentCard > div{
+    flex:1 1 calc(25% - 20px);
+    height: 120px;
+    margin: 10px;
+    border-radius: 15px;
+    border: 1px solid #f8f7fc
+}
+
+.parentCard > div:nth-child(1){
+    background-color: #ff7497 !important;
+}
+
+.card{
+    padding:20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.card > div{
+    flex:1 1 calc(40% -20px);
+    margin: 10px;
+}
+.card > div:nth-child(2){
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.topic{
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 1;
+    font-family: Arial, Helvetica, sans-serif;
+
+    
+}
+.count{
+    font-size: 26px;
+    font-weight: bold;
+    color: #fff;
+    
+}
+.count-left{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #fff;
+}
+
+.parentCard > div:nth-child(2){
+    background-color: #cb9efa;
+}
+
+.parentCard > div:nth-child(3){
+    background-color: #59c797;
+}
+
+.parentCard > div:nth-child(4){
+    background-color: #e6d65b;
+}
+
+.graph-flow{
+    width:100%;
+    padding: 10px;
+    display: flex;
+    
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+
+.graph-flow > div:nth-child(1){
+    flex:1 1 calc(60% - 20px);
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    height: 100%;
+    min-height: 48vh;
+    background-color: #fff;
+    padding: 20px;
+   
+}
+.graph-flow > div:nth-child(2){
+    flex:1 1 calc(30% - 20px);
+    margin: 10px;
+    height: 100%;
+    border-radius: 15px;
+    min-height: 48vh;
+    background-color: #fff;
+    padding: 20px;
+}
+.card-title-monthly{
+    font-size: 25px;
+    font-weight: bold;
+    
+}
+small{
+    color:#9da8b6;
+    font-family: 'Jura'sans-serif;
+}
+
+.best-seller{
+    margin: 10px;
+    width:100%;
+    padding: 10px;
+    display: flex;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    border-radius: 15px;
+    flex-direction: column;
+    min-height: 40vh;
+    
+    
+}
+
+.best-seller > div:nth-child(1){
+    flex:1 1 100%;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    height: 100%;
+    min-height: 48vh;
+    background-color: #fff;
+    padding: 20px;
+   
+}
+
+.linechart{
+    width: 500px;
+    height: 200px;
+}
+
+.piechart{
+    width: 100%;
+}
+
+
+
+

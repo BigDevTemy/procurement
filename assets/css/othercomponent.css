@@ -1,0 +1,358 @@
+.supplierDiv{
+    width:100%;
+    height: 100%;
+    min-height: 100vh;
+    background: transparent;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    
+    
+
+}
+
+.tabDiv{
+    width: 100%;
+    display: flex;
+}
+.tabDiv > div{
+    width: 150px;
+    font-family: 'Jura'sans-serif;
+    font-size: 16px;
+    
+    
+}
+.tab-body-active{
+    border-bottom: 3px solid #6f50ff;
+    cursor: pointer;
+    padding-left: 10px;
+}
+.tabDiv >div:nth-child(2){
+    font-family: 'Jura'sans-serif;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.tab-body{
+    width:100%;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 15px;
+    min-height: 30vh;
+    height: 70%;
+    padding: 20px;
+}
+.tab-body > div{
+    margin: 10px;
+}
+
+.selector{
+    margin-top: 10px;
+}
+.selectorSave{
+    
+    width: 30% !important;
+    margin-top: 30px !important;
+    background-color: #6f50ff !important;
+    color: #fff !important;
+}
+
+.div-2-element{
+    display: flex;
+    justify-content: space-between;
+}
+.div-2-element > div{
+    width: 100%;
+    margin: 5px;
+    margin-top: 10px;
+}
+
+.tab-body-more{
+    width:100%;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 15px;
+    min-height: 50vh;
+    height: 100%;
+    padding: 20px;
+}
+.tab-body-order-list{
+    width:100%;
+    margin-top: 20px;
+    height: 100%;
+    min-height: 50vh;
+    padding: 10px;
+    display: flex;
+    border-radius: 15px;
+    background-color: #fff;
+}
+.tab-body-order-2{
+    width:100%;
+    margin-top: 10px;
+    border-radius: 15px;
+    min-height: 30vh;
+    
+    padding: 20px;
+}
+.approval{
+    width:100%;
+    margin-top: 10px;
+    border-radius: 15px;
+    min-height: 20vh;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.report{
+    width:100%;
+    margin-top: 10px;
+    border-radius: 15px;
+    min-height: 20vh;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.tab-body-order-2 > div{
+    margin-top: 10px;
+}
+.btn-bg{
+    background-color: #6f50ff !important;
+    color:#fff !important;
+    margin-top: 10px;
+}
+
+#display-image{
+    width: 400px;
+    height: 225px;
+    border: 1px solid black;
+    background-position: center;
+    background-size: cover;
+  }
+  .fileuploadDiv{
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .fileuploadDiv > input{
+    display: none;
+  }
+  .fileuploadDiv > button{
+    -webkit-appearance: none;
+  }
+  .fileuploadDiv > span{
+    padding-left: 20px;
+  }
+
+  .d-image{
+    display: flex;
+    width: 15%;
+    justify-content: space-between;
+    padding-top:20px
+    
+  }
+  .d-image > span{
+    font-size:10px
+  }
+
+  .d-image > div{
+    font-size: 12px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+  .submitBtnParent{
+    width:100%;
+    height: 10vh;
+    display: flex;
+    justify-content: flex-end;
+   align-items: center;
+    
+  }
+
+  .user-name{
+    width: 100%;
+    text-align: center;
+  }
+  .rolename{
+    margin-left: 10px;
+    font-family: 12px;
+    font-family: 'Jura' sans-serif;
+  }
+
+  .smaly{
+    font-size: 12px;
+    color:#fff
+  }
+
+  .userProfile{
+    display: flex;
+    background-color: transparent;
+    padding: 10px;
+    cursor: pointer;
+    justify-content: left;
+    width: 125%;
+    background-color: #ff7497;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-right: none;
+    font-family: 'Jura' sans-serif;
+    
+}
+
+.contentHeader{
+    width:100%;
+    display: flex;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Jura'sans-serif;
+
+}
+
+.contentHeader > div{
+    display: flex;
+    justify-content: center;
+}
+
+
+.contentHeader >div:nth-child(1){
+    width: 100%;
+    flex: 0 0 3%;
+   
+    margin-right: 5px;
+
+}
+.contentHeader >div:nth-child(2){
+    width: 100%;
+    flex: 0 0 40%;
+   
+    margin-right: 5px;
+}
+
+.contentHeader >div:nth-child(3){
+    width: 100%;
+    flex: 0 0 7%;
+    margin-right: 5px;
+}
+.contentHeader >div:nth-child(4){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+
+}
+.contentHeader >div:nth-child(5){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+    
+}
+.contentHeader >div:nth-child(6){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+   
+    
+
+}
+.contentHeader >div:nth-child(7){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+}
+
+
+
+
+
+.contentParent{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.content{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.content >div:nth-child(1){
+    width: 100%;
+    flex: 0 0 3%;
+  
+    margin-right: 5px;
+
+}
+.content >div:nth-child(2){
+    width: 100%;
+    flex: 0 0 40%;
+    
+    margin-right: 5px;
+}
+
+.content >div:nth-child(3){
+    width: 100%;
+    flex: 0 0 7%;
+    margin-right: 5px;
+}
+.content >div:nth-child(4){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+
+}
+.content >div:nth-child(5){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+}
+.content >div:nth-child(6){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+}
+.content >div:nth-child(7){
+    width: 100%;
+    flex: 0 0 10%;
+    margin-right: 5px;
+}
+
+.content >div> input{
+    font-size:12px ;
+}
+
+.addrow{
+    margin-top: 10px;
+}
+
+.uploadattachment{
+    margin-top: 30px;
+    font-size: 13px;
+}
+.additionalcontent{
+    margin-top: 5px;
+}
+.sn{
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rowplus{
+    width:100px !important;
+    font-size: 10px !important;
+}
+
+.close{
+    align-self: center;
+    cursor: pointer;
+}
+
+.allsupplier{
+    font-size: 12px !important;
+    font-family: 'Jura'sans-serif;
+}
+.ordertype{
+    font-size: 12px !important;
+    font-family: 'Jura'sans-serif;
+}

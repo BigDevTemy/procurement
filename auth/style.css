@@ -1,0 +1,119 @@
+*{
+    margin: 0px;
+    box-sizing: border-box;
+    padding: 0px;
+}
+
+
+.authlogin{
+    width:100%;
+    min-height: 100vh;
+    background: url('../assets/images/bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+
+}
+.overlay{
+    width:100%;
+    position: absolute;
+    min-height: 100vh;
+    height: 100%;
+    background:rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.overlayLoader{
+    width:100%;
+    position: absolute;
+    min-height: 100vh;
+    height: 100%;
+    background:rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.roundLoader{
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+ 
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.loginauth{
+    width: 30%;
+    
+    min-height: 35vh;
+    height: 50%;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.createauth{
+    width: 50%;
+    min-height: 50vh;
+    height: 80%;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.logo{
+    position: absolute;
+    top:-35px;
+    left: 40%;
+}
+.logo > img{
+    width: 25%;
+}
+.container > div{
+    margin:15px;
+}
+
+.call_to_action{
+    
+   
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Roboto' sans-serif;
+   
+    
+}
+.myalert{
+    margin-top: 20px;
+}
+
+.create{
+    
+    padding-top: 20px;
+   
+
+}
+.container{
+    margin-top: 20px;
+}

@@ -1,0 +1,17 @@
+{
+    "name": "vincent/procurement",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "wabloan",
+            "email": "wabloan@wabloan.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+    
+}
