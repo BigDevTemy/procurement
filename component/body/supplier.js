@@ -27,11 +27,11 @@ function loadSupplierDefault(){
 
                 <div>
                     <label>Company Address</label>
-                    <input type="text" class="form-control selector" placeholder="Provide Company Address (optional)"/>
+                    <input type="text" class="form-control selector" id="supplieraddress" placeholder="Provide Company Address (optional)"/>
                 </div>
                 <div>
                     <label>Company Contact</label>
-                    <input type="text" class="form-control selector" placeholder="Provide Company Contact Number (optional)"/>
+                    <input type="text" class="form-control selector" id="suppliercontact" placeholder="Provide Company Contact Number (optional)"/>
                 </div>
                 <div>
                     <input type="submit" class="form-control selectorSave" value="Save" id="saveSupplier"/>
@@ -49,11 +49,11 @@ function AddSupplier(){
 
                 <div>
                     <label>Company Address</label>
-                    <input type="text" class="form-control selector" placeholder="Provide Company Address (optional)"/>
+                    <input type="text" class="form-control selector" placeholder="Provide Supplier Address" id="supplieraddress"/>
                 </div>
                 <div>
                     <label>Company Contact</label>
-                    <input type="text" class="form-control selector" placeholder="Provide Company Contact Number (optional)"/>
+                    <input type="text" id="suppliercontact" class="form-control selector" placeholder="Provide Company Contact Number (optional)"/>
                 </div>
                 <div>
                     <input type="submit" class="form-control selectorSave" value="Save" id="saveSupplier"/>

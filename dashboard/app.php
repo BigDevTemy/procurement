@@ -95,12 +95,14 @@ session_start();
     
     </body>
     <script src="../component/body/approval.js"></script>
-    <script src="../component/body/commit.js"></script>
+    
     <script src="../component/body/requisition.js"></script>
     <script src="../component/body/order.js"></script>
     <script src="../component/body/supplier.js"></script>
+    <script src="../component/body/commit.js"></script>
     <script src="../component/body/tabcomponent.js"></script>
     <script src="../component/body/othercomponent.js"></script>
+    
     <script src="../component/body/dashboard.js"></script>
     <script src="../component/sidebar/index.js"></script>
     <script src="../component/body/overall.js"></script>

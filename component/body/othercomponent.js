@@ -22,7 +22,7 @@ function otherComponent(name){
         wrapper.innerHTML=getContent
     
         // document.querySelector('.tabDiv').children[0].classList.add('tab-body-active');
-        // let getContentIDCall = SwitcherContent(search);
+        let getContentIDCall = SwitcherContent(search);
         getBodyContent(search);
     }
     
@@ -61,30 +61,30 @@ function Switcher(search,additional){
 }
 
 
-// function SwitcherContent(search){
+function SwitcherContent(search){
 
-//     switch(search){
-//         case 'Supplier':
-//             return saveSupplierModule();
-//             break;
-//         case 'Order':
-//             return saveOrderModule();
-//             break;
-//         case 'Approval':
-//             return saveApprovalModule();
-//             break;
-//         case 'Requisition':
-//             return saveRequisitionModule();
-//             break;
-//         case 'Report':
-//             return saveReportModule();
-//             break;
+    switch(search){
+        case 'Supplier':
+            return saveSupplierModule();
+            break;
+        case 'Order':
+            return saveOrderModule();
+            break;
+        case 'Approval':
+            return saveApprovalModule();
+            break;
+        case 'Requisition':
+            return saveRequisitionModule();
+            break;
+        case 'Report':
+            return saveReportModule();
+            break;
        
 
-//         default:
+        default:
 
-//     }
-// }
+    }
+}
 
 
 

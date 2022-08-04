@@ -85,14 +85,25 @@ $router->post('/createorder',function(array $params){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $result = $connection->query("SELECT * FROM orders WHERE order_title ='okay'") or die(mysqli_error($connection));
+  $result = $connection->query("SELECT * FROM orders WHERE order_title ='".$data['order_title']."'") or die(mysqli_error($connection));
   if($result){
     if(mysqli_num_rows($result) > 0){
       echo json_encode(["data"=>"Order title has to be Unique","status"=>false]);
     }
     else{
-          
-          $query = "INSERT INTO orders(order_title,author)VALUES('".$data['order_title']."','".$data['author']."')";
+          $res = $connection->query("SELECT id FROM orders ORDER BY id desc LIMIT 1") or die(mysqli_error($connection));
+          $year = date('y');
+          if(mysqli_num_rows($res)> 1){
+            $lastid = mysqli_fetch_row($res);
+            $autocreate = last_insert(strlen($lastid[0]),$lastid[0]+1);
+            
+            $order_ref = 'MCN/REF/'.$autocreate.'/'.$year;
+          }
+          else{
+            $order_ref = 'MCN/REF/001/'.$year;
+          }
+         
+          $query = "INSERT INTO orders(order_title,author,order_ref)VALUES('".$data['order_title']."','".$data['author']."','".$order_ref."')";
           $result = $connection->query($query)or die(mysqli_error($connection));
           if($result){
           
@@ -112,6 +123,24 @@ $router->post('/createorder',function(array $params){
   $connection->close();
 });
 
+function last_insert($last,$id){
+
+  switch ($last){
+    case 1:
+      return "00".$id;
+      break;
+    case 2:
+      return "0".$id;
+      break;
+    case 3:
+      return $id;
+      break;
+    default:
+      return $id;
+  }
+  
+}
+
 $router->post('/addsupplier',function(array $params){
   
   $connection = new mysqli("localhost","root","BiL@18","procurement");
@@ -123,7 +152,7 @@ $router->post('/addsupplier',function(array $params){
     }
     else{
           
-          $query = "INSERT INTO supplier (supplier_name,author)VALUES('".$data['supplier_name']."','".$data['author']."')";
+          $query = "INSERT INTO supplier (supplier_name,author,address,contact)VALUES('".$data['supplier_name']."','".$data['author']."','".$data['supplier_address']."','".$data['supplier_contact']."')";
           $result = $connection->query($query)or die(mysqli_error($connection));
           if($result){
           

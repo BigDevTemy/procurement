@@ -1,15 +1,29 @@
 function saveSupplierModule(){
     document.getElementById('saveSupplier').addEventListener('click',function(e){
-        let supplier_name = document.getElementById('supplier_name').value
-        let author = document.getElementById('username').value
-        
         e.preventDefault();
-                        
+
+        let supplier_name = document.getElementById('supplier_name').value
+        let supplier_address =document.getElementById('supplieraddress').value;
+        let supplier_contact = document.getElementById('suppliercontact').value
+        let author = document.getElementById('username').value
+                    
         if(supplier_name === ""){
             
             Swal.fire('Supplier Name is Required!','', 'error') 
             return false 
         }
+        if(supplier_contact === ""){
+            
+            Swal.fire('Supplier Contact is Required!','', 'error') 
+            return false 
+        }
+
+        if(supplier_name === ""){
+            
+            Swal.fire('Supplier Name is Required!','', 'error') 
+            return false 
+        }
+
 
         
 
@@ -21,7 +35,9 @@ function saveSupplierModule(){
                 method:'POST',
                 body:JSON.stringify({
                     supplier_name:supplier_name,
-                    author:author
+                    author:author,
+                    supplier_address:supplier_address,
+                    supplier_contact:supplier_contact
                     
                 }),
                 headers: { "Content-type": "application/x-www-form-urlencoded"},
@@ -35,7 +51,8 @@ function saveSupplierModule(){
                     document.querySelector('.rounding').classList.remove('roundLoader');
                     Swal.fire(data['data'],'', 'success') 
                     document.getElementById('supplier_name').value=""
-                    
+                    document.getElementById('supplieraddress').value=""
+                    document.getElementById('suppliercontact').value=""
 
                 }else{
                     document.querySelector('.loader').classList.remove('overlayLoader');
@@ -140,7 +157,7 @@ function saveRequisitionModule(){
             document.getElementById('allsupplier').innerHTML=""
             data['data'].forEach((d,index)=>{
                 dataset += `
-                            <option value=${d}>${d}</option>
+                            <option value=${d.id}>${d.supplername}</option>
                             `
                 })
                 document.getElementById('allsupplier').insertAdjacentHTML('beforeend',dataset);
@@ -162,7 +179,7 @@ function saveRequisitionModule(){
             document.getElementById('ordertype').innerHTML=""
             data['data'].forEach((d,index)=>{
                 dataset += `
-                            <option value=${d}>${d}</option>
+                            <option value=${d.id}>${d.ordertype}</option>
                             `
                 })
                 document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
