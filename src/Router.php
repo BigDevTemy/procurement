@@ -6,7 +6,7 @@ namespace App;
 
 class Router{
 
-    private array $handlers;
+    private  $handlers;
     private const METHOD_POST = "POST";
     private const METHOD_GET = "GET";
     private $notFoundHandler;
