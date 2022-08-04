@@ -86,10 +86,12 @@ function approvalfetchx(){
     });
 }
 
+
 function TreatedApproval(){
     
-    allapproved();
-        let content = `<table id="exampleapproved" class="table table-striped table-bordered" style="width:100%">
+        allapprovedx()
+ 
+        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>SN</th>
@@ -105,9 +107,10 @@ function TreatedApproval(){
 }
 
 
-function allapproved(){
+
+function allapprovedx(){
     
-    let table = $('#exampleapproved').DataTable({
+    let table = $('#example').DataTable({
      
         "processing":true,
         "destroy":true,
@@ -116,7 +119,8 @@ function allapproved(){
         'dom': "Bfrtip",
         "ajax":{
              url:'/procurement/app/customroute/allapproved',
-             type:"GET",
+             type:"GET"
+             
         },
         "columns":[
              
@@ -139,6 +143,7 @@ function allapproved(){
 
      });
 }
+
 
 function deleteApprove(id,order_id){
 

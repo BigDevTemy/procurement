@@ -31,7 +31,6 @@ function otherComponent(name){
     
 }
 
-
 function Switcher(search,additional){
     
     switch(search){
