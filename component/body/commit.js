@@ -97,8 +97,6 @@ function saveOrderModule(){
             return false 
         }
 
-        
-
         if(order_title){
             
             document.querySelector('.loader').classList.add('overlayLoader');
@@ -115,14 +113,13 @@ function saveOrderModule(){
             })
             .then(res=>res.json())
             .then(data=>{
-                console.log("data",data)
+                
                 if(data['status']){
                     document.querySelector('.loader').classList.remove('overlayLoader');
                     document.querySelector('.rounding').classList.remove('roundLoader');
                     Swal.fire(data['data'],'', 'success') 
                     document.getElementById('order_title').value=""
                     
-
                 }else{
                     document.querySelector('.loader').classList.remove('overlayLoader');
                     document.querySelector('.rounding').classList.remove('roundLoader');
@@ -136,7 +133,6 @@ function saveOrderModule(){
                 document.querySelector('.loader').classList.remove('overlayLoader');
                 document.querySelector('.rounding').classList.remove('roundLoader');
                 Swal.fire(data['data'],'', 'error') 
-               
             })
 
         }
@@ -147,11 +143,11 @@ function saveOrderModule(){
     
 
 function saveRequisitionModule(){
-    
+    dataOrderref = [];
     fetch('/procurement/app/customroute/getAllSupplier')
     .then(res=>res.json())
     .then(data=>{
-        console.log("data",data)
+        
         if(data['status']){
             let dataset ="<option>SELECT SUPPLIER</option>"
             document.getElementById('allsupplier').innerHTML=""
@@ -178,11 +174,14 @@ function saveRequisitionModule(){
             let dataset ="<option>SELECT ORDER</option>"
             document.getElementById('ordertype').innerHTML=""
             data['data'].forEach((d,index)=>{
-                dataset += `
-                            <option value=${d.id}>${d.ordertype}</option>
+                dataset += 
                             `
-                })
-                document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
+                                <option value=${d.id}>${d.ordertype}</option>
+                            `
+                            dataOrderref.push(d.order_ref);
+            })
+            document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
+                
         }
         
     })
@@ -190,6 +189,13 @@ function saveRequisitionModule(){
         
         console.log(err)
        
+    })
+
+    document.getElementById('ordertype').addEventListener('change',function(e){
+        let value = e.target.value
+    
+        let ref = dataOrderref[value];
+        alert(ref)
     })
 
 

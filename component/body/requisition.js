@@ -26,9 +26,16 @@ function loadRequisitionDefault(){
     
     return `
                 <div class="tab-body-order-2">
-                    <div>
-                        <label>User</label>
-                        <input type="text" class="form-control selector" value=${username} disabled placeholder="Create Order"/>
+                    <div class="div-2-element">
+                        <div>
+                            <label>User</label>
+                            <input type="text" class="form-control selector" value=${username} disabled placeholder="Create Order"/>
+                        </div>
+                        <div>
+                            <label>Order Ref</label>
+                            <input type="text" id="order_ref" class="form-control selector" disabled placeholder="Order ref" disabled/>
+                        </div>
+                        
                     </div>
                     <div class="div-2-element">
                         <div>

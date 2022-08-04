@@ -96,11 +96,10 @@ $router->post('/createorder',function(array $params){
           if(mysqli_num_rows($res)> 1){
             $lastid = mysqli_fetch_row($res);
             $autocreate = last_insert(strlen($lastid[0]),$lastid[0]+1);
-            
-            $order_ref = 'MCN/REF/'.$autocreate.'/'.$year;
+            $order_ref = 'MC-ENQ-'.$autocreate.'/'.$year;
           }
           else{
-            $order_ref = 'MCN/REF/001/'.$year;
+            $order_ref = 'MCN-ENQ-001-'.$year;
           }
          
           $query = "INSERT INTO orders(order_title,author,order_ref)VALUES('".$data['order_title']."','".$data['author']."','".$order_ref."')";
@@ -211,7 +210,7 @@ $router->get('/getAllorder',function(){
   if($result){
     if(mysqli_num_rows($result) > 0){
         while($row= mysqli_fetch_assoc($result)){
-          array_push($output,array ("ordertype"=> $row['order_title'],"id"=>$row['id']));
+          array_push($output,array ("ordertype"=> $row['order_title'],"id"=>$row['id'],"order_ref"=>$row['order_ref']));
         }
 
         echo json_encode(["data"=>$output,"status"=>true]); 
