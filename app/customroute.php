@@ -236,11 +236,11 @@ $router->get('/getAllorder',function(){
 
 });
 
-$router->post('/upoadrequisition',function(){
+$router->post('/upoadrequisition',function($request){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
-  // $data = json_decode(file_get_contents('php://input'), true);
+  $data = json_decode(file_get_contents('php://input'), true);
 
   $new_name;
   if(isset($_FILES['sample_image'])){
@@ -253,12 +253,13 @@ $router->post('/upoadrequisition',function(){
     echo json_encode(["data"=>"Upload Error","status"=>false]);
   }
   
-  die;
+  
 
- // echo json_encode(["data"=>$data['quotation'][1][1]['z'],"status"=>true]);
+ echo json_encode(["data"=>$_POST,"status"=>false]);
+ die;
 
-  for($i=0;$i<count($data['quotation']);$i++){
-      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,unit,total_price,quotation_receipt)VALUES('".$data['ordertype']."','".$data['allsupplier']."','".$data['username']."','".$data['quotation'][$i][1]['z']."','".$data['quotation'][$i][2]['z']."','".$data['quotation'][$i][3]['z']."','".$data['quotation'][$i][4]['z']."','".$data['quotation'][$i][5]['z']."','".$data['quotation'][$i][6]['z']."',".$new_name.")";
+  for($i=0;$i<count($_POST['quotation']);$i++){
+      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,unit,total_price,quotation_receipt)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$_POST['quotation'][$i][1]['z']."','".$_POST['quotation'][$i][2]['z']."','".$_POST['quotation'][$i][3]['z']."','".$_POST['quotation'][$i][4]['z']."','".$_POST['quotation'][$i][5]['z']."','".$_POST['quotation'][$i][6]['z']."',".$new_name.")";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
       
@@ -268,7 +269,7 @@ $router->post('/upoadrequisition',function(){
         echo json_encode(["data"=>"Internal Server Error","status"=>false]);
       }
   }
-  $query = "INSERT INTO approval_process (order_id,supplier_id,level_1_approval,assigned_supplier)VALUES('".$data['ordertype']."','".$data['allsupplier']."','pending','unassigned')";
+  $query = "INSERT INTO approval_process (order_id,supplier_id,level_1_approval,assigned_supplier)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','pending','unassigned')";
   $result = $connection->query($query)or die(mysqli_error($connection));
 
   echo json_encode(["data"=>"Requisition Successfully Uploaded","status"=>true]);

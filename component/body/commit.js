@@ -283,14 +283,17 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let order = document.getElementById('ordertype').value;
         let username = document.getElementById('username').value;
         let description = document.querySelectorAll('.content');
-        
+        console.log(description.length)
         for(let i=0;i<description.length;i++){
             let child = description[i].children;
+            
             for(let x=0;x<child.length;x++){
-
+                console.log(child[x][0].value)
             }
 
-    }
+     }
+
+     return false;
 
 
 
@@ -312,7 +315,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
             // }
             console.log(document.getElementById('fileInput').files)
             formdata.append("sample_image",document.getElementById('fileInput').files[0])
-            formdata.append('ordertype',ordertype);
+            formdata.append('ordertype',order);
             formdata.append('supplier',allsupplier);
             formdata.append('username',username);
 
