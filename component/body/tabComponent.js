@@ -214,55 +214,55 @@ function switchComponentBodyRender(tab_name){
 //         document.querySelector('.render_body_content').innerHTML = content
 // }
 
-function TreatedApproval(){
-    allapproved();
-        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>ORDER TYPE</th>
-                            <th>SUPPLIER ASSIGNED</th>
-                            <th>STATUS</th>
-                            <th>DATE</th>
-                            <th>ACTION</th>
+// function TreatedApproval(){
+//     allapproved();
+//         let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
+//                     <thead>
+//                         <tr>
+//                             <th>SN</th>
+//                             <th>ORDER TYPE</th>
+//                             <th>SUPPLIER ASSIGNED</th>
+//                             <th>STATUS</th>
+//                             <th>DATE</th>
+//                             <th>ACTION</th>
                             
-                        </tr>
-                    </thead>
-                </table>`
-        document.querySelector('.render_body_content').innerHTML = content
-}
-function allapproved(){
+//                         </tr>
+//                     </thead>
+//                 </table>`
+//         document.querySelector('.render_body_content').innerHTML = content
+// }
+// function allapproved(){
     
-    let table = $('#example').DataTable({
+//     let table = $('#example').DataTable({
      
-        "processing":true,
-        "destroy":true,
-        "serverSide":true,
-        "bFilter": true,
-        'dom': "Bfrtip",
-        "ajax":{
-             url:'/procurement/app/customroute/allapproved',
-             type:"GET"
+//         "processing":true,
+//         "destroy":true,
+//         "serverSide":true,
+//         "bFilter": true,
+//         'dom': "Bfrtip",
+//         "ajax":{
+//              url:'/procurement/app/customroute/allapproved',
+//              type:"GET"
              
-        },
-        "columns":[
+//         },
+//         "columns":[
              
-                 {data:"id"},
-                 {data:"order_title"},
-                 {data:"supplier_name"},
-                 {data:"level_1_approval"},
-                 {data:"created_at"},
-                 {
-                     data:'',
-                     render:function(data,type,row){
+//                  {data:"id"},
+//                  {data:"order_title"},
+//                  {data:"supplier_name"},
+//                  {data:"level_1_approval"},
+//                  {data:"created_at"},
+//                  {
+//                      data:'',
+//                      render:function(data,type,row){
                      
-                         return `<div style="text-decoration:underline;color:#ff0000" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
-                       } 
-                 }
+//                          return `<div style="text-decoration:underline;color:#ff0000" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
+//                        } 
+//                  }
              
-        ]   
-     });
-}
+//         ]   
+//      });
+// }
 // function ApprovalHTML(){
 
 //         approvalfetch();

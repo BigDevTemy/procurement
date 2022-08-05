@@ -64,10 +64,65 @@ function AddSupplier(){
 }
 
 function AllSupplier(){
-    let content =`
-                    <h1>Welcome To All Supplier</h1>
-                `
-        document.querySelector('.render_body_content').innerHTML = content
+   
+ 
+    let content = `<table id="supplier" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>SUPPLIER NAME</th>
+                        <th>SUPPLIER ADDRESS</th>
+                        <th>SUPPLIER CONTACT</th>
+                        <th>DATE</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+            </table>`
+
+            document.querySelector('.render_body_content').innerHTML = content
+    
+            getAllSupplier();
+}
+
+function getAllSupplier(){
+
+        let table = $('#supplier').DataTable({
+         
+            "processing":true,
+            "destroy":true,
+            "serverSide":true,
+            
+            'dom': "Bfrtip",
+            "ajax":{
+                 url:'/procurement/app/customroute/alldatasupplier',
+                 type:"GET"
+                 
+            },
+            "columns":[
+                 
+                     {data:"id"},
+                     {data:"supplier_name"},
+                     {data:"address"},
+                     {data:"contact"},
+                     {data:"created_at"},
+                     {
+                         data:"",
+                         render:function(data,type,row){
+                         
+                             return `<div>
+                                        <button class="btn btn-warning" onclick="deleteApprove(${row.id})>Edit</button>
+                                        <button  class="btn btn-delete" onclick="deleteApprove(${row.id})>Delete</button>
+                                    </div>`
+                           } 
+                     }
+                 
+            ]   
+    
+             
+    
+         });
+    
+      
 }
 
 

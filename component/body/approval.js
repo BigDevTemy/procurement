@@ -35,7 +35,7 @@ function loadApprovalDefault(){
 
 function PendingApproval(){
     
-    approvalfetchx();
+    
         let content = `<table id="example" class="table table-striped table-bordered" style="width:100%;">
                     <thead>
                         <tr>
@@ -47,6 +47,7 @@ function PendingApproval(){
                     </thead>
                 </table>`
         document.querySelector('.render_body_content').innerHTML = content
+        approvalfetchx();
 }
 
 
@@ -70,8 +71,8 @@ function approvalfetchx(){
                     {
                       data:"order_title",
                       render:function(data,type,row){
-                        
-                        return `<a href=#Approval/details/${row.id}>${data}</a>`
+                        //
+                        return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.id})">${data}</div>`
                       }  
                         
                     },
@@ -89,9 +90,9 @@ function approvalfetchx(){
 
 function TreatedApproval(){
     
-        allapprovedx()
+       
  
-        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%">
+        let content = `<table id="treated" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>SN</th>
@@ -104,13 +105,14 @@ function TreatedApproval(){
                     </thead>
                 </table>`
         document.querySelector('.render_body_content').innerHTML = content
+        allapprovedx()
 }
 
 
 
 function allapprovedx(){
     
-    let table = $('#example').DataTable({
+    let table = $('#treated').DataTable({
      
         "processing":true,
         "destroy":true,
@@ -144,6 +146,12 @@ function allapprovedx(){
      });
 }
 
+function openDetails(url){
+    
+    console.log(url)
+    _push(`#Approval/details/${url}`)
+    // window.location=`#Approval/details/${url}`
+}
 
 function deleteApprove(id,order_id){
 
@@ -175,7 +183,7 @@ function deleteApprove(id,order_id){
                          'Your Approval has been deleted.',
                          'success'
                        )
-                       allapproved();
+                       allapprovedx();
                  }
                  else{
                      Swal.fire(

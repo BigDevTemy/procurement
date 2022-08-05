@@ -6,14 +6,15 @@ function otherComponent(name){
 
 
     if(splitSplash.length > 1){
-     
-        if(count){
-            let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
-            wrapper.innerHTML=getContent
-             makeloader(splitSplash[splitSplash.length - 1]);
-             count=false
+       
+        
+           
+        let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
+        wrapper.innerHTML=getContent
+        makeloader(splitSplash[splitSplash.length - 1]);
+        count=false
 
-        }
+        
         
     }
     else{
