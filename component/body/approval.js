@@ -25,6 +25,7 @@ function loadApprovalDefault(){
                         <tr>
                             <th>SN</th>
                             <th>ORDER TYPE</th>
+                            <th>QUOTATION</th>
                             <th>STATUS</th>
                             <th>DATE</th>   
                         </tr>
@@ -41,6 +42,7 @@ function PendingApproval(){
                         <tr>
                             <th>SN</th>
                             <th>ORDER TYPE</th>
+                            <th>QUOTATION</th>
                             <th>STATUS</th>
                             <th>DATE</th>   
                         </tr>
@@ -75,6 +77,13 @@ function approvalfetchx(){
                         return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.id})">${data}</div>`
                       }  
                         
+                    },
+                    {
+                        data:'quotation_receipt',
+                        render:function(data,type,row){
+                            console.log(row)
+                            return `<a href="#${row.quotation_receipt}">Quotation</a>`
+                          },
                     },
                     {data:"level_1_approval"},
                     {data:"created_at"},
@@ -135,7 +144,7 @@ function allapprovedx(){
                      data:'',
                      render:function(data,type,row){
                      
-                         return `<div style="text-decoration:underline;color:#ff0000" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
+                         return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
                        } 
                  }
              

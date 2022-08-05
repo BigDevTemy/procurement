@@ -110,8 +110,8 @@ function getAllSupplier(){
                          render:function(data,type,row){
                          
                              return `<div>
-                                        <button class="btn btn-warning" onclick="deleteApprove(${row.id})>Edit</button>
-                                        <button  class="btn btn-delete" onclick="deleteApprove(${row.id})>Delete</button>
+                                        <button class="btn btn-secondary" onclick="deleteApprove(${row.id})">Edit</button>
+                                        <button  class="btn btn-danger" onclick="deleteApprove(${row.id})">Delete</button>
                                     </div>`
                            } 
                      }

@@ -51,10 +51,62 @@ function AddOrder(){
 }
 
 function AllOrder(){
-    let content =`
-                    <h1>Welcome To All Orders</h1>
-                `
-        document.querySelector('.render_body_content').innerHTML = content
+        
+        let content = `<table id="processedOrder" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>ORDER TITLE</th>
+                <th>ORDER REF</th>
+                <th>USER</th>
+                <th>DATE</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+    </table>`
+
+    document.querySelector('.render_body_content').innerHTML = content
+
+    allprocessedorders();
+}
+
+function allprocessedorders(){
+    
+    let table = $('#processedOrder').DataTable({
+         
+        "processing":true,
+        "destroy":true,
+        "serverSide":true,
+        
+        'dom': "Bfrtip",
+        "ajax":{
+             url:'/procurement/app/customroute/alldataorder',
+             type:"GET"
+             
+        },
+        "columns":[
+             
+                 {data:"id"},
+                 {data:"order_title"},
+                 {data:"order_ref"},
+                 {data:"author"},
+                 {data:"created_at"},
+                 {
+                     data:"",
+                     render:function(data,type,row){
+                     
+                         return `<div>
+                                    <button class="btn btn-secondary" onclick="">Edit</button>
+                                    <button  class="btn btn-danger" onclick="">Delete</button>
+                                </div>`
+                       } 
+                 }
+             
+        ]   
+
+         
+
+     });
 }
 
 
