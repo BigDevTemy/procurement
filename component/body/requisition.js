@@ -146,7 +146,7 @@ function AddRequisition(){
                     </div>
                     <div class="contentParent">
                         <div class="content">
-                            <div ><input type="text" value=1 class="form-control" /></div>
+                            <div ><input type="text" disabled value=1 class="form-control"/></div>
                             <div><input type="text" placeholder="description" class="form-control"/></div>
                             <div><input type="text" placeholder="quantity"  class="form-control"/></div>
                             <div><input type="text" placeholder="abc price"  class="form-control"/></div>

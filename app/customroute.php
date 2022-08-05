@@ -253,13 +253,11 @@ $router->post('/upoadrequisition',function($request){
     echo json_encode(["data"=>"Upload Error","status"=>false]);
   }
   
-  
 
- echo json_encode(["data"=>$_POST,"status"=>false]);
- die;
 
   for($i=0;$i<count($_POST['quotation']);$i++){
-      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,unit,total_price,quotation_receipt)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$_POST['quotation'][$i][1]['z']."','".$_POST['quotation'][$i][2]['z']."','".$_POST['quotation'][$i][3]['z']."','".$_POST['quotation'][$i][4]['z']."','".$_POST['quotation'][$i][5]['z']."','".$_POST['quotation'][$i][6]['z']."',".$new_name.")";
+  
+      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,unit,total_price,quotation_receipt)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$_POST['quotation'][$i][1]."','".$_POST['quotation'][$i][2]."','".$_POST['quotation'][$i][3]."','".$_POST['quotation'][$i][4]."','".$_POST['quotation'][$i][5]."','".$_POST['quotation'][$i][6]."','".$new_name."')";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
       

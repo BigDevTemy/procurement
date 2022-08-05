@@ -263,21 +263,22 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let incremeent = 1
        
         let row = `<div class="content additionalcontent">
-                        <div class="sn">${index + 1}</div>
+                        <div class="sn"><input type="text" disabled value=${index + 1} class="form-control"/></div>
                         <div><input type="text" placeholder="description" class="form-control"/></div>
                         <div><input type="text" placeholder="quantity"  class="form-control"/></div>
                         <div><input type="text" placeholder="abc price"  class="form-control"/></div>
                         <div><input type="text" placeholder="abc total"  class="form-control"/></div>
                         <div><input type="text" placeholder="unit price"  class="form-control"/></div>
                         <div><input type="text" placeholder="total price"  class="form-control"/></div>
-                        <div class="close"><img src="../assets/images/close.svg"/></div>
+                        
                     </div>`
 
                     parent.insertAdjacentHTML('beforeend',row)
     })
 
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
-       
+       let Quotation=[];
+       let row=[];
         let totalfiles = document.getElementById('fileInput').files.length;
         let allsupplier = document.getElementById('allsupplier').value;
         let order = document.getElementById('ordertype').value;
@@ -288,14 +289,26 @@ let handleInput  = document.querySelector('.fileUploadInput');
             let child = description[i].children;
             
             for(let x=0;x<child.length;x++){
-                console.log(child[x][0].value)
+               
+                
+                if(child[x].children[0].value !="" && child[x].children[0].value != 0 && child[x].children[0].value !="undefined" ){
+                    row.push(child[x].children[0].value);
+                }
+                else{
+                    row=[];
+                    Swal.fire('All Quotation Fields are Required','','error')
+                }
+                
+                 
             }
+
+            Quotation.push(row)
+            row=[];
 
      }
 
-     return false;
-
-
+     
+     console.log(Quotation)
 
         if(totalfiles === 0){
             Swal.fire('Upload Supplier Quotation','','error')
@@ -310,14 +323,15 @@ let handleInput  = document.querySelector('.fileUploadInput');
         if(totalfiles >0 && allsupplier!="" && order!=""){
             const formdata = new FormData();
 
-            // for(let i=0;i<=totalfiles;i++){
-            //     formdata.append("files[]",document.getElementById('fileInput').files[i])
-            // }
+            for (var i = 0; i < Quotation.length; i++) {
+                formdata.append('quotation[]', Quotation[i]);
+              }
             console.log(document.getElementById('fileInput').files)
             formdata.append("sample_image",document.getElementById('fileInput').files[0])
             formdata.append('ordertype',order);
-            formdata.append('supplier',allsupplier);
+            formdata.append('allsupplier',allsupplier);
             formdata.append('username',username);
+           
 
             fetch('/procurement/app/customroute/upoadrequisition',{
                 method:'POST',
@@ -325,7 +339,19 @@ let handleInput  = document.querySelector('.fileUploadInput');
                 body:formdata
             })
             .then(response=>response.json())
-            .then(res=>console.log(res))
+            .then(res=>{
+                if(res.status){
+                    Swal.fire(res.data,'','success');
+                    Quotation=[];
+                    row=[];
+                    document.getElementById('fileInput').value="";
+                    document.getElementById('allsupplier').value="";
+                    document.getElementById('ordertype').value="";
+                }
+                else{
+                    
+                }
+            })
             .catch((err)=>{
                 console.log(err)
             })
