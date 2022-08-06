@@ -473,6 +473,43 @@ table th{
     font-size: 16px;
 }
 
+.customModal{
+    padding:20px;
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 3.5px 3.5px 3.5px 3.5px #e5e5e5;
+}
+
+.modalSupplier{
+    width: 500px;
+    height: 40vh;
+}
+
+.modalClassCustom{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.modalTitle{
+    display: flex;
+    justify-content: space-between;
+}
+.modalTitle> div:nth-child(2){
+    font-weight: bolder;
+}
+
+.space-top-md{
+    margin-top: 20px;
+}
+
+.space-top-sm{
+    margin-top: 10px;
+}
+
 
 
 

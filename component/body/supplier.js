@@ -1,6 +1,7 @@
 function Supplier(search){
     let content = ` 
                     <div class="supplierDiv">
+                        <div class="modalClass"></div>
                         <div class="tabDiv">
                             <div class="tab-active">Add Supplier</div>
                             <div>All Supplier</div>
@@ -110,7 +111,7 @@ function getAllSupplier(){
                          render:function(data,type,row){
                          
                              return `<div>
-                                        <button class="btn btn-secondary" onclick="deleteApprove(${row.id})">Edit</button>
+                                        <button class="btn btn-secondary" onclick="modal('modalSupplier',${row.id},'Edit Supplier')">Edit</button>
                                         <button  class="btn btn-danger" onclick="deleteApprove(${row.id})">Delete</button>
                                     </div>`
                            } 

@@ -64,6 +64,8 @@ session_start();
 
         </div>
 
+        <div class="mymodal"></div>
+
         <input type="hidden" value="<?php echo $_SESSION['user']['username'];  ?>" id="username"/>
             
         <div class="titlebar component-aside">
@@ -135,6 +137,7 @@ session_start();
     
     
     </body>
+    <script src="../component/body/modal.js"></script>
     <script src="../component/body/shippment.js"></script>
     <script src="../component/body/po.js"></script>
     <script src="../component/body/approval.js"></script>
