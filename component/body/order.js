@@ -98,7 +98,7 @@ function allprocessedorders(){
                      
                          return `<div>
                                     <button class="btn btn-secondary" onclick="modal('modalSupplier',${row.id},'Edit Order Title')">Edit</button>
-                                    <button  class="btn btn-danger" onclick="deleteItem('orders',${row.id})">Delete</button>
+                                   
                                 </div>`
                        } 
                  }

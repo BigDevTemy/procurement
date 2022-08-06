@@ -719,16 +719,49 @@ $router->post('/editdata',function(){
     $connection->close();
 });
 
-
+//deletedatarequisition
 $router->post('/deletedata',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $query = "DELETE ".$data['tableName']." WHERE id ='".$data["id"]."'";
+  $query = "DELETE FROM ".$data['tableName']." WHERE ".$data['affectedColumn']." ='".$data["id"]."'";
   
   $result = $connection->query($query)or die(mysqli_error($connection));
 
   if($result){
+    
+    $json_data = array("data"=>"Deletion was Successful","status"=>true);
+    echo json_encode($json_data);
+  }
+  else{
+    $json_data = array("data"=>"Update Failed","status"=>false);
+    echo json_encode($json_data);
+  } 
+
+    $connection->close();
+});
+
+
+$router->post('/deletedatarequisition',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  $check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
+  $result_check = $connection->query($check)or die(mysqli_error($connection));
+  if(mysqli_num_rows($result_check) > 0){
+      $json_data = array("data"=>"Sorry..the Quotation has Already Been Approved","status"=>false);
+      echo json_encode($json_data);
+  }
+  else{
+
+  }
+  $query = "DELETE FROM requisition WHERE order_id ='".$data["order_id"]."' AND supplier_id ='".$data["supplier_id"]."'";
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+ 
+  if($result){
+    
+    $queryApproved = "DELETE FROM approval_process WHERE order_id ='".$data["order_id"]."' AND supplier_id ='".$data["supplier_id"]."'";
+    $result = $connection->query($queryApproved)or die(mysqli_error($connection));
     
     $json_data = array("data"=>"Deletion was Successful","status"=>true);
     echo json_encode($json_data);

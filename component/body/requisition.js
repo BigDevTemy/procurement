@@ -245,9 +245,9 @@ function allrequisition(){
                  {
                      data:"",
                      render:function(data,type,row){
-                     
+                   
                          return `<div>
-                                    <button  class="btn btn-danger" onclick="delete('requisition',${row.id})">Delete</button>
+                                    <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.order_id})">Delete</button>
                                 </div>`
                        } 
                  }
