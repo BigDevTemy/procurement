@@ -305,6 +305,35 @@ $router->get('/getpendingApproval',function(){
 
 });
 
+$router->get('/allrequisition',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  // $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM requisition LEFT JOIN orders ON `requisition`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id`  GROUP BY `requisition`.supplier_id";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  // }
+  // else{
+  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
+  // }
+  $connection->close();
+
+});
+
 
 //alldataorder
 
@@ -669,6 +698,48 @@ $router->post('/getdata',function(){
 
 });
 
+$router->post('/editdata',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."' WHERE id='".$data['id']."'";
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+
+  if($result){
+    
+    $json_data = array("data"=>"Update was Successful","status"=>true);
+    echo json_encode($json_data);
+  }
+  else{
+    $json_data = array("data"=>"Update Failed","status"=>false);
+    echo json_encode($json_data);
+  } 
+
+    $connection->close();
+});
+
+
+$router->post('/deletedata',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  $query = "DELETE ".$data['tableName']." WHERE id ='".$data["id"]."'";
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+
+  if($result){
+    
+    $json_data = array("data"=>"Deletion was Successful","status"=>true);
+    echo json_encode($json_data);
+  }
+  else{
+    $json_data = array("data"=>"Update Failed","status"=>false);
+    echo json_encode($json_data);
+  } 
+
+    $connection->close();
+});
 
 $router->addNotFoundHandler(function(){
 

@@ -184,10 +184,80 @@ function AddRequisition(){
 
    
 function AllRequisition(){
-    let content =`
-                    <h1>Welcome To All Requisition</h1>
-                `
+      
+        let content = `<table id="requisition" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>ORDER TITLE</th>
+                                    <th>ORDER REF</th>
+                                    <th>SUPPLIER NAME</th>
+                                    <th>QUOTATION RECEIPT</th>
+                                    <th>QUANTITY</th>
+                                    <th>UNIT PRICE</th>
+                                    <th>TOTAL PRICE</th>
+                                    <th>DATE</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                        </table>`
+
         document.querySelector('.render_body_content').innerHTML = content
+
+        allrequisition();
+        
 }
+
+
+function allrequisition(){
+    
+    let table = $('#requisition').DataTable({
+         
+        "processing":true,
+        "destroy":true,
+        "serverSide":true,
+        
+        'dom': "Bfrtip",
+        "ajax":{
+             url:'/procurement/app/customroute/allrequisition',
+             type:"GET"
+             
+        },
+        "columns":[
+             
+                 {data:"id"},
+                 {data:"order_title"},
+                 {data:"order_ref"},
+                 {data:"supplier_name"},
+
+                 {
+                    data:"",
+                    render:function(data,type,row){
+                     
+                        return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
+                      } 
+                    
+                },
+                 {data:"quantity"},
+                 {data:"unit"},
+                 {data:"total_price"},
+                 {data:"created_at"},
+                 {
+                     data:"",
+                     render:function(data,type,row){
+                     
+                         return `<div>
+                                    <button  class="btn btn-danger" onclick="delete('requisition',${row.id})">Delete</button>
+                                </div>`
+                       } 
+                 }
+             
+        ]   
+
+         
+
+     });
+}
+
 
 

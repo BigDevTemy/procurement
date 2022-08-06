@@ -1,6 +1,7 @@
 function Order(search){
     let content = ` 
                     <div class="supplierDiv">
+                    <div class="modalClass"></div>
                         <div class="tabDiv">
                             <div class="tab-active">Add Order</div>
                             <div>All Order</div>
@@ -96,8 +97,8 @@ function allprocessedorders(){
                      render:function(data,type,row){
                      
                          return `<div>
-                                    <button class="btn btn-secondary" onclick="">Edit</button>
-                                    <button  class="btn btn-danger" onclick="">Delete</button>
+                                    <button class="btn btn-secondary" onclick="modal('modalSupplier',${row.id},'Edit Order Title')">Edit</button>
+                                    <button  class="btn btn-danger" onclick="deleteItem('orders',${row.id})">Delete</button>
                                 </div>`
                        } 
                  }

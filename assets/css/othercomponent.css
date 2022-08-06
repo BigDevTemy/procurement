@@ -501,6 +501,9 @@ table th{
 .modalTitle> div:nth-child(2){
     font-weight: bolder;
 }
+.closeModal{
+    cursor: pointer;
+}
 
 .space-top-md{
     margin-top: 20px;
