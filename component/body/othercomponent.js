@@ -28,8 +28,7 @@ function otherComponent(name){
     }
     
     
-    
-    
+
 }
 
 function Switcher(search,additional){
@@ -86,47 +85,6 @@ function SwitcherContent(search){
 }
 
 
-
-// function Item(search){
-//     let content = ` 
-//                 <div class="supplierDiv">
-//                     <div class="tabDiv">
-//                         <div>Add Order</div>
-//                         <div>All Order</div>
-//                     </div>
-
-//                     <div class="tab-body-more">
-                            
-                            
-
-//                     </div>
-                
-
-//                 </div>
-
-//              `
-//     return content;
-// }
-
-// function Approval(search){
-//     let content = ` 
-//                 <div class="supplierDiv">
-//                     <div class="tabDiv">
-//                         <div class="tab-active">Pending Approval</div>
-//                         <div>Treated Approval</div>
-//                     </div>
-
-//                     <div class="render_body_content approval">
-//                        ${ApprovalHTML()}
-//                     </div>
-                
-
-//                 </div>
-
-//              `
-//     return content;
-// }
-
 function ApprovalDetails(xcontent){
     let content = ` 
             <div class="supplierDiv">
@@ -167,53 +125,7 @@ function ApprovalDetails(xcontent){
     return content;
 }
 
-function PO(search){
-    let content = ` 
-                <div class="supplierDiv">
 
-                    <div class="tabDiv">
-                        <div class="tab-active">Pending PO Approval</div>
-                        <div class="">All Approved</div>
-                    </div>
-                    <div class="POmodal">
-                        <div class="POcontentmodal"></div>
-                    </div>
-
-                    <div class="render_body_content approval">
-                       ${POHTML()}
-                    </div>
-                
-
-                </div>
-
-             `
-    return content;
-}
-
-
-function Shippment(search){
-    let content = ` 
-                <div class="supplierDiv">
-
-                    <div class="tabDiv">
-                        <div class="tab-active">Awaiting Shippment</div>
-                        <div class="">Processing</div>
-                        <div class="">Delivered</div>
-                    </div>
-                    <div class="POmodal">
-                        <div class="POcontentmodal"></div>
-                    </div>
-
-                    <div class="render_body_content approval">
-                       ${ShippmentHTML()}
-                    </div>
-                
-
-                </div>
-
-             `
-    return content;
-}
 
 
 

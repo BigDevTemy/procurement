@@ -21,9 +21,41 @@ session_start();
         <script src="../assets/js/jquery-3.5.1.js"></script>
         <script src="../assets/js/jquery.dataTables.min.js"></script>
         
-        
+        <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      .chartMenu {
+        width: 100%;
+        height: 40px;
+        background: #1A1A1A;
+        color: rgba(255, 26, 104, 1);
+      }
+      .chartMenu p {
+        padding: 10px;
+        font-size: 20px;
+      }
+      .chartCard {
+        width: 100%;
+        height: 100%;
+        background-color:transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chartBox {
+        width: 100%;
+        padding: 20px;
+        border-radius: 20px;
+        border: solid 3px rgba(255, 26, 104, 1);
+        background-color:transparent;
+      }
+    </style>
         
     </head>
+    
     
     <body>
       <div class="landing" id="wrapper">
@@ -78,6 +110,15 @@ session_start();
                         </div>
 
                         <div class="navNon">
+                            <div><img src="../assets/images/sidebar-icons/approval.svg" /></div>
+                            <div>PO</div>
+                        </div>
+                        <div class="navNon">
+                            <div><img src="../assets/images/sidebar-icons/approval.svg" /></div>
+                            <div>Shippment</div>
+                        </div>
+
+                        <div class="navNon">
                             <div><img src="../assets/images/sidebar-icons/report.svg" /></div>
                             <div>Report</div>
                         </div>
@@ -94,8 +135,9 @@ session_start();
     
     
     </body>
+    <script src="../component/body/shippment.js"></script>
+    <script src="../component/body/po.js"></script>
     <script src="../component/body/approval.js"></script>
-    
     <script src="../component/body/requisition.js"></script>
     <script src="../component/body/order.js"></script>
     <script src="../component/body/supplier.js"></script>
@@ -114,4 +156,68 @@ session_start();
        
        
     </script>
+    <script >
+            const data = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+            label: 'Orders',
+            data: [18, 12, 6, 9, 12, 3, 9],
+            backgroundColor: [
+            'rgba(255, 26, 104, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(0, 0, 0, 0.2)'
+            ],
+            borderColor: [
+            'rgba(255, 26, 104, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(0, 0, 0, 1)'
+            ],
+            tension: 0.4
+        }]
+        };
+
+        // config 
+        const config = {
+        type: 'line',
+        data,
+        options: {
+            scales: {
+            y: {
+                beginAtZero: true
+            }
+            }
+        }
+        };
+        const configII = {
+        type: 'bar',
+        data,
+        options: {
+            scales: {
+            y: {
+                beginAtZero: true
+            }
+            }
+        }
+        };
+
+        // render init block
+        const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+        );
+
+        const myChartII = new Chart(
+        document.getElementById('myChartII'),
+        configII
+        );
+
+      </script>
 </html>

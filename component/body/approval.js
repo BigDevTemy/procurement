@@ -82,7 +82,7 @@ function approvalfetchx(){
                         data:'quotation_receipt',
                         render:function(data,type,row){
                             console.log(row)
-                            return `<a href="#${row.quotation_receipt}">Quotation</a>`
+                            return `<a href="/procurement/quotation/${row.quotation_receipt}" target="_blank">Quotation</a>`
                           },
                     },
                     {data:"level_1_approval"},

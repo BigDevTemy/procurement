@@ -1,3 +1,4 @@
+let countApp = true;
 function dashboard(){
     let wrapper =  document.getElementById('component-body');
     
@@ -59,18 +60,25 @@ function dashboard(){
 
                         </div>
                         <div class="graph-flow">
-                            <div class="graph-1">
-                                <div class="card-title-monthly">Revenue By Supplier</div>
-                                <small>monthly order review</small>
-                               
-                            </div>
-                            <div class="graph-2">
-                                <div class="card-title-monthly"> Total Revenue</div>
-                                <small></small>
+                            <div>
                                 <div>
-                                    <img src="../assets/images/piechart.png" class="piechart"/>
-                            
+                                    <div class="chartCard">
+                                        <div class="chartBox">
+                                            <canvas id="myChart"></canvas>
+                                        </div>
+                                    </div>
                                 </div>
+                                        
+                            </div>
+                            <div>
+                               <div>
+                                    <div class="chartCard">
+                                        <div class="chartBox">
+                                            <canvas id="myChartII"></canvas>
+                                        </div>
+                                    </div>
+                               </div>
+
                             </div>
                         </div>
 
@@ -81,6 +89,11 @@ function dashboard(){
                                 <div class="card-title-monthly">Best Supplier</div>
                                 <small>Base on approvals</small>
                             </div>
+
+                        <div id="supp">
+                            ${loadAllSupplier()}
+                        </div>
+
                             
 
                         </div>
@@ -91,6 +104,7 @@ function dashboard(){
                 `
 
     wrapper.innerHTML=content
+    loadAllSupplier();
 }
 
 function OnLoadAddClass(){
@@ -105,6 +119,7 @@ function OnLoadAddClass(){
 
 
 function logoActive(logoNavname){
+    
     switch(logoNavname){
         case 'Dashboard':
             return "../assets/images/sidebar-icons/dashboardActive.svg";
@@ -118,8 +133,48 @@ function logoActive(logoNavname){
         case 'Approval':
             return "../assets/images/sidebar-icons/approvalActive.svg";
             break
+        case 'PO':
+            return "../assets/images/sidebar-icons/poActive.svg";
+            break
+        case 'Shippment':
+            return "../assets/images/sidebar-icons/shippmentActive.svg";
+            break
         case 'Report':
             return "../assets/images/sidebar-icons/reportActive.svg";
             break
     }
 }
+
+function loadAllSupplier(){
+    
+        fetch('/procurement/app/customroute/getAllSupplier')
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+           let dataset
+           data.data.forEach((d,index)=>{
+                 dataset += `
+                            <div class="supplierBody">
+    
+                                <div>${index+1}</div>
+                                <div>${d.supplername}</div>
+                                <div><button class="btn btn-success">Active</button></div>
+                            </div>
+                            
+                            
+                            </div>
+                `
+                document.getElementById('supp').innerHTML=dataset;
+           })
+           
+        })
+        .catch(err=> {
+            
+          console.log(err)
+           
+        })
+
+        count=false
+    }
+   
+

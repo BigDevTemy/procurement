@@ -209,33 +209,15 @@ body{
     width:100%;
     padding: 10px;
     display: flex;
-    
     margin-top: 20px;
     flex-wrap: wrap;
-}
-
-
-.graph-flow > div:nth-child(1){
-    flex:1 1 calc(60% - 20px);
-    margin: 10px;
-    display: flex;
     flex-direction: column;
-    border-radius: 15px;
-    height: 100%;
-    min-height: 48vh;
-    background-color: #fff;
-    padding: 20px;
-   
 }
-.graph-flow > div:nth-child(2){
-    flex:1 1 calc(30% - 20px);
-    margin: 10px;
-    height: 100%;
-    border-radius: 15px;
-    min-height: 48vh;
-    background-color: #fff;
-    padding: 20px;
+
+.graph-flow > div{
+    margin:10px
 }
+
 .card-title-monthly{
     font-size: 25px;
     font-weight: bold;
@@ -282,6 +264,9 @@ small{
     width: 100%;
 }
 
-
+.supplierBody{
+    display: flex;
+    justify-content: space-between;
+}
 
 
