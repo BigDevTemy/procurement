@@ -77,7 +77,11 @@ function saveRequisitionModule(){
                             `
                                 <option value=${d.id}>${d.ordertype}</option>
                             `
-                dataOrderref.push(d.order_ref);
+                            let item ={
+                                id:d.id,
+                                value:d.order_ref
+                            }
+                dataOrderref.push(item);
             })
             document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
            
@@ -117,10 +121,14 @@ function saveRequisitionModule(){
     
 
     document.getElementById('ordertype').addEventListener('change',function(e){
-        let value = parseInt(e.target.value) - 1;
-    
-        let ref = dataOrderref[value];
-        document.getElementById('order_ref').value=ref;
+
+        let value = e.target.value;
+        dataOrderref.forEach((d,index)=>{
+            if(d.id === value){
+                document.getElementById('order_ref').value=d.value;
+            }
+        });
+        
     })
 
 
