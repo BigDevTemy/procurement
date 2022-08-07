@@ -97,7 +97,9 @@ function ApprovalDetails(xcontent){
 
                     </div>
                 </div>
-                <div class="title"></div>
+                <div class="title">
+                    Hello
+                </div>
 
                 <div class="contentList">
                     <table class="table table-stripe table-bordered">

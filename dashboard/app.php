@@ -2,7 +2,7 @@
 session_start();
    
     if(!$_SESSION['user']['username']){
-        echo '<script>location="procurement/auth/login"</script>';
+        echo '<script>location="/procurement/auth/login"</script>';
     }
 ?>
 

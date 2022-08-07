@@ -193,6 +193,10 @@ function switchComponentBodyRender(tab_name){
             return Processing();
         case 'Delivered':
             return Delivered();
+        case 'Pending PO Approval':
+            return PendingPOApproval();
+        case 'PO Approved':
+            return POApproved();
         default:
             
     }

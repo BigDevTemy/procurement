@@ -4,7 +4,7 @@ function PO(search){
 
                     <div class="tabDiv">
                         <div class="tab-active">Pending PO Approval</div>
-                        <div class="">All Approved</div>
+                        <div class="">PO Approved</div>
                     </div>
                     <div class="POmodal">
                         <div class="POcontentmodal"></div>
@@ -241,5 +241,125 @@ function reviewPO(orderid){
             document.querySelector('.POcontentmodal').innerHTML=""
         }
     })
+
+}
+
+function PendingPOApproval(){
+   
+    let content = `
+            
+    
+            <table id="poclick" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>ORDER TYPE</th>
+                        <th>SUPPLIER NAME</th>
+                        <th>STATUS</th>
+                        <th>DATE</th>
+                        <th>REVIEW</th>
+                        
+                        
+                    </tr>
+                </thead>
+            </table>`
+            document.querySelector('.render_body_content').innerHTML=content
+            POClickfetch();
+}
+function POClickfetch(){
+    $(document).ready(function () {
+
+       let table = $('#poclick').DataTable({
+        
+           "processing":true,
+            "destroy":true,
+           "serverSide":true,
+           "bFilter": true,
+           dom: "Bfrtip",
+           "ajax":{
+                url:'/procurement/app/customroute/getPO',
+                type:"GET",
+                
+               
+           },
+           "columns":[
+                
+                    {data:"id"},
+                    {data:"order_title"},
+                    {data:"supplier_name"},
+                    {data:"level_1_approval"},
+                    {data:"created_at"},
+                    {
+                        data:"",
+                        render:function(data,type,row){
+                            
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id})">Review</div>`
+                          } 
+                    }
+                
+           ]   
+
+        });
+
+
+    });
+    
+    
+}
+function POApproved(){
+    let content = `
+                    <table id="poapproved" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>ORDER TYPE</th>
+                                <th>SUPPLIER NAME</th>
+                                <th>STATUS</th>
+                                <th>PO APPROVAL STATUS</th>
+                                <th>DATE</th>
+                                <th>REVIEW</th>
+                                
+                                
+                            </tr>
+                        </thead>
+                    </table>`
+    document.querySelector('.render_body_content').innerHTML=content
+    POClickfetchapproved();
+}
+
+function POClickfetchapproved(){
+    let table = $('#poapproved').DataTable({
+        
+        "processing":true,
+         "destroy":true,
+        "serverSide":true,
+        "bFilter": true,
+        dom: "Bfrtip",
+        "ajax":{
+             url:'/procurement/app/customroute/getPOapproved',
+             type:"GET",
+             
+            
+        },
+        "columns":[
+             
+                 {data:"id"},
+                 {data:"order_title"},
+                 {data:"supplier_name"},
+                 {data:"level_1_approval"},
+                 {data:"po_approval"},
+                 {data:"created_at"},
+                 {
+                     data:"",
+                     render:function(data,type,row){
+                         
+                         return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id})">Delete Approval</div>`
+                       } 
+                 }
+             
+        ]   
+
+     });
+
 
 }

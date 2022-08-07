@@ -432,8 +432,8 @@ $router->post('/fetchapprovaldetails',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
-
-  $query = "SELECT * FROM requisition LEFT JOIN `orders` ON `requisition`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id`  WHERE `requisition`.`order_id` = '".$data['id']."' GROUP BY `requisition`.`supplier_id`";
+ 
+  $query = "SELECT * FROM requisition LEFT JOIN `orders` ON `requisition`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id`  WHERE `requisition`.`id` = '".$data['id']."' GROUP BY `requisition`.`supplier_id`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   $data = [];
   if(mysqli_num_rows($result)){
@@ -454,7 +454,7 @@ $router->post('/fetchapprovaldetails',function(){
 $router->post('/approve',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
-
+  
   $query = "UPDATE  approval_process SET level_1_approval='approved',assigned_supplier ='".$data['supplierid']."' WHERE order_id='".$data['id']."' AND supplier_id='".$data['supplierid']."'";
   
   $result = $connection->query($query)or die(mysqli_error($connection));
@@ -774,6 +774,59 @@ $router->post('/deletedatarequisition',function(){
 
     $connection->close();
 });
+
+$router->get('/getPOapproved',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  // $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `requisition` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id`=`supplier`.`id` WHERE po_approval = 'approved' GROUP BY `approval_process`.order_id";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  // }
+  // else{
+  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
+  // }
+  $connection->close();
+
+});
+
+
+$router->post('/deletePOapproval',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  //$check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
+  //$result_check = $connection->query($check)or die(mysqli_error($connection));
+  
+  $query = "UPDATE approval_process SET po_approval= NULL WHERE order_id ='".$data["order_id"]."' AND supplier_id ='".$data["supplier_id"]."'";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+ 
+  if($result){
+  
+    $json_data = array("data"=>"Deletion was Successful","status"=>true);
+    echo json_encode($json_data);
+  }
+  else{
+    $json_data = array("data"=>"Update Failed","status"=>false);
+    echo json_encode($json_data);
+  } 
+
+    $connection->close();
+});
+
 
 $router->addNotFoundHandler(function(){
 

@@ -221,17 +221,18 @@ function makeloader(id){
     }).then(response=>response.json())
         .then(res=>{
 
-            console.log(res.data)
+            
             let title ;
             let dataset;
             if(res.status){
                 document.querySelector('.roundingx').classList.remove('roundLoader');
-                
+                console.log(res.data)
                 res.data.forEach((d,index)=>{
                     title = d.order_title;
                     dataset =`
                                 <tr>
                                     <input type="hidden" value=${d.supplier_id} />
+                                    <input type="hidden" value=${d.order_id} />
                                     <td>${index + 1}</td>
                                     <td>${d.supplier_name}</td>
                                     <td>${d.quantity}</td>
@@ -266,10 +267,11 @@ function viewMore(id){
            let y = x.parentElement;
          
            let supplierid = y.children[0].value;
-           let suppliername = y.children[2].textContent;
-           let quantity = y.children[3].textContent;
-           let unit = y.children[4].textContent;
-           let total = y.children[5].textContent;
+           let orderid = y.children[1].value;
+           let suppliername = y.children[3].textContent;
+           let quantity = y.children[4].textContent;
+           let unit = y.children[5].textContent;
+           let total = y.children[6].textContent;
            
            document.querySelector('.approvalmodal').classList.add('overlayApproval');
            document.querySelector('.approvalmodalcard').classList.add('Addapprovalmodalcard');
@@ -323,14 +325,14 @@ function viewMore(id){
                           `
            document.querySelector('.approvalmodalcard').innerHTML=content
 
-           action(id,supplierid);
+           action(orderid,supplierid);
         }
     })
    
 }
 
 function action(id,supplierid){
-    console.log(id,supplierid)
+    
     document.querySelector('.approvalmodalcard').addEventListener('click',function(e){
         if(e.target.classList.contains('btn-secondary')){
             document.querySelector('.approvalmodal').classList.remove('overlayApproval');
@@ -340,7 +342,7 @@ function action(id,supplierid){
         if(e.target.classList.contains('btn-success')){
         
 
-        console.log(id,supplierid);
+        
             fetch('/procurement/app/customroute/approve',{
                 method:'POST',
                 headers: { "Content-type": "application/x-www-form-urlencoded"},
