@@ -7,11 +7,12 @@ function otherComponent(name){
 
     if(splitSplash.length > 1){
        
-        
-           
         let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
         wrapper.innerHTML=getContent
-        makeloader(splitSplash[splitSplash.length - 1]);
+        if(splitSplash[0] === "Approval"){
+            makeloader(splitSplash[splitSplash.length - 1]);
+        }
+        
         count=false
 
         
@@ -55,6 +56,8 @@ function Switcher(search,additional){
             return PO(search);
         case 'Shippment':
             return Shippment(search)
+        case 'Shippmentreview':
+            return Shippmentreview(additional)
         default:
 
     }

@@ -55,7 +55,7 @@ function Shippmentfetch(){
                         data:"",
                         render:function(data,type,row){
                             
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id})"><button class="btn btn-warning btn-sm">Review</button></div>`
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm">Review</button></div>`
                           } 
                     }
                 
@@ -155,7 +155,7 @@ function Shippmentfetch(){
                         data:"",
                         render:function(data,type,row){
                             
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id})"><button class="btn btn-warning btn-sm">Review</button></div>`
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm">Review</button></div>`
                           } 
                     }
                 
@@ -238,6 +238,12 @@ function processingfetch(){
     
 }
 
+function reviewShippment(id){
+    // window.location="/procurement/dashboard/app#Shippment/review/id"
+    _push(`/procurement/dashboard/app#Shippment/review/${id}`)
+
+}
+
 
 
 function Delivered(){
@@ -306,6 +312,95 @@ function Deliveredfetch(){
     });
     
     
+}
+
+function Shippmentreview(id){
+    return `
+                <div class="shippmentDiv">
+                    <div><< Back</div>
+                   
+                    <div class="bordeCurve">
+                        <div class="divSegment-4">
+                            <div class="form-group">
+                                <input type="text" id="shippment_ref" placeholder="Shippment Ref Number" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" id="dateofshippment" placeholder="Date of Quotation" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="order_item" placeholder="Order Ref Number" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="order_item"  placeholder="Project Name" class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="divSegment-4">
+                            <div class="form-group">
+                                <input type="text" id="shippment_ref" placeholder="Supplier Name" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="dateofshippment" placeholder="Supplier Quotation Ref" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text"  placeholder="Description of Item" id="order_item" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="order_item" placeholder="Part Number" class="form-control"/>
+                            </div>
+
+                        </div>
+
+
+                        
+                        <div class="divSegment-4">
+                            <div class="form-group">
+                                <input type="text" id="shippment_ref" placeholder="Quantity" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="dateofshippment" placeholder="Note" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="order_item" class="form-control" placeholder="Payment Mode"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="order_item" class="form-control" placeholder="Date of Delivery"/>
+                            </div>
+
+                        </div>
+                        
+                        <div class="divSegment-4">
+                            <div class="form-group">
+                                <input type="text" id="shippment_ref" placeholder="Delivery address" class="form-control"/>
+                            </div>
+                        
+                            <div class="form-group">
+                                <input type="text" id="order_item" class="form-control"  placeholder="Mode of Shippment" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="order_item" class="form-control"  placeholder="Received By Forwarder(Abroad)" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                   
+                    <h4>Shipmment Document Sent</h4>
+                    <div class="divSegment-4 borderCurve">
+                        <div class="form-group">
+                            <input type="text" id="shippment_ref" placeholder="Name" class="form-control"/>
+                        </div>
+                       
+                        <div class="form-group">
+                            <input type="text" id="order_item" class="form-control"  placeholder="Address" />
+                        </div>
+
+                    </div>
+                    <h4> Upload Attaching Document</h4>
+                </div>
+                `
+
+             
 }
 
 
