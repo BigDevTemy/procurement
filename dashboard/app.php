@@ -12,10 +12,11 @@ session_start();
         <title>Procify | App</title>
         <link rel="stylesheet" href="../assets/css/body.css"/>
         <link rel="stylesheet" href="../assets/css/othercomponent.css"/>
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+        
         <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>  
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      
+        <script src="../assets/js/bootstrap.min.js"></script>
         <script src="../assets/js/Chart.js"></script>
         <script src="../assets/js/sweetalert2@11.js"></script>
         <script src="../assets/js/jquery-3.5.1.js"></script>
