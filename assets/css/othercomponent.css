@@ -214,6 +214,7 @@
 
 .contentHeader{
     width:100%;
+    justify-content: space-around;
     display: flex;
     font-size: 12px;
     font-weight: bold;
@@ -284,6 +285,8 @@
 }
 .content{
     display: flex;
+    width: 100%;
+    justify-content: space-around;
     flex-wrap: wrap;
     width: 100%;
 }
@@ -548,5 +551,14 @@ h4{
     margin-bottom: 10px;
 }
 
+.currencyDiv{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+   margin-bottom: 20px;
+}
+.currencyDiv >select{
+    width: 20% !important;
+}
 
 

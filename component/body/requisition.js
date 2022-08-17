@@ -39,6 +39,39 @@ function loadRequisitionDefault(){
                     </div>
                     <div class="div-2-element">
                         <div>
+                            <label>Date</label>
+                            <input type="date" class="form-control selector" id="date" />
+                        </div>
+                        <div>
+                            <label>Serial Quotation Number</label>
+                            <input type="text" id="serial_number" class="form-control selector"  placeholder="Serial Quotation Number" />
+                        </div>
+                        
+                    </div>
+                    <div class="div-2-element">
+                        <div>
+                            <label>File Ref</label>
+                            <input type="text" class="form-control selector" placeholder="File Ref"/>
+                        </div>
+                        <div>
+                            <label>Project Name</label>
+                            <input type="text" id="project_name" class="form-control selector"  placeholder="Project name" />
+                        </div>
+                        
+                    </div>
+                    <div class="div-2-element">
+                        <div>
+                            <label>Ref Number</label>
+                            <input type="text" class="form-control selector" placeholder="Ref Number"/>
+                        </div>
+                        <div>
+                            <label>Date of Sending Name</label>
+                            <input type="date" id="dateofsending" class="form-control selector"  />
+                        </div>
+                        
+                    </div>
+                    <div class="div-2-element">
+                        <div>
                             <label>Select Order</label>
                             <select class="form-control ordertype" id="ordertype">
                                 <option value="">SELECT ORDER TYPE</option>
@@ -63,25 +96,22 @@ function loadRequisitionDefault(){
                         <div>SN</div>
                         <div>Description</div>
                         <div>Quantity</div>
-                        <div>ABC Price</div>
-                        <div>ABC Total</div>
                         <div>Unit Price</div>
                         <div>Total Price</div>
                     </div>
                     <div class="contentParent">
                         <div class="content">
-                            <div ><input type="text" value=1 class="form-control" /></div>
+                            <div ><input type="text" value=1 class="form-control" disabled /></div>
                             <div><input type="text" placeholder="description" class="form-control"/></div>
                             <div><input type="text" placeholder="quantity"  class="form-control"/></div>
-                            <div><input type="text" placeholder="abc price"  class="form-control"/></div>
-                            <div><input type="text" placeholder="abc total"  class="form-control"/></div>
+  
                             <div><input type="text" placeholder="unit price"  class="form-control"/></div>
                             <div><input type="text" placeholder="total price"  class="form-control"/></div>
                             
                         </div>
                     </div>
                     <div class="addrow">
-                    <button class="btn btn-secondary rowplus">+ Add row(s)</button>
+                         <button class="btn btn-secondary rowplus">+ Add row(s)</button>
                     </div>
                     
                     <div class="uploadattachment">Add/Upload Attachment</div>
@@ -93,6 +123,14 @@ function loadRequisitionDefault(){
                     <div class="selectedFiles">
                         
                         
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="note">Note:</label>
+
+                        <textarea class="form-control" id="note" rows="4" cols="50">
+                        
+                        </textarea>
                     </div>
 
                     
@@ -135,12 +173,20 @@ function AddRequisition(){
                 </div>
 
                 <div class="tab-body-more">
+                    <div class="currencyDiv">
+                        <select class="form-control">
+                            <option value="">SELECT CURRENCY</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                            <option value="EURO">EURO</option>
+                            <option value="YEN">YEN</option>
+                        </select>
+                    </div>
                     <div class="contentHeader">
                         <div>SN</div>
                         <div>Description</div>
                         <div>Quantity</div>
-                        <div>ABC Price</div>
-                        <div>ABC Total</div>
+                      
                         <div>Unit Price</div>
                         <div>Total Price</div>
                     </div>
@@ -149,15 +195,13 @@ function AddRequisition(){
                             <div ><input type="text" disabled value=1 class="form-control"/></div>
                             <div><input type="text" placeholder="description" class="form-control"/></div>
                             <div><input type="text" placeholder="quantity"  class="form-control"/></div>
-                            <div><input type="text" placeholder="abc price"  class="form-control"/></div>
-                            <div><input type="text" placeholder="abc total"  class="form-control"/></div>
                             <div><input type="text" placeholder="unit price"  class="form-control"/></div>
                             <div><input type="text" placeholder="total price"  class="form-control"/></div>
                             
                         </div>
                     </div>
                     <div class="addrow">
-                    <button class="btn btn-secondary rowplus">+ Add row(s)</button>
+                        <button class="btn btn-secondary rowplus">+ Add row(s)</button>
                     </div>
                     
                     <div class="uploadattachment">Add/Upload Attachment</div>

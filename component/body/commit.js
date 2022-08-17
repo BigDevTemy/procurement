@@ -192,8 +192,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
                         <div class="sn"><input type="text" disabled value=${index + 1} class="form-control"/></div>
                         <div><input type="text" placeholder="description" class="form-control"/></div>
                         <div><input type="text" placeholder="quantity"  class="form-control"/></div>
-                        <div><input type="text" placeholder="abc price"  class="form-control"/></div>
-                        <div><input type="text" placeholder="abc total"  class="form-control"/></div>
+                        
                         <div><input type="text" placeholder="unit price"  class="form-control"/></div>
                         <div><input type="text" placeholder="total price"  class="form-control"/></div>
                         
