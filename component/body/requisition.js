@@ -124,8 +124,8 @@ function loadRequisitionDefault(){
                         <div class="discountDiv"><input type="text" placeholder="discount in %"  class="form-control"/></div>
                     </div>
                     <div class="discount_content">
-                        
-                    <div class="discountDiv">Total:0</div>
+                            
+                        <div class="discountDiv"><div>Total:</div><div id="myTotal">0</div></div>
                     </div>
                     <div class="addrow">
                          <button class="btn btn-secondary rowplus">+ Add row(s)</button>
@@ -263,7 +263,7 @@ function AddRequisition(){
                         </div>
                         <div class="discount_content">
                             
-                        <div class="discountDiv">Total:0</div>
+                            <div class="discountDiv">Total:<div id="myTotal">0</div></div>
                         </div>
                         <div class="addrow">
                             <button class="btn btn-secondary rowplus">+ Add row(s)</button>
@@ -464,27 +464,44 @@ function saveRequisitionModule(){
 
 
     document.querySelector('.contentParent').addEventListener('click',function(e){
+        let frod = document.querySelector('.contentParent').children;
+       
+        // for(let i=0;i<frod.length;i++){
+        //     sum += parseFloat(frod[i].children[4].children[0].value)
+        // }
         
-        
-        
+       
         let Grandparent = e.target.parentElement.parentElement;
         
         let unitx  = Grandparent.children[2].children[0];
         let quantityx  = Grandparent.children[3].children[0];
         let totalx  = Grandparent.children[4].children[0];
+        let mytotal = document.getElementById('myTotal')
+        console.log(mytotal)
         quantityx.addEventListener('change',function(e){
+            let sum = 0
             let x = e.target.value;
             let y = unitx.value
             let z = parseFloat(x) * parseFloat(y)
             totalx.value = z;
+            for(let i=0;i<frod.length;i++){
+                sum += parseFloat(frod[i].children[4].children[0].value)
+            }
+            mytotal = sum
+            
         })
         unitx.addEventListener('change',function(e){
+            let sum = 0
             let x = e.target.value;
             let y = quantityx.value
             let z = parseFloat(x) * parseFloat(y);
             totalx.value = z;
-
-            console.log('changeQ',z)
+            for(let i=0;i<frod.length;i++){
+                sum += parseFloat(frod[i].children[4].children[0].value)
+            }
+            mytotal = sum
+            
+            
         })
         
     })
