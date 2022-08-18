@@ -477,7 +477,7 @@ function saveRequisitionModule(){
         let quantityx  = Grandparent.children[3].children[0];
         let totalx  = Grandparent.children[4].children[0];
         let mytotal = document.getElementById('myTotal')
-        console.log(mytotal)
+        
         quantityx.addEventListener('change',function(e){
             let sum = 0
             let x = e.target.value;
@@ -487,7 +487,9 @@ function saveRequisitionModule(){
             for(let i=0;i<frod.length;i++){
                 sum += parseFloat(frod[i].children[4].children[0].value)
             }
-            mytotal = sum
+            mytotal.innerHTML=sum
+            
+            // mytotal = "200"
             
         })
         unitx.addEventListener('change',function(e){
@@ -499,7 +501,9 @@ function saveRequisitionModule(){
             for(let i=0;i<frod.length;i++){
                 sum += parseFloat(frod[i].children[4].children[0].value)
             }
-            mytotal = sum
+            console.log(mytotal)
+            mytotal.innerHTML=sum
+            //mytotal = "200"
             
             
         })
