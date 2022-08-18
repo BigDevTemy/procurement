@@ -495,7 +495,7 @@ function saveRequisitionModule(){
         unitx.addEventListener('change',function(e){
             let sum = 0
             let x = e.target.value;
-            let y = quantityx.value
+            let y = quantityx.value;
             let z = parseFloat(x) * parseFloat(y);
             totalx.value = z;
             for(let i=0;i<frod.length;i++){
