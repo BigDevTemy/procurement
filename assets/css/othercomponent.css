@@ -282,6 +282,7 @@
     width: 100%;
     flex-direction: column;
     margin-top: 10px;
+    cursor: pointer;
 }
 .content{
     display: flex;
@@ -289,6 +290,26 @@
     justify-content: space-around;
     flex-wrap: wrap;
     width: 100%;
+}
+
+.discount_content{
+    display: flex;
+    width: 100%;
+    padding-right: 3%;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 10px;
+}
+.discountDiv{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+.discountDiv > input{
+    width: 100px !important;
+    font-size: 12px;
 }
 
 .content >div:nth-child(1){
@@ -553,12 +574,17 @@ h4{
 
 .currencyDiv{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-   margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 .currencyDiv >select{
     width: 20% !important;
+}
+
+.hideDelete{
+    display: none !important;
 }
 
 

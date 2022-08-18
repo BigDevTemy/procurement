@@ -130,9 +130,43 @@ function saveRequisitionModule(){
         });
         
     })
+    if(document.querySelector('.currencyDiv')){
+        let x = document.querySelector('.contentParent').children
+        if(x.length == 1){
+            document.querySelector('.btn-danger').classList.add('hideDelete');
+        }
+    }
 
+
+    document.querySelector('.contentParent').addEventListener('click',function(e){
+        
+
+        console.log(document.querySelector('.contentParent').children);
+       
+        let Grandparent = e.target.parentElement.parentElement;
+        
+        let unitx  = Grandparent.children[2].children[0];
+        let quantityx  = Grandparent.children[3].children[0];
+        let totalx  = Grandparent.children[4].children[0];
+        quantityx.addEventListener('change',function(e){
+            let x = e.target.value;
+            let y = unitx.value
+            let z = parseFloat(x) * parseFloat(y)
+            totalx.value = z;
+        })
+        unitx.addEventListener('change',function(e){
+            let x = e.target.value;
+            let y = quantityx.value
+            let z = parseFloat(x) * parseFloat(y);
+            totalx.value = z;
+
+            console.log('changeQ',z)
+        })
+        
+    })
 
 let handleInput  = document.querySelector('.fileUploadInput');
+
 
     document.querySelector('.btn-bg').addEventListener('click',function(e){
         handleInput.click();
@@ -183,6 +217,8 @@ let handleInput  = document.querySelector('.fileUploadInput');
         });
     })
 
+   
+
     document.querySelector('.rowplus').addEventListener('click',function(e){
         let index  = document.querySelector('.contentParent').children.length
         let parent  = document.querySelector('.contentParent')
@@ -191,14 +227,23 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let row = `<div class="content additionalcontent">
                         <div class="sn"><input type="text" disabled value=${index + 1} class="form-control"/></div>
                         <div><input type="text" placeholder="description" class="form-control"/></div>
-                        <div><input type="text" placeholder="quantity"  class="form-control"/></div>
+                        <div><input type="text" placeholder="quantity" value="0" class="form-control"/></div>
                         
-                        <div><input type="text" placeholder="unit price"  class="form-control"/></div>
-                        <div><input type="text" placeholder="total price"  class="form-control"/></div>
+                        <div><input type="text" placeholder="unit price" value="0"  class="form-control"/></div>
+                        <div><input type="text" placeholder="total price" value="0" disabled  class="form-control"/></div>
                         
                     </div>`
 
                     parent.insertAdjacentHTML('beforeend',row)
+        if(document.querySelector('.currencyDiv')){
+            let x = document.querySelector('.contentParent').children
+            if(x.length == 1){
+                document.querySelector('.btn-danger').classList.add('hideDelete');
+            }
+            else if(x.length >0){
+                document.querySelector('.btn-danger').classList.remove('hideDelete');
+            }
+        }
     })
 
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
@@ -208,6 +253,13 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let allsupplier = document.getElementById('allsupplier').value;
         let order = document.getElementById('ordertype').value;
         let username = document.getElementById('username').value;
+        let currency = document.getElementById('currency').value;
+        let dateofcreation = document.getElementById('dateofcreation').value;
+        let serial_number = document.getElementById('serial_number').value;
+        let fileref = document.getElementById('file_ref').value;
+        let projectname = document.getElementById('project_name').value;
+        let refnumber = document.getElementById('refnumber').value;
+        let dateofsending = document.getElementById('dateofsending').value;
         let description = document.querySelectorAll('.content');
         console.log(description.length)
         for(let i=0;i<description.length;i++){
@@ -245,7 +297,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
             Swal.fire('Select Order','','error')
         }
 
-        if(totalfiles >0 && allsupplier!="" && order!=""){
+        if(totalfiles >0 && allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && currency != "" && fileref !="" &&  projectname != "" && dateofsending!="" && totalfiles!="" ){
             const formdata = new FormData();
 
             for (var i = 0; i < Quotation.length; i++) {
@@ -296,6 +348,8 @@ let handleInput  = document.querySelector('.fileUploadInput');
     })
     
 }
+
+
 
 
    
