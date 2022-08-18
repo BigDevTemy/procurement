@@ -74,14 +74,14 @@ function approvalfetchx(){
                       data:"order_title",
                       render:function(data,type,row){
                         //
-                        return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.id})">${data}</div>`
+                        return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.order_id})">${data}</div>`
                       }  
                         
                     },
                     {
                         data:'quotation_receipt',
                         render:function(data,type,row){
-                            console.log(row)
+                            
                             return `<a href="/procurement/quotation/${row.quotation_receipt}" target="_blank">Quotation</a>`
                           },
                     },
@@ -229,23 +229,21 @@ function makeloader(id){
                 console.log(res.data)
                 res.data.forEach((d,index)=>{
                     title = d.order_title;
-                    dataset =`
+                    dataset +=`
                                 <tr>
                                     <input type="hidden" value=${d.supplier_id} />
                                     <input type="hidden" value=${d.order_id} />
                                     <td>${index + 1}</td>
                                     <td>${d.supplier_name}</td>
-                                    <td>${d.quantity}</td>
-                                    <td>${d.unit}</td>
-                                    <td>${d.total_price}</td>
                                     <td>${d.created_at}</td>
                                     <td><span class="view-more">View More</span></td>
 
                                 </tr>
                             
                             `
-                    document.querySelector('.approvaltbody').insertAdjacentHTML('beforeend',dataset);
+                   
                 });
+                document.querySelector('.approvaltbody').innerHTML=dataset
                 
                 document.querySelector('.title').innerHTML=`<h4>${title.toUpperCase()}</h4>`
 

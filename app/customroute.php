@@ -243,6 +243,7 @@ $router->post('/upoadrequisition',function($request){
   $data = json_decode(file_get_contents('php://input'), true);
 
   $new_name;
+
   if(isset($_FILES['sample_image'])){
       $extension = pathinfo($_FILES['sample_image']['name'],PATHINFO_EXTENSION);
       $new_name = time().'.'.$extension;
@@ -254,11 +255,10 @@ $router->post('/upoadrequisition',function($request){
   }
   
   
-  
   for($i=0;$i<count($_POST['quotation']);$i++){
     $x = explode(',',$_POST['quotation'][$i]);
    
-      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,unit,total_price,quotation_receipt)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$x[1]."','".$x[2]."','".$x[3]."','".$x[4]."','".$x[5]."','".$x[6]."','".$new_name."')";
+      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,note)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$x[1]."','".$x[2]."','".$x[3]."','".$x[4]."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['note']."')";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
       
@@ -432,8 +432,8 @@ $router->post('/fetchapprovaldetails',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
- 
-  $query = "SELECT * FROM requisition LEFT JOIN `orders` ON `requisition`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id`  WHERE `requisition`.`id` = '".$data['id']."' GROUP BY `requisition`.`supplier_id`";
+  $json_data = array("data"=>$data,"status"=>false);
+  $query = "SELECT * FROM requisition LEFT JOIN `orders` ON `requisition`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id`  WHERE `requisition`.`order_id` = '".$data['id']."' GROUP BY `requisition`.`supplier_id`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   $data = [];
   if(mysqli_num_rows($result)){

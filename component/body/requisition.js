@@ -24,7 +24,8 @@ function Requisition(search){
 function loadRequisitionDefault(){
     let username = document.getElementById('username').value
     
-    return `
+    return `    
+            
                 <div class="tab-body-order-2">
                     <div class="div-2-element">
                         <div>
@@ -94,7 +95,7 @@ function loadRequisitionDefault(){
                 <div class="tab-body-more">
                     <div class="currencyDiv">
                         <button class="btn btn-md btn-danger">Delete</button>
-                        <select class="form-control">
+                        <select class="form-control" id="currency">
                             <option value="">SELECT CURRENCY</option>
                             <option value="USD">USD</option>
                             <option value="GBP">GBP</option>
@@ -155,6 +156,7 @@ function loadRequisitionDefault(){
                         <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
                     </div>
                 </div>
+            
     
             `
 }
@@ -163,6 +165,7 @@ function AddRequisition(){
     let username = document.getElementById('username').value
     
     let content =  `
+                    
                     <div class="tab-body-order-2">
                         <div class="div-2-element">
                             <div>
@@ -232,7 +235,7 @@ function AddRequisition(){
                     <div class="tab-body-more">
                         <div class="currencyDiv">
                             <button class="btn btn-md btn-danger">Delete</button>
-                            <select class="form-control">
+                            <select class="form-control" id="currency">
                                 <option value="">SELECT CURRENCY</option>
                                 <option value="USD">USD</option>
                                 <option value="GBP">GBP</option>
@@ -293,7 +296,7 @@ function AddRequisition(){
                             <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
                         </div>
                     </div>
-
+                
     
             `
             document.querySelector('.render_body_content').innerHTML = content
@@ -364,8 +367,8 @@ function allrequisition(){
                     
                 },
                  {data:"quantity"},
-                 {data:"unit"},
-                 {data:"total_price"},
+                 {data:"price"},
+                 {data:"total"},
                  {data:"created_at"},
                  {
                      data:"",
@@ -592,12 +595,14 @@ let handleInput  = document.querySelector('.fileUploadInput');
     })
 
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
+        e.preventDefault();
        let Quotation=[];
        let row=[];
         let totalfiles = document.getElementById('fileInput').files.length;
         let allsupplier = document.getElementById('allsupplier').value;
         let order = document.getElementById('ordertype').value;
         let username = document.getElementById('username').value;
+
         let currency = document.getElementById('currency').value;
         let dateofcreation = document.getElementById('dateofcreation').value;
         let serial_number = document.getElementById('serial_number').value;
@@ -605,8 +610,9 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let projectname = document.getElementById('project_name').value;
         let refnumber = document.getElementById('refnumber').value;
         let dateofsending = document.getElementById('dateofsending').value;
+        let note = document.getElementById('note').value;
         let description = document.querySelectorAll('.content');
-        console.log(description.length)
+        
         for(let i=0;i<description.length;i++){
             let child = description[i].children;
             
@@ -630,7 +636,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
      }
 
      
-     console.log(Quotation)
+     
 
         if(totalfiles === 0){
             Swal.fire('Upload Supplier Quotation','','error')
@@ -643,18 +649,25 @@ let handleInput  = document.querySelector('.fileUploadInput');
         }
 
         if(totalfiles >0 && allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && currency != "" && fileref !="" &&  projectname != "" && dateofsending!="" && totalfiles!="" ){
+            
             const formdata = new FormData();
 
             for (var i = 0; i < Quotation.length; i++) {
                 formdata.append('quotation[]', Quotation[i]);
               }
-            console.log(document.getElementById('fileInput').files)
+           
             formdata.append("sample_image",document.getElementById('fileInput').files[0])
             formdata.append('ordertype',order);
             formdata.append('allsupplier',allsupplier);
             formdata.append('username',username);
-           
-
+            formdata.append('dateofcreation',dateofcreation);
+            formdata.append('serial_number',serial_number);
+            formdata.append('fileref',fileref);
+            formdata.append('refnumber',refnumber);
+            formdata.append('dateofsending',dateofsending);
+            formdata.append('projectname',projectname);
+            formdata.append('currency',currency);
+            formdata.append('note',note);
             fetch('/procurement/app/customroute/upoadrequisition',{
                 method:'POST',
                 // headers: { "Content-type": "application/x-www-form-urlencoded"},
@@ -662,13 +675,27 @@ let handleInput  = document.querySelector('.fileUploadInput');
             })
             .then(response=>response.json())
             .then(res=>{
+                
                 if(res.status){
                     Swal.fire(res.data,'','success');
                     Quotation=[];
                     row=[];
-                    document.getElementById('fileInput').value="";
-                    document.getElementById('allsupplier').value="";
-                    document.getElementById('ordertype').value="";
+                    document.getElementById('myTotal').innerHTML = 0;
+                    // document.getElementById("myform").reset();
+                    var inputElements = document.getElementsByTagName('input');
+                    var inputElementSelect = document.getElementsByTagName('select');
+
+                    for (var i=0; i < inputElements.length; i++) {
+                        if (inputElements[i].type == 'text' || inputElements[i].type == 'file'  ) {
+                            inputElements[i].value = '';
+                        }
+                    }
+
+                    for (var i=0; i < inputElementSelect.length; i++) {
+                        
+                        inputElements[i].value = '';
+                    }
+                   
                 }
                 else{
                     
@@ -678,6 +705,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
                 console.log(err)
             })
         }
+        
         
     })
 

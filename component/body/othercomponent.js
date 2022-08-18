@@ -110,9 +110,6 @@ function ApprovalDetails(xcontent){
                                 <tr>
                                     <th>SN</th>
                                     <th>SUPPLIER NAME</th>
-                                    <th>QUANTITY</th>
-                                    <th>UNIT PRICE</th>
-                                    <th>TOTAL PRICE</th>
                                     <th>DATE</th>
                                     <th>ACTION</th>
                                 </tr>
