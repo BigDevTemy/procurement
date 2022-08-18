@@ -139,6 +139,7 @@ session_start();
     
     </body>
     <script src="../component/body/delete.js"></script>
+    <script src="../component/body/approveModal.js"></script>
     <script src="../component/body/modal.js"></script>
     <script src="../component/body/shippment.js"></script>
     <script src="../component/body/po.js"></script>

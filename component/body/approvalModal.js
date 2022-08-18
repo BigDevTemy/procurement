@@ -1,11 +1,11 @@
-function modal(className,Id,title){
+function modal(supplierid,orderid,suppliername){
 
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
-                    <div class="customModal ${className}">
+                    <div class="customModal">
                             <div class="modalTitle">
                                 <div> 
-                                    <h4>${title}</h4>
+                                    <h4>${suppliername}</h4>
                                 </div> 
                                 <div class="closeModal">X</div>
                             </div>
@@ -26,8 +26,8 @@ function modal(className,Id,title){
         `
 
         document.querySelector('.modalClass').innerHTML=content
-        modalContent(title,Id);
-        close();
+        // modalContent(title,Id);
+        // close();
 }
 
 

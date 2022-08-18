@@ -95,13 +95,11 @@ function ApprovalDetails(xcontent){
                     <div class="roundingx"></div>
 
                 </div>
-                <div class="approvalmodal">
-                    <div class="approvalmodalcard">
+                <div class="modalClass">
 
-                    </div>
                 </div>
                 <div class="title">
-                    Hello
+                    
                 </div>
 
                 <div class="contentList">

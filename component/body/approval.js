@@ -236,7 +236,7 @@ function makeloader(id){
                                     <td>${index + 1}</td>
                                     <td>${d.supplier_name}</td>
                                     <td>${d.created_at}</td>
-                                    <td><span class="view-more">View More</span></td>
+                                    <td><div onclick="approvalModal(${d.supplier_id},${d.order_id},${d.supplier_name})"class="view-more">View More</div></td>
 
                                 </tr>
                             
@@ -253,7 +253,7 @@ function makeloader(id){
         })
         .catch(err=>console.log(err))
         
-        viewMore(id);
+       
 
 }
 
