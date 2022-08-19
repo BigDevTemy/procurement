@@ -1,3 +1,4 @@
+const newQuotation = [];
 function poModal(supplierid,orderid){
    
     document.querySelector('.modalClass').classList.add('modalClassCustom');
@@ -126,6 +127,7 @@ function supplier_quotationDetails(orderid,supplierid){
         let invoice
         
        if(res.status){
+            
             res.data.forEach((d,index)=>{
                 supplier_name = d.supplier_name
                 address = d.address
@@ -207,7 +209,23 @@ function POreject(orderid,assigned_supplier_id){
 }
 
 function POshippment(){
-   
+    
+    let row = []
+    let x = document.querySelector('#tbody').children
+    for(let i=0;i<x.length;i++){
+        y = x[i].children
+        for(let z=0;z<y.length;z++){
+            
+            if(z > 1){
+                // console.log(y[z].children[0].value)
+                row.push(y[z].children[0].value)
+            }
+        }
+        newQuotation.push(row)
+        row=[];
+    }
+//    console.log('myh',newQuotation);
+//    return false;
     _push(`#PO/shippment/1`)
     loadUrl('#PO/shippment/1');
 }

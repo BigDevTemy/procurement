@@ -159,13 +159,14 @@
 
   .d-image{
     display: flex;
-    width: 15%;
+    width: 100%;
     justify-content: space-between;
     padding-top:20px
     
   }
   .d-image > span{
-    font-size:10px
+    font-size:10px;
+    cursor: pointer;
   }
 
   .d-image > div{

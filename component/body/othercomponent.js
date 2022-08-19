@@ -14,6 +14,7 @@ function otherComponent(name){
         }
         else if(splitSplash[0] === "PO"){
             makeloader(splitSplash[splitSplash.length - 1]);
+            fileloader();
         }
         
         
@@ -132,7 +133,7 @@ function ApprovalDetails(xcontent){
 function ShippmentDetails(additional){
     let content = ` 
                     <div class="supplierDiv">
-                        <div> Back</div> 
+                        <div> << Back</div> 
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -143,7 +144,7 @@ function ShippmentDetails(additional){
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Mode Of Shippment</label>
-                                    <select class="form-control select">
+                                    <select class="form-control select" id="mode_of_shippment">
                                         <option value="">Click to Select</option>
                                         <option value="Air">Air</option>
                                         <option value="Ship">Ship</option>
@@ -158,13 +159,13 @@ function ShippmentDetails(additional){
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Payment Mode</label>
-                                    <input type="text" class="form-control" placeholder="Payment Mode"/>
+                                    <input type="text" class="form-control" placeholder="Payment Mode" id="paymentmode"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Receive by Abroad Forwarder</label>
-                                   <input type="text" class="form-control" placeholder="Receive by Abroad Forwarder"/>
+                                   <input type="text" class="form-control" placeholder="Receive by Abroad Forwarder" id="abroadforwarder" />
                                 </div>
                             </div>
                         </div>
@@ -172,7 +173,7 @@ function ShippmentDetails(additional){
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Delivery address/abroad forwarder details</label>
-                                    <textarea  class="form-control" placeholder="Delivery address"></textarea>
+                                    <textarea  class="form-control" placeholder="Delivery address" id="deliveryaddr"></textarea>
                                 </div>
                             </div>
                             
@@ -181,59 +182,62 @@ function ShippmentDetails(additional){
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Cleared Amount</label>
-                                    <input type="text" placeholder="Cleared" class="form-control"/>
+                                    <input type="text" placeholder="Cleared" class="form-control" id="cleared"/>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Shippment Docs. To Nigeria Agent/Name</label>
-                                    <input type="text" placeholder="Agent Name" class="form-control"/>
+                                    <input type="text" placeholder="Agent Name" class="form-control"id="agentname"/>
                                 </div>
                             </div>
                             <div class="col-md-4">
                             <div class="form-group">
                                 <label>Shippment Docs. To Nigeria Agent/Date</label>
-                                <input type="date"  class="form-control"/>
+                                <input type="date"  class="form-control" id="agentdate"/>
                             </div>
                         </div>
                             
                         </div>
 
-                        <div class="row mt-4">
+                        <div class="row mt-4" id="fileChecks">
                             <div class="col-md-4">
                                 <label>Shippment Document Received</label>
                                 <div class="fileuploadDiv"> 
                                     
-                                    <input type="file" id="shippmentDocs" name="file[]" class="fileUploadInput" accept="application/pdf" />
-                                    <button class="btn btn-bg">Choose File</button>
-                                    <span class="number_files">No File Selected</span>
+                                    <input type="file" id="shippmentDocs" name="file[]" class="fileUploadInputI" accept="application/pdf" multiple />
+                                    <button class="btn btn-bg shippmentDocs">Choose File</button>
+                                    <span class="number_files_I">No File Selected</span>
                                 </div>
-                                <div class="selectedFiles">
-                                    
-                                    
-                                </div>
+                                <div class="selectedFilesI"></div>
                             </div>
                             <div class="col-md-4">
                                 <label>SONCAP for PAAR obtained</label>
                                 <div class="fileuploadDiv"> 
-                                    <input type="file" id="soncap" name="file[]" class="fileUploadInput" accept="application/pdf" />
-                                    <button class="btn btn-bg">Choose File</button>
-                                    <span class="number_files">No File Selected</span>
+                                    <input type="file" id="soncap" name="file[]" class="fileUploadInputII" accept="application/pdf" multiple/>
+                                    <button class="btn btn-bg soncap">Choose File</button>
+                                    <span class="number_files_II">No File Selected</span>
                                 </div>
-                                <div class="selectedFiles">
+                                <div class="selectedFilesII">
                                     
                                     
                                 </div>
                             </div>
                             <div class="col-md-4">
-                            <label>PAAR Issued</label>
-                            <div class="fileuploadDiv"> 
-                                <input type="file" id="paarIssued" name="file[]" class="fileUploadInput" accept="application/pdf" />
-                                <button class="btn btn-bg">Choose File</button>
-                                <span class="number_files">No File Selected</span>
+                                <label>PAAR Issued</label>
+                                <div class="fileuploadDiv"> 
+                                    <input type="file" id="paarIssued" name="file[]" class="fileUploadInputIII" accept="application/pdf" multiple/>
+                                    <button class="btn btn-bg paarIssued">Choose File</button>
+                                    <span class="number_files_III">No File Selected</span>
+                                </div>
+                                <div class="selectedFilesIII"></div>
                             </div>
-                            <div class="selectedFiles"></div>
                         </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <button class="btn btn-primary btn-lg">Save</button>
+                            </div>
                         </div>
 
 
@@ -245,8 +249,6 @@ function ShippmentDetails(additional){
                  `
         return content;
 }
-
-
 
 
 
@@ -270,6 +272,101 @@ function Report(search){
     return content;
 }
 
+
+function fileloader(){
+    let shipdocs  = document.querySelector('.fileUploadInputI');
+    let soncap  = document.querySelector('.fileUploadInputII');
+    let paar  = document.querySelector('.fileUploadInputIII');
+   
+    document.querySelector('.shippmentDocs').addEventListener('click',function(e){
+        shipdocs.click();
+        shipdocs.addEventListener("change", function() {
+           
+            let dataset = "";
+            for(let i=0; i<shipdocs.files.length; i++){
+              
+               
+                dataset += `
+                            <div class="d-image">
+                                 <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                <div id=${shipdocs.files[i].name}>${shipdocs.files[i].name}</div>
+                                <span class="removeImage"></span>
+                            </div>
+                
+                            `
+                
+            }
+            document.querySelector('.selectedFilesI').innerHTML= dataset
+
+            document.querySelector('.number_files_I').innerHTML = shipdocs.files.length  > 1 ? shipdocs.files.length +' Files Selected' : shipdocs.files.length +' File Selected';
+        });
+    })
+    document.querySelector('.soncap').addEventListener('click',function(e){
+        soncap.click();
+
+        soncap.addEventListener("change", function() {
+           
+            let dataset = "";
+            for(let i=0; i<soncap.files.length; i++){
+              
+             
+                dataset += `
+                            <div class="d-image">
+                                 <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                <div id=${soncap.files[i].name}>${soncap.files[i].name}</div>
+                                <span class="removeImage"></span>
+                            </div>
+                
+                            `
+                
+            }
+            document.querySelector('.selectedFilesII').innerHTML=dataset
+
+            document.querySelector('.number_files_II').innerHTML = soncap.files.length  > 1 ? soncap.files.length +' Files Selected' : soncap.files.length +' File Selected';
+        });
+    })
+    document.querySelector('.paarIssued').addEventListener('click',function(e){
+        paar.click();
+        paar.addEventListener("change", function() {
+           
+            let dataset = "";
+            for(let i=0; i<soncap.files.length; i++){
+              
+               
+                dataset += `
+                            <div class="d-image">
+                                 <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                <div id=${paar.files[i].name}>${paar.files[i].name}</div>
+                                <span class="removeImage"></span>
+                            </div>
+                
+                            `
+                
+            }
+            
+            document.querySelector('.selectedFilesIII').innerHTML=dataset
+
+            document.querySelector('.number_files_III').innerHTML = paar.files.length  > 1 ? paar.files.length +' Files Selected' : paar.files.length +' File Selected';
+        });
+    })
+
+    document.getElementById('fileChecks').addEventListener('click',function(e){
+        
+        if(e.target.classList.contains('removeImage')){
+            
+            x = e.target.parentElement
+            y = x.parentElement
+            // console.log(x)
+            // console.log(y)
+            for(let i =0; i< y.children.length;i++){
+               y.children[i].remove(x)
+            }
+            // console.log(y.children)
+        }
+      
+    })
+   
+}
 
 
 function getBodyContent(){

@@ -537,32 +537,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
                 }
 
                 document.querySelector('.number_files').innerHTML = handleInput.files.length  > 1 ? handleInput.files.length +' Files Selected' : handleInput.files.length +' File Selected';
-
-                
-                
-                // handleInput.files.map((d)=>{
-                //     let dataset = "";
-
-                //     dataset += `
-                //                 <div class="d-image">
-                //                     <div id=${d.name}>${d.name}</div>
-                //                     <span>X</span>
-                //                 </div>
-                    
-                //                 `
-                //     document.querySelector('.selectedFiles').insertAdjacentHTML('beforeend',dataset)
-                // })
-                // const reader = new FileReader();
-
-                // reader.addEventListener("load", () => {
-                //     const uploaded_image = reader.result;
-                //     // console.log(reader.result);
-                //     // document.querySelector("#display-image").style.backgroundImage = `url(${uploaded_image})`;
-                // });
-                // reader.readAsDataURL(this.files[0]);
-                
-
-        });
+            });
     })
 
    
