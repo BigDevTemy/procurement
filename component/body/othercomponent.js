@@ -13,8 +13,15 @@ function otherComponent(name){
             makeloader(splitSplash[splitSplash.length - 1]);
         }
         else if(splitSplash[0] === "PO"){
-            makeloader(splitSplash[splitSplash.length - 1]);
-            fileloader();
+            if(newQuotation.length >0){
+                makeloader(splitSplash[splitSplash.length - 1]);
+                fileloader();
+            } 
+            else{
+                _push(`#PO`)
+                loadUrl('#PO');
+            }  
+            
         }
         
         
@@ -381,14 +388,16 @@ function fileloader(){
         let soncap  = document.getElementById('soncap');
         let paar  = document.getElementById('paar');
         const formdata = new FormData();
-
-        for (var i = 0; i < shipdocs.length; i++) {
+        console.log(soncap.files)
+        console.log(paar.files)
+        console.log(shipdocs.files)
+        for (var i = 0; i < shipdocs.files.length; i++) {
             formdata.append('shipdocs[]', shipdocs.files[i]);
         }
-        for (var i = 0; i < soncap.length; i++) {
+        for (var i = 0; i < soncap.files.length; i++) {
             formdata.append('soncap[]', soncap.files[i]);
         }
-        for (var i = 0; i < paar.length; i++) {
+        for (var i = 0; i < paar.files.length; i++) {
             formdata.append('paar[]', paar.files[i]);
         }
         if(mode_of_shippment !="" && paymentmode!="" && abroadforwarder!="" && abroadforwarder_addr!="" && cleared !="" && agentname!="" && agentname_date!="" ){
@@ -404,7 +413,7 @@ function fileloader(){
 
             fetch('/procurement/app/customroute/uploadShippment',{
                 method:'POST',
-                headers: { "Content-type": "application/x-www-form-urlencoded"},
+                // headers: { "Content-type": "application/x-www-form-urlencoded"},
                 body:formdata
             })
             .then(response=>response.json())

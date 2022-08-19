@@ -862,10 +862,21 @@ $router->post('/getsupplierquotation',function(){
 });
 
 
-$router->post('/getsupplierquotation',function(){
+$router->post('/uploadShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
-  echo json_encode(["data"=>$_FILES,"status"=>true]);
+  
+  if(isset($_FILES['shipdocs'])){
+    
+    for($i=0;$i<count($_FILES['shipdocs']);$i++){
+      
+      $extension = pathinfo($_FILES['shipdocs']['name'][$i],PATHINFO_EXTENSION);
+      $new_name = time().'.'.$extension;
+      move_uploaded_file($_FILES['shipdocs']['tmp_name'][$i],'../shippment/'.$new_name);
+    }
+  }
+  echo json_encode(["data"=>count($_FILES['shipdocs']),"status"=>true]);
+  
 
 });
 
