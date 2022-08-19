@@ -173,7 +173,7 @@ function ShippmentDetails(additional){
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Delivery address/abroad forwarder details</label>
-                                    <textarea  class="form-control" placeholder="Delivery address" id="deliveryaddr"></textarea>
+                                    <textarea  class="form-control" placeholder="Delivery address" id="abroadforwarder_addr"></textarea>
                                 </div>
                             </div>
                             
@@ -226,8 +226,8 @@ function ShippmentDetails(additional){
                             <div class="col-md-4">
                                 <label>PAAR Issued</label>
                                 <div class="fileuploadDiv"> 
-                                    <input type="file" id="paarIssued" name="file[]" class="fileUploadInputIII" accept="application/pdf" multiple/>
-                                    <button class="btn btn-bg paarIssued">Choose File</button>
+                                    <input type="file" id="paar" name="file[]" class="fileUploadInputIII" accept="application/pdf" multiple/>
+                                    <button class="btn btn-bg paar">Choose File</button>
                                     <span class="number_files_III">No File Selected</span>
                                 </div>
                                 <div class="selectedFilesIII"></div>
@@ -236,7 +236,7 @@ function ShippmentDetails(additional){
 
                         <div class="row mt-4">
                             <div class="col-md-4">
-                                <button class="btn btn-primary btn-lg">Save</button>
+                                <button class="btn btn-primary btn-lg" id="saveShipmmentdetails">Save</button>
                             </div>
                         </div>
 
@@ -325,12 +325,12 @@ function fileloader(){
             document.querySelector('.number_files_II').innerHTML = soncap.files.length  > 1 ? soncap.files.length +' Files Selected' : soncap.files.length +' File Selected';
         });
     })
-    document.querySelector('.paarIssued').addEventListener('click',function(e){
+    document.querySelector('.paar').addEventListener('click',function(e){
         paar.click();
         paar.addEventListener("change", function() {
            
             let dataset = "";
-            for(let i=0; i<soncap.files.length; i++){
+            for(let i=0; i<paar.files.length; i++){
               
                
                 dataset += `
@@ -364,6 +364,59 @@ function fileloader(){
             // console.log(y.children)
         }
       
+    })
+
+    document.getElementById('saveShipmmentdetails').addEventListener('click',function(e){
+        
+        let date = document.getElementById('date').value;
+        let mode_of_shippment = document.getElementById('mode_of_shippment').value;
+        let paymentmode = document.getElementById('paymentmode').value;
+        let abroadforwarder = document.getElementById('abroadforwarder').value;
+        let abroadforwarder_addr = document.getElementById('abroadforwarder_addr').value;
+        let cleared = document.getElementById('cleared').value;
+        let agentname = document.getElementById('agentname').value;
+        let agentname_date = document.getElementById('agentdate').value;
+
+        let shipdocs  = document.getElementById('shippmentDocs');
+        let soncap  = document.getElementById('soncap');
+        let paar  = document.getElementById('paar');
+        const formdata = new FormData();
+
+        for (var i = 0; i < shipdocs.length; i++) {
+            formdata.append('shipdocs[]', shipdocs.files[i]);
+        }
+        for (var i = 0; i < soncap.length; i++) {
+            formdata.append('soncap[]', soncap.files[i]);
+        }
+        for (var i = 0; i < paar.length; i++) {
+            formdata.append('paar[]', paar.files[i]);
+        }
+        if(mode_of_shippment !="" && paymentmode!="" && abroadforwarder!="" && abroadforwarder_addr!="" && cleared !="" && agentname!="" && agentname_date!="" ){
+            formdata.append('date',date);
+            formdata.append('mode_of_shippment',mode_of_shippment);
+            formdata.append('paymentmode',paymentmode);
+            formdata.append('abroadforwarder',abroadforwarder);
+            formdata.append('abroadforwarder_addr',abroadforwarder_addr);
+            formdata.append('cleared',cleared);
+            formdata.append('agentname',agentname);
+            formdata.append('agentname_date',agentname_date)
+            formdata.append('newQuotation[]',newQuotation)
+
+            fetch('/procurement/app/customroute/uploadShippment',{
+                method:'POST',
+                headers: { "Content-type": "application/x-www-form-urlencoded"},
+                body:formdata
+            })
+            .then(response=>response.json())
+            .then(res=>{
+               console.log(res) 
+               
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+
+        }
     })
    
 }

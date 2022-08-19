@@ -629,7 +629,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
 
             for (var i = 0; i < Quotation.length; i++) {
                 formdata.append('quotation[]', Quotation[i]);
-              }
+            }
            
             formdata.append("sample_image",document.getElementById('fileInput').files[0])
             formdata.append('ordertype',order);
@@ -643,6 +643,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
             formdata.append('projectname',projectname);
             formdata.append('currency',currency);
             formdata.append('note',note);
+            
             fetch('/procurement/app/customroute/upoadrequisition',{
                 method:'POST',
                 // headers: { "Content-type": "application/x-www-form-urlencoded"},

@@ -862,6 +862,14 @@ $router->post('/getsupplierquotation',function(){
 });
 
 
+$router->post('/getsupplierquotation',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  echo json_encode(["data"=>$_FILES,"status"=>true]);
+
+});
+
+
 $router->addNotFoundHandler(function(){
 
   echo 'Not Found';
