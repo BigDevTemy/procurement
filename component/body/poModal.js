@@ -42,8 +42,8 @@ function poModal(supplierid,orderid){
 
                             <div class="modalFooter">
                                 <div class="mybutton">
-                                    <button class="btn btn-primary" onclick="approve(${orderid},${supplierid})">Approve</button>
-                                    <button class="btn btn-danger" onclick="approve(${orderid},${supplierid})">Reject</button>
+                                    <button class="btn btn-primary" onclick="">Approve</button>
+                                    <button class="btn btn-danger" onclick="POreject(${orderid},${supplierid})">Reject</button>
                                     <button class="btn btn-secondary" onclick="close()">Close</button>
                                 </div>
                             </div>
@@ -66,6 +66,12 @@ function poModal(supplierid,orderid){
                 let quantityx = e.target.value
                 let total = parseFloat(pricex * quantityx);
                 Sumtotal.value = total
+                for(let i=0;i<y.children.length;i++){
+                    let x = y.children[i].children[4].children[0].value;
+                    sum += parseFloat(x)
+                
+                }
+                grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 
             })
             price.addEventListener('change',function(e){
@@ -73,14 +79,16 @@ function poModal(supplierid,orderid){
                 let  pricex= e.target.value
                 let total = parseFloat(pricex * quantityx);
                 Sumtotal.value = total
+
+                for(let i=0;i<y.children.length;i++){
+                    let x = y.children[i].children[4].children[0].value;
+                    sum += parseFloat(x)
+                
+                }
+                grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             })
 
-            for(let i=0;i<y.children.length;i++){
-                let x = y.children[i].children[4].children[0].value;
-                sum += parseFloat(x)
             
-            }
-            grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
         
 
@@ -151,26 +159,71 @@ function supplier_quotationDetails(orderid,supplierid){
     
 }
 
-
-
-function approve(id,supplierid){
-    
-    
-        fetch('/procurement/app/customroute/approve',{
-            method:'POST',
-            headers: { "Content-type": "application/x-www-form-urlencoded"},
-            body:JSON.stringify({id:id,supplierid:supplierid})
-        })
-        .then(result=>result.json())
-        .then(res=>{
+function POreject(orderid,assigned_supplier_id){
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/procurement/app/customroute/delete_approval_po',{
+                method:'POST',
+                headers: { "Content-type": "application/x-www-form-urlencoded"},
+                body:JSON.stringify({
+                    orderid:orderid,
+                    assigned_supplier_id:assigned_supplier_id
+                    
+                })
+            })
+                
+                .then(result=>result.json())
+                .then(res=>{
+                    if(res.status){
+                        Swal.fire(
+                            'Deleted!',
+                            'Your Approval has been deleted.',
+                            'success'
+                        )
+                       
+                        document.querySelector('.modalClass').classList.remove('modalClassCustom');
+                        document.querySelector('.modalClass').innerHTML=""
+                        POfetch();
+                    }
+                    else{
+                        Swal.fire(
+                            'Internal Server Error',
+                            '',
+                            'error'
+                        )
+                    }
+                })
             
-            if(res.status){
-                Swal.fire(res.data,'','success');
-                close()
-                _push('/procurement/dashboard/app#Approval')
-                window.location='/procurement/dashboard/app#Approval'
-            }
-        })
-        .catch(err=>console.log(err))
-    
+        }
+    })
 }
+
+
+
+document.querySelector('.POcontentmodal').addEventListener('click',function(e){
+    let totalprice = document.getElementById('totalprice').value;
+
+    let assigned_supplier_id = document.getElementById('assigned_supplier_id').value
+    
+    if(e.target.classList.contains('btn-success')){
+        
+       
+    }
+    if(e.target.classList.contains('btn-danger')){
+    
+    }
+    if(e.target.classList.contains('btn-secondary')){
+    document.querySelector('.POmodal').classList.remove('overlayApproval')
+    document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
+    document.querySelector('.POcontentmodal').innerHTML=""
+    }
+})
+

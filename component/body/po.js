@@ -130,91 +130,91 @@ function reviewPO(orderid){
     })
 
 
-    document.querySelector('.POcontentmodal').addEventListener('click',function(e){
-                let totalprice = document.getElementById('totalprice').value;
+    // document.querySelector('.POcontentmodal').addEventListener('click',function(e){
+    //             let totalprice = document.getElementById('totalprice').value;
           
-                let assigned_supplier_id = document.getElementById('assigned_supplier_id').value
+    //             let assigned_supplier_id = document.getElementById('assigned_supplier_id').value
                
-        if(e.target.classList.contains('btn-success')){
+    //     if(e.target.classList.contains('btn-success')){
                 
-                fetch('/procurement/app/customroute/POapproval',{
-                    method:"POST",
-                    headers: { "Content-type": "application/x-www-form-urlencoded"},
-                    body:JSON.stringify({
-                        orderid:orderid,
-                        totalprice:totalprice,
-                        assigned_supplier_id:assigned_supplier_id
-                    })
-                })
-                .then(result=>result.json())
-                .then(res=>{
-                        if(res.status){
-                            Swal.fire(res.data,'','success');
-                            document.querySelector('.POmodal').classList.remove('overlayApproval')
-                            document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
-                            document.querySelector('.POcontentmodal').innerHTML=""
-                            POfetch();
-                        }
-                        else{
-                            Swal.fire('An Error Occurred','','errpr');
-                        }
-                })
-                .catch(err=>{
-                    console.log(err)
-                })
-        }
-        if(e.target.classList.contains('btn-danger')){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-              }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch('/procurement/app/customroute/delete_approval_po',{
-                        method:'POST',
-                        headers: { "Content-type": "application/x-www-form-urlencoded"},
-                        body:JSON.stringify({
-                            orderid:orderid,
-                            assigned_supplier_id:assigned_supplier_id
+    //             fetch('/procurement/app/customroute/POapproval',{
+    //                 method:"POST",
+    //                 headers: { "Content-type": "application/x-www-form-urlencoded"},
+    //                 body:JSON.stringify({
+    //                     orderid:orderid,
+    //                     totalprice:totalprice,
+    //                     assigned_supplier_id:assigned_supplier_id
+    //                 })
+    //             })
+    //             .then(result=>result.json())
+    //             .then(res=>{
+    //                     if(res.status){
+    //                         Swal.fire(res.data,'','success');
+    //                         document.querySelector('.POmodal').classList.remove('overlayApproval')
+    //                         document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
+    //                         document.querySelector('.POcontentmodal').innerHTML=""
+    //                         POfetch();
+    //                     }
+    //                     else{
+    //                         Swal.fire('An Error Occurred','','errpr');
+    //                     }
+    //             })
+    //             .catch(err=>{
+    //                 console.log(err)
+    //             })
+    //     }
+    //     if(e.target.classList.contains('btn-danger')){
+    //         Swal.fire({
+    //             title: 'Are you sure?',
+    //             text: "You won't be able to revert this!",
+    //             icon: 'warning',
+    //             showCancelButton: true,
+    //             confirmButtonColor: '#3085d6',
+    //             cancelButtonColor: '#d33',
+    //             confirmButtonText: 'Yes, delete it!'
+    //           }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 fetch('/procurement/app/customroute/delete_approval_po',{
+    //                     method:'POST',
+    //                     headers: { "Content-type": "application/x-www-form-urlencoded"},
+    //                     body:JSON.stringify({
+    //                         orderid:orderid,
+    //                         assigned_supplier_id:assigned_supplier_id
                             
-                        })
-                    })
+    //                     })
+    //                 })
                         
-                        .then(result=>result.json())
-                        .then(res=>{
-                            if(res.status){
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Your Approval has been deleted.',
-                                    'success'
-                                  )
-                                  document.querySelector('.POmodal').classList.remove('overlayApproval')
-                                document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
-                                document.querySelector('.POcontentmodal').innerHTML=""
-                                  POfetch();
-                            }
-                            else{
-                                Swal.fire(
-                                    'Internal Server Error',
-                                    '',
-                                    'error'
-                                  )
-                            }
-                        })
+    //                     .then(result=>result.json())
+    //                     .then(res=>{
+    //                         if(res.status){
+    //                             Swal.fire(
+    //                                 'Deleted!',
+    //                                 'Your Approval has been deleted.',
+    //                                 'success'
+    //                               )
+    //                               document.querySelector('.POmodal').classList.remove('overlayApproval')
+    //                             document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
+    //                             document.querySelector('.POcontentmodal').innerHTML=""
+    //                               POfetch();
+    //                         }
+    //                         else{
+    //                             Swal.fire(
+    //                                 'Internal Server Error',
+    //                                 '',
+    //                                 'error'
+    //                               )
+    //                         }
+    //                     })
                     
-                }
-              })
-        }
-        if(e.target.classList.contains('btn-secondary')){
-            document.querySelector('.POmodal').classList.remove('overlayApproval')
-            document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
-            document.querySelector('.POcontentmodal').innerHTML=""
-        }
-    })
+    //             }
+    //           })
+    //     }
+    //     if(e.target.classList.contains('btn-secondary')){
+    //         document.querySelector('.POmodal').classList.remove('overlayApproval')
+    //         document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
+    //         document.querySelector('.POcontentmodal').innerHTML=""
+    //     }
+    // })
 
 }
 
