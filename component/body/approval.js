@@ -212,7 +212,10 @@ function deleteApprove(id,order_id){
 
 
 function makeloader(id){
-    document.querySelector('.roundingx').classList.add('roundLoader');
+    if(document.querySelector('.roundingx')){
+        document.querySelector('.roundingx').classList.add('roundLoader');
+    }
+    
     
     fetch('/procurement/app/customroute/fetchapprovaldetails',{
         method:'POST',
@@ -223,7 +226,10 @@ function makeloader(id){
             let title ;
             let dataset;
             if(res.status){
-                document.querySelector('.roundingx').classList.remove('roundLoader');
+                if(document.querySelector('.roundingx')){
+                    document.querySelector('.roundingx').classList.remove('roundLoader');
+                }
+                
                 console.log(res.data)
                 res.data.forEach((d,index)=>{
                     title = d.order_title;
@@ -241,9 +247,15 @@ function makeloader(id){
                             `
                    
                 });
-                document.querySelector('.approvaltbody').innerHTML=dataset
+                if(document.querySelector('.approvaltbody')){
+                    document.querySelector('.approvaltbody').innerHTML=dataset
+                }
+                if(  document.querySelector('.title')){
+                    document.querySelector('.title').innerHTML=`<h4>${title.toUpperCase()}</h4>`
+                }
                 
-                document.querySelector('.title').innerHTML=`<h4>${title.toUpperCase()}</h4>`
+                
+                
 
                 
   

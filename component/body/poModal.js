@@ -42,7 +42,7 @@ function poModal(supplierid,orderid){
 
                             <div class="modalFooter">
                                 <div class="mybutton">
-                                    <button class="btn btn-primary" onclick="">Approve</button>
+                                    <button class="btn btn-primary" onclick="POshippment()">Approve</button>
                                     <button class="btn btn-danger" onclick="POreject(${orderid},${supplierid})">Reject</button>
                                     <button class="btn btn-secondary" onclick="close()">Close</button>
                                 </div>
@@ -206,24 +206,30 @@ function POreject(orderid,assigned_supplier_id){
     })
 }
 
+function POshippment(){
+   
+    _push(`#PO/shippment/1`)
+    loadUrl('#PO/shippment/1');
+}
 
 
-document.querySelector('.POcontentmodal').addEventListener('click',function(e){
-    let totalprice = document.getElementById('totalprice').value;
 
-    let assigned_supplier_id = document.getElementById('assigned_supplier_id').value
+// document.querySelector('.POcontentmodal').addEventListener('click',function(e){
+//     let totalprice = document.getElementById('totalprice').value;
+
+//     let assigned_supplier_id = document.getElementById('assigned_supplier_id').value
     
-    if(e.target.classList.contains('btn-success')){
+//     if(e.target.classList.contains('btn-success')){
         
        
-    }
-    if(e.target.classList.contains('btn-danger')){
+//     }
+//     if(e.target.classList.contains('btn-danger')){
     
-    }
-    if(e.target.classList.contains('btn-secondary')){
-    document.querySelector('.POmodal').classList.remove('overlayApproval')
-    document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
-    document.querySelector('.POcontentmodal').innerHTML=""
-    }
-})
+//     }
+//     if(e.target.classList.contains('btn-secondary')){
+//     document.querySelector('.POmodal').classList.remove('overlayApproval')
+//     document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
+//     document.querySelector('.POcontentmodal').innerHTML=""
+//     }
+// })
 

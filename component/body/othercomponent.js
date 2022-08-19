@@ -4,14 +4,18 @@ function otherComponent(name){
     var search = location.hash.replace('#','');
     var splitSplash = search.split('/');
 
-
+    console.log(splitSplash)
     if(splitSplash.length > 1){
-       
+    //    console.log(splitSplash[0]+''+ splitSplash[1])
         let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
         wrapper.innerHTML=getContent
         if(splitSplash[0] === "Approval"){
             makeloader(splitSplash[splitSplash.length - 1]);
         }
+        else if(splitSplash[0] === "PO"){
+            makeloader(splitSplash[splitSplash.length - 1]);
+        }
+        
         
         count=false
 
@@ -58,6 +62,8 @@ function Switcher(search,additional){
             return Shippment(search)
         case 'Shippmentreview':
             return Shippmentreview(additional)
+        case 'POshippment':
+            return ShippmentDetails(additional)
         default:
 
     }
@@ -121,6 +127,123 @@ function ApprovalDetails(xcontent){
 
              `
     return content;
+}
+
+function ShippmentDetails(additional){
+    let content = ` 
+                    <div class="supplierDiv">
+                        <div> Back</div> 
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="date" class="form-control" id="date"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mode Of Shippment</label>
+                                    <select class="form-control select">
+                                        <option value="">Click to Select</option>
+                                        <option value="Air">Air</option>
+                                        <option value="Ship">Ship</option>
+                                        <option value="Land">Land</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Payment Mode</label>
+                                    <input type="text" class="form-control" placeholder="Payment Mode"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Receive by Abroad Forwarder</label>
+                                   <input type="text" class="form-control" placeholder="Receive by Abroad Forwarder"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Delivery address/abroad forwarder details</label>
+                                    <textarea  class="form-control" placeholder="Delivery address"></textarea>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Cleared Amount</label>
+                                    <input type="text" placeholder="Cleared" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Shippment Docs. To Nigeria Agent/Name</label>
+                                    <input type="text" placeholder="Agent Name" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Shippment Docs. To Nigeria Agent/Date</label>
+                                <input type="date"  class="form-control"/>
+                            </div>
+                        </div>
+                            
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <label>Shippment Document Received</label>
+                                <div class="fileuploadDiv"> 
+                                    
+                                    <input type="file" id="shippmentDocs" name="file[]" class="fileUploadInput" accept="application/pdf" />
+                                    <button class="btn btn-bg">Choose File</button>
+                                    <span class="number_files">No File Selected</span>
+                                </div>
+                                <div class="selectedFiles">
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>SONCAP for PAAR obtained</label>
+                                <div class="fileuploadDiv"> 
+                                    <input type="file" id="soncap" name="file[]" class="fileUploadInput" accept="application/pdf" />
+                                    <button class="btn btn-bg">Choose File</button>
+                                    <span class="number_files">No File Selected</span>
+                                </div>
+                                <div class="selectedFiles">
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            <label>PAAR Issued</label>
+                            <div class="fileuploadDiv"> 
+                                <input type="file" id="paarIssued" name="file[]" class="fileUploadInput" accept="application/pdf" />
+                                <button class="btn btn-bg">Choose File</button>
+                                <span class="number_files">No File Selected</span>
+                            </div>
+                            <div class="selectedFiles"></div>
+                        </div>
+                        </div>
+
+
+                        
+                     
+
+                    </div>
+
+                 `
+        return content;
 }
 
 
