@@ -130,8 +130,8 @@ function supplier_quotationDetails(orderid,supplierid){
                             <tr>
                                     <td>${index +1}</td>
                                     <td>${d.description}</td>
-                                    <td><input type="text" class="form-control myformControl" value=${d.quantity} /></td>
-                                    <td><input type="text"  class="form-control myformControl" value=${d.price} /> </td>
+                                    <td><input type="number" min="0" class="form-control myformControl" value=${d.quantity} /></td>
+                                    <td><input type="number" min="0"  class="form-control myformControl" value=${d.price} /> </td>
                                     <td><input type="text" class="form-control myformcontrol" value=${d.total} disabled/></td>
 
                             </tr>
