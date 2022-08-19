@@ -862,21 +862,69 @@ $router->post('/getsupplierquotation',function(){
 });
 
 
+
 $router->post('/uploadShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
-  
+  $new_name="";
+  $shipdocs_url="";
+  $soncap_url="";
+  $paar_url="";
+  $countfiles = count($_FILES['shipdocs']['name']);
+  $countfilessoncap = count($_FILES['soncap']['name']);
+  $countfilessonpaar = count($_FILES['paar']['name']);
+
   if(isset($_FILES['shipdocs'])){
     
-    for($i=0;$i<count($_FILES['shipdocs']);$i++){
+    for($i=0;$i<$countfiles;$i++){
       
-      $extension = pathinfo($_FILES['shipdocs']['name'][$i],PATHINFO_EXTENSION);
-      $new_name = time().'.'.$extension;
-      move_uploaded_file($_FILES['shipdocs']['tmp_name'][$i],'../shippment/'.$new_name);
+      //$extension = pathinfo($_FILES['shipdocs']['name'],PATHINFO_EXTENSION);
+      //$new_name = time().'.'.$extension;
+      $upload = time().$_FILES['shipdocs']['name'][$i];
+      move_uploaded_file($_FILES['shipdocs']['tmp_name'][$i],'../shippment/'.$upload);
+      $shipdocs_url.= $upload.'_';
     }
+    echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
   }
-  echo json_encode(["data"=>count($_FILES['shipdocs']),"status"=>true]);
+  if(isset($_FILES['soncap'])){
+    
+    for($i=0;$i<$countfilessoncap;$i++){
+      
+      //$extension = pathinfo($_FILES['shipdocs']['name'],PATHINFO_EXTENSION);
+      //$new_name = time().'.'.$extension;
+      $upload = time().$_FILES['soncap']['name'][$i];
+      move_uploaded_file($_FILES['soncap']['tmp_name'][$i],'../shippment/'.$upload);
+      $soncap_url.= $upload.'_';
+    }
+    echo json_encode(["data"=>count($_FILES['soncap']['name']),"status"=>true,"uplaod"=>$soncap_url]);
+  }
+
+  if(isset($_FILES['paar'])){
+    
+    for($i=0;$i<$countfilessonpaar;$i++){
+      
+      //$extension = pathinfo($_FILES['shipdocs']['name'],PATHINFO_EXTENSION);
+      //$new_name = time().'.'.$extension;
+      $upload = time().$_FILES['paar']['name'][$i];
+      move_uploaded_file($_FILES['paar']['tmp_name'][$i],'../shippment/'.$upload);
+      $paar_url.= $upload.'_';
+    }
+    echo json_encode(["data"=>count($_FILES['paar']['name']),"status"=>true,"uplaod"=>$paar_url]);
+  }
+
+  // for($i=0;$i<count($_POST['newQuotation']);$i++){
+ 
+  // }
+  $query = "INSERT INTO shippment (approve_id,date,mode_shippment,payment_mode,abroad_fowarder,address_abroad_forwarder,cleared,agent_name_ngn,date_agent_ngn,shippment_docs,soncap,paar)VALUES('".$_POST['approve_id']."','".$_POST['date']."','".$_POST['mode_of_shippment']."','".$_POST['paymentmode']."','".$_POST['abroadforwarder']."','".$_POST['abroadforwarder_addr']."','".$_POST['cleared']."','".$_POST['agentname']."','".$_POST['agentname_date']."','".$shipdocs_url."','".$soncap_url."','".$paar_url."')";
   
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  if($result){
+  
+    echo json_encode(["data"=>"Shippment Created Successfully","status"=>true]);
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
 
 });
 

@@ -402,6 +402,7 @@ function fileloader(){
         }
         if(mode_of_shippment !="" && paymentmode!="" && abroadforwarder!="" && abroadforwarder_addr!="" && cleared !="" && agentname!="" && agentname_date!="" ){
             formdata.append('date',date);
+            formdata.append('approve_id',1);
             formdata.append('mode_of_shippment',mode_of_shippment);
             formdata.append('paymentmode',paymentmode);
             formdata.append('abroadforwarder',abroadforwarder);
