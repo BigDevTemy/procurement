@@ -529,7 +529,7 @@ $router->post('/adjustPO',function(){
   // $data = json_decode(file_get_contents('php://input'), true);
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`= `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND `approval_process`.`order_id`='".$data['orderid']."' GROUP BY `approval_process`.`supplier_id`";
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`= `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND `approval_process`.`order_id`='".$data['orderid']."' GROUP BY `requisition`.`supplier_id`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -822,6 +822,40 @@ $router->post('/deletePOapproval',function(){
   else{
     $json_data = array("data"=>"Update Failed","status"=>false);
     echo json_encode($json_data);
+  } 
+
+    $connection->close();
+});
+
+
+$router->post('/getsupplierquotation',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  //$check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
+  //$result_check = $connection->query($check)or die(mysqli_error($connection));
+
+  $query = "SELECT * FROM requisition  LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` LEFT JOIN `orders` ON `requisition`.`order_id` = `orders`.`id` WHERE  order_id ='".$data["orderid"]."' AND supplier_id ='".$data["supplierid"]."'";
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+ 
+  if($result){
+  
+    $datax = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $datax[] = $row;
+    }
+    $json_data = array("data"=>$datax,"status"=>true);
+    echo json_encode($json_data);
+  }
+  else{
+    $json_data = array("data"=>"Fetchh Failed","status"=>false);
+    echo json_encode($json_data);
+    
   } 
 
     $connection->close();

@@ -523,6 +523,17 @@ table th{
     box-shadow: 3.5px 3.5px 3.5px 3.5px #e5e5e5;
 }
 
+.modalApproval{
+    width:50%;
+    min-height: 50vh;
+    
+}
+.modalBody{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .modalSupplier{
     width: 500px;
     height: 40vh;
@@ -590,3 +601,34 @@ h4{
 }
 
 
+.mybutton{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.mybutton >button{
+    margin: 5px;
+}
+.discountTotal{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    font-weight: bold;
+    padding-right: 5%;
+}
+.discountTotal > div{
+    margin: 5px;
+}
+
+#invoice{
+    width:100%;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.myformControl{
+    width: 100px !important;
+}

@@ -270,3 +270,21 @@ small{
 }
 
 
+#suppliername{
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    
+}
+#addr{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+}
+#phonenumber{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 20px;
+}

@@ -1,4 +1,4 @@
-function approvalModal(supplierid,orderid){
+function poModal(supplierid,orderid){
    
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
@@ -14,6 +14,7 @@ function approvalModal(supplierid,orderid){
                                <div id="suppliername"></div>
                                <div id="addr"></div>
                                <div id="phonenumber"></div>
+                               <div id="invoice"></div>
                                <table class="table table-striped table-bordered">
                                <thead>
                                     <tr>
@@ -41,7 +42,8 @@ function approvalModal(supplierid,orderid){
 
                             <div class="modalFooter">
                                 <div class="mybutton">
-                                    <button class="btn btn-success" onclick="approve(${orderid},${supplierid})">Approve</button>
+                                    <button class="btn btn-primary" onclick="approve(${orderid},${supplierid})">Approve</button>
+                                    <button class="btn btn-danger" onclick="approve(${orderid},${supplierid})">Reject</button>
                                     <button class="btn btn-secondary" onclick="close()">Close</button>
                                 </div>
                             </div>
@@ -57,20 +59,8 @@ function approvalModal(supplierid,orderid){
         supplier_quotationDetails(orderid,supplierid);
        
         close();
+        
 }
-
-
-
-// function modalContent(orderid,supperid){
-//     switch(title){
-//         case 'SupplierQuotationDetails':
-//             return supplier_quotationDetails(order_id,supperid);
-//             break;
-     
-//         default:
-
-//     }
-// }
 
 
 function close(){
@@ -90,13 +80,15 @@ function supplier_quotationDetails(orderid,supplierid){
     })
     .then(result=>result.json())
     .then(res=>{
+        console.log(res)
         let supplier_name
         let address
         let phonenumber
         let dataset = ''
         let sum=0
         let currency
-        console.log(res.data)
+        let invoice
+        
        if(res.status){
             res.data.forEach((d,index)=>{
                 supplier_name = d.supplier_name
@@ -104,12 +96,14 @@ function supplier_quotationDetails(orderid,supplierid){
                 phonenumber = d.contact
                 sum += parseFloat(d.total)
                 currency = d.currency
+                invoice = d.order_title
+                
                 dataset += `
                             <tr>
                                     <td>${index +1}</td>
                                     <td>${d.description}</td>
-                                    <td>${d.quantity}</td>
-                                    <td>${d.price}</td>
+                                    <td><input type="text" class="form-control myformControl" value=${d.quantity} /></td>
+                                    <td><input type="text"  class="form-control myformControl" value=${d.price} /> </td>
                                     <td>${d.total}</td>
 
                             </tr>
@@ -122,10 +116,17 @@ function supplier_quotationDetails(orderid,supplierid){
             document.getElementById('suppliername').innerHTML = supplier_name
             document.getElementById('phonenumber').innerHTML = phonenumber
             document.getElementById('grandtotal').innerHTML = sum + ` (${currency})` 
+            document.getElementById('invoice').innerHTML='Quotation For '+ invoice
        }
     })
     .catch(err=>console.log(err))
+    edit();
+}
 
+function edit(){
+    document.querySelector('tbody').addEventListener('click',function(e){
+        alert('xxx')
+    })
 }
 
 function approve(id,supplierid){

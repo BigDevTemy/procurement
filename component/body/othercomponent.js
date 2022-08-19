@@ -95,9 +95,7 @@ function ApprovalDetails(xcontent){
                     <div class="roundingx"></div>
 
                 </div>
-                <div class="modalClass">
-
-                </div>
+                <div class="modalClass"></div>
                 <div class="title">
                     
                 </div>

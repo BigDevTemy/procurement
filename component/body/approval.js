@@ -220,8 +220,6 @@ function makeloader(id){
         body:JSON.stringify({id:id})
     }).then(response=>response.json())
         .then(res=>{
-
-            
             let title ;
             let dataset;
             if(res.status){
@@ -236,7 +234,7 @@ function makeloader(id){
                                     <td>${index + 1}</td>
                                     <td>${d.supplier_name}</td>
                                     <td>${d.created_at}</td>
-                                    <td><div onclick="approvalModal(${d.supplier_id},${d.order_id},${d.supplier_name})"class="view-more">View More</div></td>
+                                    <td><div onclick="approvalModal(${d.supplier_id},${d.order_id})"class="view-more">View More</div></td>
 
                                 </tr>
                             
@@ -256,6 +254,8 @@ function makeloader(id){
        
 
 }
+
+
 
 function viewMore(id){
     document.querySelector('.approvaltbody').addEventListener('click',function(e){
@@ -337,29 +337,7 @@ function action(id,supplierid){
            document.querySelector('.approvalmodalcard').classList.remove('Addapprovalmodalcard');
            document.querySelector('.approvalmodalcard').innerHTML=""
         }
-        if(e.target.classList.contains('btn-success')){
         
-
-        
-            fetch('/procurement/app/customroute/approve',{
-                method:'POST',
-                headers: { "Content-type": "application/x-www-form-urlencoded"},
-                body:JSON.stringify({id:id,supplierid:supplierid})
-            })
-            .then(result=>result.json())
-            .then(res=>{
-                
-                if(res.status){
-                    Swal.fire(res.data,'','success');
-                    document.querySelector('.approvalmodal').classList.remove('overlayApproval');
-                    document.querySelector('.approvalmodalcard').classList.remove('Addapprovalmodalcard');
-                    document.querySelector('.approvalmodalcard').innerHTML=""
-                    _push('/procurement/dashboard/app#Approval')
-                    window.location='/procurement/dashboard/app#Approval'
-                }
-            })
-            .catch(err=>console.log(err))
-        }
     })
        
 }

@@ -6,9 +6,8 @@ function PO(search){
                         <div class="tab-active">Pending PO Approval</div>
                         <div class="">PO Approved</div>
                     </div>
-                    <div class="POmodal">
-                        <div class="POcontentmodal"></div>
-                    </div>
+                    <div class="modalClass"></div>
+                    
 
                     <div class="render_body_content approval">
                        ${POHTML()}
@@ -71,7 +70,7 @@ function POfetch(){
                         data:"",
                         render:function(data,type,row){
                             
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id})">Review</div>`
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.supplier_id})">Review</div>`
                           } 
                     }
                 
@@ -102,53 +101,28 @@ function reviewPO(orderid){
 
         console.log(res.data)
         let content;
+        let suppliername,address,phonenumber,ordertitle
         res.data.forEach((d,index)=>{
-            
-            content = `
-                             <div> ${d.supplier_name.toUpperCase()}</div>
-                             <address>No 5, Oladele street, Ikotun lagos.</address>
-                             <div class="invoice">
-                                    INVOICE FOR ${d.order_title}
-                             </div>
 
-                             <table class="table table-stripe table-bordered mytable">
-                                <thead>
-                                    <tr>
-                                        <td>SN</td>
-                                        <td> QUANTITY</td>
-                                        <td> UNIT PRICE</td>
-                                        <td> TOTAL PRICE</td>
-                                    </tr>
+            suppliername = d.supplier_name
+            address = d.address
+            phonenumber = d.contact
+            ordertitle = d.order_title
+            content += `
+                        <tr>
+                            <input type="hidden" id="assigned_supplier_id" value=${d.assigned_supplier} />
+                            <td >${index+1}</td>
+                            <td >${d.description}</td>
+                            <td ><input type="${d.quantity}" value=${d.quantity} class="form-control" /></td>
+                            <td ><input type="${d.price}" value=${d.price} class="form-control" /></td>
+                            <td><input type="text" id="totalprice" value=${d.total} style="width:100px;text-align:center"  class="form-control"/></td>
 
-                                </thead>
-                                <tbody>
-
-                                    <tr>
-                                       
-                                        <input type="hidden" id="assigned_supplier_id" value=${d.assigned_supplier} />
-                                        <td >${index+1}</td>
-                                        <td >${d.quantity}</td>
-                                        <td >${d.unit}</td>
-                                        <td><input type="text" id="totalprice" value=${d.total_price} style="width:100px;text-align:center" /></td>
-
-                                    </tr>
-
-
-                                </tbody>
-
-                             </table>
-                             
-                            <div>
-                                <button class="btn btn-success">Approve</button>
-                                <button class="btn btn-danger">Reject</button>
-                                <button class="btn btn-secondary">Close</button>
-                            </div>
-
+                        </tr>
             
                             `
         })
 
-        document.querySelector('.POcontentmodal').innerHTML=content
+        document.querySelector('tbody').innerHTML=content
         
     })
     .catch(err=>{
