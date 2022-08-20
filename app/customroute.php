@@ -945,14 +945,13 @@ $router->post('/uploadShippment',function(){
     echo json_encode(["data"=>"Internal Server Error","status"=>false]);
   }
 
+  $connection->close();
 });
 
 $router->post('/uploadShippmentUpdate',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
   $new_name="";
-  $dispatched_url="";
-  $package_url="";
-  $shipped_url="";
-  $delivered_url="";
+  $upload_url="";
 
   
   // die;
@@ -963,7 +962,7 @@ $router->post('/uploadShippmentUpdate',function(){
     
       $upload = time().$_FILES['dispatched']['name'][$i];
       move_uploaded_file($_FILES['dispatched']['tmp_name'][$i],'../shippment/'.$upload);
-      $dispatched_url.= $upload.'_';
+      $upload_url.= $upload.'_';
     }
     //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
   }
@@ -974,7 +973,7 @@ $router->post('/uploadShippmentUpdate',function(){
     
       $upload = time().$_FILES['package']['name'][$i];
       move_uploaded_file($_FILES['package']['tmp_name'][$i],'../shippment/'.$upload);
-      $dispatched_url.= $upload.'_';
+      $upload_url.= $upload.'_';
     }
     //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
   }
@@ -985,7 +984,7 @@ $router->post('/uploadShippmentUpdate',function(){
     
       $upload = time().$_FILES['shipped']['name'][$i];
       move_uploaded_file($_FILES['shipped']['tmp_name'][$i],'../shippment/'.$upload);
-      $dispatched_url.= $upload.'_';
+      $upload_url.= $upload.'_';
     }
     //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
   }
@@ -996,14 +995,47 @@ $router->post('/uploadShippmentUpdate',function(){
     
       $upload = time().$_FILES['delivered']['name'][$i];
       move_uploaded_file($_FILES['delivered']['tmp_name'][$i],'../shippment/'.$upload);
-      $dispatched_url.= $upload.'_';
+      $upload_url.= $upload.'_';
     }
     //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
   }
 
-  $query= "";
+  $query= "UPDATE shippment SET status= '".$_POST['status']."' WHERE approve_id='".$_POST['approve_id']."'";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  if($_POST['status'] == "dispatched"){
+    $query = "SELECT * FROM shippment WHERE approve_id='".$_POST['approve_id']."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+    if(mysqli_num_rows($result) > 0){
+      $row = mysqli_fetch_assoc($result);
+      $dispatched_docs = $row['dispatched_docs'];
+      if($row['dispatched_docs'] !=""){
+        $newupload_url = $upload_url.$dispatched_docs;
+      }
+      else{
+        $newupload_url = $upload_url;
+      }
+      
+      $query= "UPDATE shippment SET dispatched_docs= '".$newupload_url."' WHERE approve_id='".$_POST['approve_id']."'";
+      $result = $connection->query($query)or die(mysqli_error($connection));
 
+      echo json_encode(["data"=>"Update was Successful","status"=>true,"check"=>$upload_url]);
+  
+     }
+     else{
+      echo json_encode(["data"=>"Update Failed","status"=>false]);
+     }
+  }
+  else if($_POST['status'] == "package received by agent"){
 
+  }
+  else if($_POST['status'] == "shipped by agent"){
+
+  }
+  else if($_POST['status'] == "delivered"){
+
+  }
+
+  $connection->close();
 
 });
 
