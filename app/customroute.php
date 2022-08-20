@@ -617,6 +617,124 @@ $router->get('/getShippment',function(){
 
 });
 
+
+$router->get('/getShippmentDispatched',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  // $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='dispatched' GROUP BY `approval_process`.`supplier_id`";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  // }
+  // else{
+  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
+  // }
+  $connection->close();
+
+});
+
+$router->get('/getShippmentPackage',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  // $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='package received by agent' GROUP BY `approval_process`.`supplier_id`";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  // }
+  // else{
+  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
+  // }
+  $connection->close();
+
+});
+
+
+$router->get('/getShippmentShipped',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  // $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='shipped by agent' GROUP BY `approval_process`.`supplier_id`";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  // }
+  // else{
+  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
+  // }
+  $connection->close();
+
+});
+
+$router->get('/getShippmentDelivery',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  // $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='delivered' GROUP BY `approval_process`.`supplier_id`";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  // }
+  // else{
+  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
+  // }
+  $connection->close();
+
+});
+
 $router->get('/deliveredShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
@@ -954,7 +1072,7 @@ $router->post('/uploadShippmentUpdate',function(){
   $upload_url="";
 
   
-  // die;
+  
   if(isset($_FILES['dispatched'])){
     $countfiles = count($_FILES['dispatched']['name']);
     for($i=0;$i<$countfiles;$i++){
@@ -1002,6 +1120,10 @@ $router->post('/uploadShippmentUpdate',function(){
 
   $query= "UPDATE shippment SET status= '".$_POST['status']."' WHERE approve_id='".$_POST['approve_id']."'";
   $result = $connection->query($query)or die(mysqli_error($connection));
+
+  $query= "UPDATE approval_process SET shippment_status= '".$_POST['status']."' WHERE id='".$_POST['approve_id']."'";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+
   if($_POST['status'] == "dispatched"){
     $query = "SELECT * FROM shippment WHERE approve_id='".$_POST['approve_id']."'";
     $result = $connection->query($query)or die(mysqli_error($connection));
@@ -1026,13 +1148,76 @@ $router->post('/uploadShippmentUpdate',function(){
      }
   }
   else if($_POST['status'] == "package received by agent"){
+    $query = "SELECT * FROM shippment WHERE approve_id='".$_POST['approve_id']."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+    if(mysqli_num_rows($result) > 0){
+      $row = mysqli_fetch_assoc($result);
+      $dispatched_docs = $row['package_docs'];
+      if($row['package_docs'] !=""){
+        $newupload_url = $upload_url.$dispatched_docs;
+      }
+      else{
+        $newupload_url = $upload_url;
+      }
+      
+      $query= "UPDATE shippment SET package_docs= '".$newupload_url."' WHERE approve_id='".$_POST['approve_id']."'";
+      $result = $connection->query($query)or die(mysqli_error($connection));
+
+      echo json_encode(["data"=>"Update was Successful","status"=>true,"check"=>$upload_url]);
+  
+     }
+     else{
+      echo json_encode(["data"=>"Update Failed","status"=>false]);
+     }
 
   }
   else if($_POST['status'] == "shipped by agent"){
+    $query = "SELECT * FROM shippment WHERE approve_id='".$_POST['approve_id']."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+    if(mysqli_num_rows($result) > 0){
+      $row = mysqli_fetch_assoc($result);
+      $dispatched_docs = $row['shipped_docs'];
+      if($row['shipped_docs'] !=""){
+        $newupload_url = $upload_url.$dispatched_docs;
+      }
+      else{
+        $newupload_url = $upload_url;
+      }
+      
+      $query= "UPDATE shippment SET shipped_docs= '".$newupload_url."' WHERE approve_id='".$_POST['approve_id']."'";
+      $result = $connection->query($query)or die(mysqli_error($connection));
+
+      echo json_encode(["data"=>"Update was Successful","status"=>true,"check"=>$upload_url]);
+  
+     }
+     else{
+      echo json_encode(["data"=>"Update Failed","status"=>false]);
+     }
+
 
   }
   else if($_POST['status'] == "delivered"){
+    $query = "SELECT * FROM shippment WHERE approve_id='".$_POST['approve_id']."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+    if(mysqli_num_rows($result) > 0){
+      $row = mysqli_fetch_assoc($result);
+      $dispatched_docs = $row['delivery_docs'];
+      if($row['delivery_docs'] !=""){
+        $newupload_url = $upload_url.$dispatched_docs;
+      }
+      else{
+        $newupload_url = $upload_url;
+      }
+      
+      $query= "UPDATE shippment SET delivery_docs= '".$newupload_url."' WHERE approve_id='".$_POST['approve_id']."'";
+      $result = $connection->query($query)or die(mysqli_error($connection));
 
+      echo json_encode(["data"=>"Update was Successful","status"=>true,"check"=>$upload_url]);
+  
+     }
+     else{
+      echo json_encode(["data"=>"Update Failed","status"=>false]);
+     }
   }
 
   $connection->close();

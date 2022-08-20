@@ -264,24 +264,7 @@ function ShippmentDetails(additional){
 
 
 
-function Report(search){
-    let content = ` 
-            <div class="supplierDiv">
-                <div class="tabDiv">
-                    <div>Add Report</div>
-                    <div>All Report</div>
-                </div>
 
-                <div class="report">
-                    NO DATA
-                </div>
-            
-
-            </div>
-
-             `
-    return content;
-}
 
 
 function fileloader(){
@@ -668,6 +651,7 @@ function uploadSupportDocs(){
 
 function uploadSupportDocsToDB(){
     document.querySelector('.shippmentUpdate').addEventListener('click',function(e){
+        e.preventDefault();
         let status = document.getElementById('status_review').value;
         let dateOfUpdate = document.getElementById('dateofupdate').value
         let approve_id = document.getElementById('approve_id').value
@@ -677,26 +661,34 @@ function uploadSupportDocsToDB(){
         let shipped  = document.querySelector('.shipped');
         let delivered  = document.querySelector('.delivered');
         const formdata = new FormData();
+        
+        
        if(status === "dispatched"){
+        console.log(dispatched.files)
             for (var i = 0; i < dispatched.files.length; i++) {
-                formdata.append('dispactched[]', dispatched.files[i]);
+                formdata.append('dispatched[]', dispatched.files[i]);
             }
        }
        else if(status === "package received by agent"){
+        console.log(package.files)
             for (var i = 0; i < package.files.length; i++) {
                 formdata.append('package[]', package.files[i]);
             }
        }
        else if(status === "shipped by agent"){
+        console.log(shipped.files)
             for (var i = 0; i < shipped.files.length; i++) {
                 formdata.append('shipped[]', shipped.files[i]);
             }
        }
        else if(status === "delivered"){
+        console.log(delivered.files)
             for (var i = 0; i < delivered.files.length; i++) {
                 formdata.append('delivered[]', delivered.files[i]);
             }
         }
+
+        
 
         formdata.append('dateupdate',dateOfUpdate);
         formdata.append('status',status);
@@ -710,6 +702,14 @@ function uploadSupportDocsToDB(){
         .then(response=>response.json())
         .then(res=>{
            console.log(res) 
+           if(res.status){
+            Swal.fire(res.data,'','success');
+                _push(`#Shippment`)
+                loadUrl('#Shippment');
+           }
+           else{
+                Swal.fire(res.data,'','error');
+           }
             
           
            

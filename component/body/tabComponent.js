@@ -187,14 +187,16 @@ function switchComponentBodyRender(tab_name){
             return TreatedApproval();
         case 'Pending Approval':
             return PendingApproval();
-        case 'Awaiting Shippment':
+        case 'Pending with the supplier':
             return AwaitingShippment();
-        case 'Processing':
-            return Processing();
+        case 'Dispatched':
+            return Dispatched();
+        case 'Package Received by Agent':
+            return Package();
+        case 'Shipped By Agent':
+            return Shipped();
         case 'Delivered':
             return Delivered();
-        case 'Pending PO Approval':
-            return PendingPOApproval();
         case 'PO Approved':
             return POApproved();
         default:

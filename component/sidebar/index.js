@@ -16,6 +16,7 @@ document.querySelector('.aside-nav').addEventListener('click',function(e){
             grandparent.children[i].children[1].style.color="#fff"
             let imgIcon = grandparent.children[i].children[0].children[0]
             let nonActiveIcon = logoNonActive(navName)
+            console.log(nonActiveIcon)
             imgIcon.src=nonActiveIcon
         }
 
@@ -82,6 +83,12 @@ function logoNonActive(logoNavname){
         case 'Approval':
             return "../assets/images/sidebar-icons/approval.svg";
             break
+        case 'PO':
+            return "../assets/images/sidebar-icons/approval.svg";
+            break
+        case 'Shippment':
+            return "../assets/images/sidebar-icons/shippment.svg";
+            break
         case 'Report':
             return "../assets/images/sidebar-icons/report.svg";
             break
@@ -104,6 +111,12 @@ function logoActive(logoNavname){
             break
         case 'Approval':
             return "../assets/images/sidebar-icons/approvalActive.svg";
+            break
+        case 'PO':
+            return "../assets/images/sidebar-icons/approvalActive.svg";
+            break
+        case 'Shippment':
+            return "../assets/images/sidebar-icons/shippmentActive.svg";
             break
         case 'Report':
             return "../assets/images/sidebar-icons/reportActive.svg";

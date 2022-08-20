@@ -117,7 +117,7 @@ session_start();
                             <div>PO</div>
                         </div>
                         <div class="navNon">
-                            <div><img src="../assets/images/sidebar-icons/approval.svg" /></div>
+                            <div><img src="../assets/images/sidebar-icons/shippment.svg" /></div>
                             <div>Shippment</div>
                         </div>
 
@@ -139,6 +139,7 @@ session_start();
     
     </body>
     <script src="../component/body/delete.js"></script>
+    <script src="../component/body/report.js"></script>
     <script src="../component/body/approvalModal.js"></script>
     <script src="../component/body/poModal.js"></script>
     <script src="../component/body/modal.js"></script>
