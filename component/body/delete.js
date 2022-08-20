@@ -1,5 +1,5 @@
-function deleteItem(TableName,first_ID,second_ID){
-    console.log('here')
+function deleteItem(TableName,first_ID,second_ID,approve_id){
+    
     switch(TableName){
         case 'orders':
             return DeleteOrder(TableName,Id);
@@ -11,7 +11,7 @@ function deleteItem(TableName,first_ID,second_ID){
             return DeleteRequisition(first_ID,second_ID);
             break;
         case 'po':
-            return DeletePOApproval(first_ID,second_ID)
+            return DeletePOApproval(first_ID,second_ID,approve_id)
             
     }
 }
@@ -166,7 +166,7 @@ function DeleteSupplier(tablename,id){
      
    }
 
-   function DeletePOApproval(order_id,supplier_id){
+   function DeletePOApproval(order_id,supplier_id,approved_id){
     
     Swal.fire({
         title: 'Are you sure?',
@@ -182,7 +182,8 @@ function DeleteSupplier(tablename,id){
                 method:'POST',
                 body:JSON.stringify({
                    order_id:order_id,
-                   supplier_id:supplier_id
+                   supplier_id:supplier_id,
+                   approved_id:approved_id
                 }),
                 headers: { "Content-type": "application/x-www-form-urlencoded"},
                                                     

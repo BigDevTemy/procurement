@@ -276,7 +276,7 @@ function AddRequisition(){
                         <div class="fileuploadDiv"> 
                             <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" />
                             <button class="btn btn-bg">Choose File</button>
-                            <span class="number_files">No File Selected</span>
+                            <span class="number_files" id="number_files">No File Selected</span>
                         </div>
                         <div class="selectedFiles">
                             
@@ -643,7 +643,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
             formdata.append('projectname',projectname);
             formdata.append('currency',currency);
             formdata.append('note',note);
-            
+
             fetch('/procurement/app/customroute/upoadrequisition',{
                 method:'POST',
                 // headers: { "Content-type": "application/x-www-form-urlencoded"},
@@ -667,11 +667,10 @@ let handleInput  = document.querySelector('.fileUploadInput');
                         }
                     }
 
-                    for (var i=0; i < inputElementSelect.length; i++) {
-                        
-                        inputElements[i].value = '';
-                    }
-                   
+                   document.getElementById('allsupplier').value="";
+                   document.getElementById('ordertype').value="";
+                   document.getElementById('number_files').innerHTML="";
+                    
                 }
                 else{
                     

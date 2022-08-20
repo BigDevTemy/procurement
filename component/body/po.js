@@ -70,7 +70,7 @@ function POfetch(){
                         data:"",
                         render:function(data,type,row){
                             
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.supplier_id})">Review</div>`
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.supplier_id},${row.id})">Review</div>`
                           } 
                     }
                 
@@ -266,8 +266,8 @@ function POClickfetch(){
                     {
                         data:"",
                         render:function(data,type,row){
-                            
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id})">Review</div>`
+                            console.log('yytyu',row)
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id},${row.id})">Review</div>`
                           } 
                     }
                 
@@ -327,7 +327,7 @@ function POClickfetchapproved(){
                      data:"",
                      render:function(data,type,row){
                          
-                         return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id})">Delete Approval</div>`
+                         return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id},${row.id})">Delete Approval</div>`
                        } 
                  }
              

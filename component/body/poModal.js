@@ -1,5 +1,6 @@
 const newQuotation = [];
-function poModal(supplierid,orderid){
+const load = [];
+function poModal(supplierid,orderid,rowid){
    
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
@@ -43,7 +44,7 @@ function poModal(supplierid,orderid){
 
                             <div class="modalFooter">
                                 <div class="mybutton">
-                                    <button class="btn btn-primary" onclick="POshippment()">Approve</button>
+                                    <button class="btn btn-primary" onclick="POshippment(${supplierid},${orderid},${rowid})">Approve</button>
                                     <button class="btn btn-danger" onclick="POreject(${orderid},${supplierid})">Reject</button>
                                     <button class="btn btn-secondary" onclick="close()">Close</button>
                                 </div>
@@ -139,7 +140,7 @@ function supplier_quotationDetails(orderid,supplierid){
                 dataset += `
                             <tr>
                                     <td>${index +1}</td>
-                                    <td>${d.description}</td>
+                                    <td>${d.description} </td>
                                     <td><input type="number" min="0" class="form-control myformControl" value=${d.quantity} /></td>
                                     <td><input type="number" min="0"  class="form-control myformControl" value=${d.price} /> </td>
                                     <td><input type="text" class="form-control myformcontrol" value=${d.total} disabled/></td>
@@ -208,7 +209,7 @@ function POreject(orderid,assigned_supplier_id){
     })
 }
 
-function POshippment(){
+function POshippment(supperid,orderid,rowid){
     
     let row = []
     let x = document.querySelector('#tbody').children
@@ -216,16 +217,24 @@ function POshippment(){
         y = x[i].children
         for(let z=0;z<y.length;z++){
             
-            if(z > 1){
+            if(z > 0){
                 // console.log(y[z].children[0].value)
-                row.push(y[z].children[0].value)
+                if(z === 1){
+                    row.push(y[z].textContent)
+                }
+                else{
+                    row.push(y[z].children[0].value)
+                }
+                
             }
         }
         newQuotation.push(row)
         row=[];
     }
-//    console.log('myh',newQuotation);
-//    return false;
+   load.push(orderid);
+   load.push(supperid)
+   load.push(rowid)
+  
     _push(`#PO/shippment/1`)
     loadUrl('#PO/shippment/1');
 }

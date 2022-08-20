@@ -593,7 +593,7 @@ $router->get('/getShippment',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' GROUP BY `approval_process`.`supplier_id`";
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='pending with the supplier' GROUP BY `approval_process`.`supplier_id`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -811,11 +811,12 @@ $router->post('/deletePOapproval',function(){
   //$check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
   //$result_check = $connection->query($check)or die(mysqli_error($connection));
   
-  $query = "UPDATE approval_process SET po_approval= NULL WHERE order_id ='".$data["order_id"]."' AND supplier_id ='".$data["supplier_id"]."'";
+  $query = "UPDATE approval_process SET po_approval= NULL, shippment_status=NULL WHERE order_id ='".$data["order_id"]."' AND supplier_id ='".$data["supplier_id"]."'";
   $result = $connection->query($query)or die(mysqli_error($connection));
  
   if($result){
-  
+    $query = "DELETE FROM shippment WHERE approve_id ='".$data["approved_id"]."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
     $json_data = array("data"=>"Deletion was Successful","status"=>true);
     echo json_encode($json_data);
   }
@@ -874,6 +875,8 @@ $router->post('/uploadShippment',function(){
   $countfilessoncap = count($_FILES['soncap']['name']);
   $countfilessonpaar = count($_FILES['paar']['name']);
 
+  // echo json_encode(["data"=>$_POST['loadinfor']]);
+  // die;
   if(isset($_FILES['shipdocs'])){
     
     for($i=0;$i<$countfiles;$i++){
@@ -884,7 +887,7 @@ $router->post('/uploadShippment',function(){
       move_uploaded_file($_FILES['shipdocs']['tmp_name'][$i],'../shippment/'.$upload);
       $shipdocs_url.= $upload.'_';
     }
-    echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
+    //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
   }
   if(isset($_FILES['soncap'])){
     
@@ -896,7 +899,7 @@ $router->post('/uploadShippment',function(){
       move_uploaded_file($_FILES['soncap']['tmp_name'][$i],'../shippment/'.$upload);
       $soncap_url.= $upload.'_';
     }
-    echo json_encode(["data"=>count($_FILES['soncap']['name']),"status"=>true,"uplaod"=>$soncap_url]);
+   // echo json_encode(["data"=>count($_FILES['soncap']['name']),"status"=>true,"uplaod"=>$soncap_url]);
   }
 
   if(isset($_FILES['paar'])){
@@ -909,18 +912,34 @@ $router->post('/uploadShippment',function(){
       move_uploaded_file($_FILES['paar']['tmp_name'][$i],'../shippment/'.$upload);
       $paar_url.= $upload.'_';
     }
-    echo json_encode(["data"=>count($_FILES['paar']['name']),"status"=>true,"uplaod"=>$paar_url]);
+
+    //echo json_encode(["data"=>count($_FILES['paar']['name']),"status"=>true,"uplaod"=>$paar_url]);
   }
 
   // for($i=0;$i<count($_POST['newQuotation']);$i++){
  
   // }
-  $query = "INSERT INTO shippment (approve_id,date,mode_shippment,payment_mode,abroad_fowarder,address_abroad_forwarder,cleared,agent_name_ngn,date_agent_ngn,shippment_docs,soncap,paar)VALUES('".$_POST['approve_id']."','".$_POST['date']."','".$_POST['mode_of_shippment']."','".$_POST['paymentmode']."','".$_POST['abroadforwarder']."','".$_POST['abroadforwarder_addr']."','".$_POST['cleared']."','".$_POST['agentname']."','".$_POST['agentname_date']."','".$shipdocs_url."','".$soncap_url."','".$paar_url."')";
+  $query = "INSERT INTO shippment (approve_id,date,mode_shippment,payment_mode,abroad_forwarder,address_abroad_forwarder,cleared,agent_name_ngn,date_agent_ngn,shippment_docs,soncap,paar,status)VALUES('".$_POST['loadinfor'][2]."','".$_POST['date']."','".$_POST['mode_of_shippment']."','".$_POST['paymentmode']."','".$_POST['abroadforwarder']."','".$_POST['abroadforwarder_addr']."','".$_POST['cleared']."','".$_POST['agentname']."','".$_POST['agentname_date']."','".$shipdocs_url."','".$soncap_url."','".$paar_url."','pending with the supplier')";
   
   $result = $connection->query($query)or die(mysqli_error($connection));
   if($result){
-  
-    echo json_encode(["data"=>"Shippment Created Successfully","status"=>true]);
+
+   for($x=0;$x<count($_POST['xquotation']);$x++){
+    $query = "UPDATE requisition SET quantity = '".$_POST['xquotation'][$x][1]."', price='".$_POST['xquotation'][$x][2]."', total='".$_POST['xquotation'][$x][3]."' WHERE description ='".$_POST['xquotation'][$x][0]."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+    if(!$result){
+      echo json_encode(["data"=>'Internal Server Error',"status"=>false]);
+    }
+  }
+    $query = "UPDATE approval_process SET po_approval = 'approved', shippment_status='pending with the supplier' WHERE order_id ='".$_POST['loadinfor'][0]."' AND supplier_id ='".$_POST['loadinfor'][1]."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+    if($result){
+      echo json_encode(["data"=>"Shippment Created Successfully","status"=>true]);
+    }
+    else{
+      echo json_encode(["data"=>"Shippment Creation Failed","status"=>false]);
+    }
+    
   }
   else{
     echo json_encode(["data"=>"Internal Server Error","status"=>false]);

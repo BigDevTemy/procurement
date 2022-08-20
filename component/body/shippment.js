@@ -49,7 +49,7 @@ function Shippmentfetch(){
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
                     {data:"po_approval"},
-                    {data:"shipment_status"},
+                    {data:"shippment_status"},
                     {data:"created_at"},
                     {
                         data:"",
@@ -149,7 +149,7 @@ function Shippmentfetch(){
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
                     {data:"po_approval"},
-                    {data:"shipment_status"},
+                    {data:"shippment_status"},
                     {data:"created_at"},
                     {
                         data:"",
@@ -294,7 +294,7 @@ function Deliveredfetch(){
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
                     {data:"po_approval"},
-                    {data:"shipment_status"},
+                    {data:"shippment_status"},
                     {data:"created_at"},
                     {
                         data:"",
@@ -319,84 +319,37 @@ function Shippmentreview(id){
                 <div class="shippmentDiv">
                     <div><< Back</div>
                    
-                    <div class="bordeCurve">
-                        <div class="divSegment-4">
-                            <div class="form-group">
-                                <input type="text" id="shippment_ref" placeholder="Shippment Ref Number" class="form-control"/>
+                    <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="date" class="form-control" id="date"/>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="date" id="dateofshippment" placeholder="Date of Quotation" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="order_item" placeholder="Order Ref Number" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="order_item"  placeholder="Project Name" class="form-control"/>
-                            </div>
-                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Review Status</label>
+                                    <select class="form-control select" id="status_review">
+                                        <option value="">Click to Select</option>
+                                        <option value="dispatched">Dispatched</option>
+                                        <option value="package received by agent">Package received by agent</option>
+                                        <option value="shipped by agent">Shipped by agent</option>
+                                        <option value="delivered">Delivered</option>
 
-                        <div class="divSegment-4">
-                            <div class="form-group">
-                                <input type="text" id="shippment_ref" placeholder="Supplier Name" class="form-control"/>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="text" id="dateofshippment" placeholder="Supplier Quotation Ref" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text"  placeholder="Description of Item" id="order_item" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="order_item" placeholder="Part Number" class="form-control"/>
-                            </div>
+                    </div>
+                    <div class="row mt-4" id="supporting_docs">
 
-                        </div>
-
-
-                        
-                        <div class="divSegment-4">
-                            <div class="form-group">
-                                <input type="text" id="shippment_ref" placeholder="Quantity" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="dateofshippment" placeholder="Note" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="order_item" class="form-control" placeholder="Payment Mode"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="order_item" class="form-control" placeholder="Date of Delivery"/>
-                            </div>
-
-                        </div>
-                        
-                        <div class="divSegment-4">
-                            <div class="form-group">
-                                <input type="text" id="shippment_ref" placeholder="Delivery address" class="form-control"/>
-                            </div>
-                        
-                            <div class="form-group">
-                                <input type="text" id="order_item" class="form-control"  placeholder="Mode of Shippment" />
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="order_item" class="form-control"  placeholder="Received By Forwarder(Abroad)" />
-                            </div>
-
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <button class="btn btn-md btn-primary">Upload Docs</button>
                         </div>
                     </div>
 
-                   
-                    <h4>Shipmment Document Sent</h4>
-                    <div class="divSegment-4 borderCurve">
-                        <div class="form-group">
-                            <input type="text" id="shippment_ref" placeholder="Name" class="form-control"/>
-                        </div>
-                       
-                        <div class="form-group">
-                            <input type="text" id="order_item" class="form-control"  placeholder="Address" />
-                        </div>
-
-                    </div>
-                    <h4> Upload Attaching Document</h4>
+                    
                 </div>
                 `
 

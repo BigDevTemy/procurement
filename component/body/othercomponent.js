@@ -23,6 +23,9 @@ function otherComponent(name){
             }  
             
         }
+        else if(splitSplash[0] === "Shippment"){
+            reviewStatus();
+        }
         
         
         count=false
@@ -214,18 +217,18 @@ function ShippmentDetails(additional){
                                     
                                     <input type="file" id="shippmentDocs" name="file[]" class="fileUploadInputI" accept="application/pdf" multiple />
                                     <button class="btn btn-bg shippmentDocs">Choose File</button>
-                                    <span class="number_files_I">No File Selected</span>
+                                    <span class="number_files_I" id="number_files_I">No File Selected</span>
                                 </div>
-                                <div class="selectedFilesI"></div>
+                                <div class="selectedFilesI" id="selectedFilesI"></div>
                             </div>
                             <div class="col-md-4">
                                 <label>SONCAP for PAAR obtained</label>
                                 <div class="fileuploadDiv"> 
                                     <input type="file" id="soncap" name="file[]" class="fileUploadInputII" accept="application/pdf" multiple/>
                                     <button class="btn btn-bg soncap">Choose File</button>
-                                    <span class="number_files_II">No File Selected</span>
+                                    <span class="number_files_II" id="number_files_II">No File Selected</span>
                                 </div>
-                                <div class="selectedFilesII">
+                                <div class="selectedFilesII" id="selectedFilesII">
                                     
                                     
                                 </div>
@@ -235,9 +238,9 @@ function ShippmentDetails(additional){
                                 <div class="fileuploadDiv"> 
                                     <input type="file" id="paar" name="file[]" class="fileUploadInputIII" accept="application/pdf" multiple/>
                                     <button class="btn btn-bg paar">Choose File</button>
-                                    <span class="number_files_III">No File Selected</span>
+                                    <span class="number_files_III" id="number_files_III">No File Selected</span>
                                 </div>
-                                <div class="selectedFilesIII"></div>
+                                <div class="selectedFilesIII" id="selectedFilesIII"></div>
                             </div>
                         </div>
 
@@ -400,6 +403,14 @@ function fileloader(){
         for (var i = 0; i < paar.files.length; i++) {
             formdata.append('paar[]', paar.files[i]);
         }
+
+        for (var i = 0; i < newQuotation.length; i++) {
+            formdata.append('xquotation[]', newQuotation[i]);
+        }
+        for (var i = 0; i < load.length; i++) {
+            formdata.append('loadinfor[]',load[i])
+            // formdata.append('xquotation[]', newQuotation[i]);
+        }
         if(mode_of_shippment !="" && paymentmode!="" && abroadforwarder!="" && abroadforwarder_addr!="" && cleared !="" && agentname!="" && agentname_date!="" ){
             formdata.append('date',date);
             formdata.append('approve_id',1);
@@ -410,7 +421,7 @@ function fileloader(){
             formdata.append('cleared',cleared);
             formdata.append('agentname',agentname);
             formdata.append('agentname_date',agentname_date)
-            formdata.append('newQuotation[]',newQuotation)
+           
 
             fetch('/procurement/app/customroute/uploadShippment',{
                 method:'POST',
@@ -420,7 +431,37 @@ function fileloader(){
             .then(response=>response.json())
             .then(res=>{
                console.log(res) 
-               
+                
+               if(res.status){
+                    Swal.fire(res.data,'','success');
+                    _push(`#PO`)
+                    loadUrl('#PO');
+                    newQuotation=[];
+                    loadinfor=[];
+                    
+                    // document.getElementById("myform").reset();
+                    var inputElements = document.getElementsByTagName('input');
+                    var inputElementSelect = document.getElementsByTagName('select');
+
+                    for (var i=0; i < inputElements.length; i++) {
+                        if (inputElements[i].type == 'text' || inputElements[i].type == 'file'  ) {
+                            inputElements[i].value = '';
+                        }
+                    }
+
+                    document.getElementById('mode_of_shippment').value = ""
+                    document.getElementById('selectedFilesI').innerHTML=""
+                    document.getElementById('selectedFilesII').innerHTML=""
+                    document.getElementById('selectedFilesIII').innerHTML=""
+                    document.getElementById('number_files_I').innerHTML="No File Selected"
+                    document.getElementById('number_files_II').innerHTML="No File Selected"
+                    document.getElementById('number_files_III').innerHTML="No File Selected"
+                    _push(`#PO`)
+                    loadUrl('#PO');
+               }
+               else{
+
+               }
             })
             .catch((err)=>{
                 console.log(err)
@@ -450,5 +491,183 @@ function getBodyContent(){
    
 }
 
+function reviewStatus(){
+    document.querySelector('#status_review').addEventListener('change',function(e){
+        if(e.target.value === "dispatched"){
+            let buttonDiv =`
+                        <div class="fileuploadDiv"> 
+                                                    
+                            <input type="file" id="dispatched" name="file[]" class="dispatched" accept="application/pdf" multiple />
+                            <button class="btn btn-bg dispatchedDocs">Choose Dispatched File</button>
+                            <span class="dispatched_file" id="dispatched_file">No File Selected</span>
+                        </div>
+                        <div class="dispatched_select" id="dispatched_select"></div>
+                        `
+                        document.getElementById('supporting_docs').innerHTML = buttonDiv
+                        uploadSupportDocs();
+        }
+        else if(e.target.value === "package received by agent"){
+            let buttonDiv =`
+                        <div class="fileuploadDiv"> 
+                                                    
+                            <input type="file" id="package" name="file[]" class="package" accept="application/pdf" multiple />
+                            <button class="btn btn-bg packageDocs">Choose Package Received By Agent File</button>
+                            <span class="package_file" id="package_file">No File Selected</span>
+                        </div>
+                        <div class="package_select" id="package_select"></div>
+                        `
+                        document.getElementById('supporting_docs').innerHTML = buttonDiv
+                        uploadSupportDocs();
+        }
+        else if(e.target.value === "shipped by agent"){
+            let buttonDiv =`
+                        <div class="fileuploadDiv"> 
+                                                    
+                            <input type="file" id="package" name="file[]" class="shipped" accept="application/pdf" multiple />
+                            <button class="btn btn-bg shippedDocs">Choose Shipped By Agent File</button>
+                            <span class="shipped_file" id="shipped_file">No File Selected</span>
+                        </div>
+                        <div class="shipped_select" id="shipped_select"></div>
+                        `
+                    document.getElementById('supporting_docs').innerHTML = buttonDiv
+                    uploadSupportDocs();
+        }
+        else if(e.target.value === "delivered"){
+            let buttonDiv =`
+                        <div class="fileuploadDiv"> 
+                                                    
+                            <input type="file" id="package" name="file[]" class="delivered" accept="application/pdf" multiple />
+                            <button class="btn btn-bg deliveredDocs">Choose  Delivery File</button>
+                            <span class="delivered_file" id="delivered_file">No File Selected</span>
+                        </div>
+                        <div class="delivered_select" id="delivered_select"></div>
+                        `
+                        document.getElementById('supporting_docs').innerHTML = buttonDiv
+                        uploadSupportDocs();
+        }
+    })
+   
+}
 
+function uploadSupportDocs(){
+    let dispatched  = document.querySelector('.dispatched');
+    let package  = document.querySelector('.package');
+    let shipped  = document.querySelector('.shipped');
+    let delivered  = document.querySelector('.delivered');
+
+    if(document.querySelector('.dispatchedDocs')){
+        
+        document.querySelector('.dispatchedDocs').addEventListener('click',function(e){
+            dispatched.click();
+            dispatched.addEventListener("change", function() {
+           
+                let dataset = "";
+                for(let i=0; i<dispatched.files.length; i++){
+                  
+                   
+                    dataset += `
+                                <div class="d-image">
+                                     <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                    <div id=${dispatched.files[i].name}>${dispatched.files[i].name}</div>
+                                    <span class="removeImage"></span>
+                                </div>
+                    
+                                `
+                    
+                }
+                
+                document.querySelector('.dispatched_select').innerHTML=dataset
+    
+                document.querySelector('.dispatched_file').innerHTML = dispatched.files.length  > 1 ? dispatched.files.length +' Files Selected' : dispatched.files.length +' File Selected';
+            });
+
+        })
+    }
+    
+    if(document.querySelector('.packageDocs')){
+        document.querySelector('.packageDocs').addEventListener('click',function(e){
+            package.click();
+            package.addEventListener("change", function() {
+           
+                let dataset = "";
+                for(let i=0; i<package.files.length; i++){
+                  
+                   
+                    dataset += `
+                                <div class="d-image">
+                                     <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                    <div id=${package.files[i].name}>${package.files[i].name}</div>
+                                    <span class="removeImage"></span>
+                                </div>
+                    
+                                `
+                    
+                }
+                
+                document.querySelector('.package_select').innerHTML=dataset
+    
+                document.querySelector('.package_file').innerHTML = package.files.length  > 1 ? package.files.length +' Files Selected' : package.files.length +' File Selected';
+            });
+        })
+    }
+    if(document.querySelector('.shippedDocs')){
+        document.querySelector('.shippedDocs').addEventListener('click',function(e){
+            shipped.click();
+            shipped.addEventListener("change", function() {
+           
+                let dataset = "";
+                for(let i=0; i<shipped.files.length; i++){
+                  
+                   
+                    dataset += `
+                                <div class="d-image">
+                                     <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                    <div id=${shipped.files[i].name}>${shipped.files[i].name}</div>
+                                    <span class="removeImage"></span>
+                                </div>
+                    
+                                `
+                    
+                }
+                
+                document.querySelector('.shipped_select').innerHTML=dataset
+    
+                document.querySelector('.shipped_file').innerHTML = shipped.files.length  > 1 ? shipped.files.length +' Files Selected' : shipped.files.length +' File Selected';
+            });
+        })
+    }
+   if(document.querySelector('.deliveredDocs')){
+        document.querySelector('.deliveredDocs').addEventListener('click',function(e){
+            delivered.click();
+            delivered.addEventListener("change", function() {
+           
+                let dataset = "";
+                for(let i=0; i<delivered.files.length; i++){
+                  
+                   
+                    dataset += `
+                                <div class="d-image">
+                                     <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                    <div id=${delivered.files[i].name}>${delivered.files[i].name}</div>
+                                    <span class="removeImage"></span>
+                                </div>
+                    
+                                `
+                    
+                }
+                
+                document.querySelector('.delivered_select').innerHTML=dataset
+    
+                document.querySelector('.delivered_file').innerHTML = delivered.files.length  > 1 ? delivered.files.length +' Files Selected' : delivered.files.length +' File Selected';
+            });
+        })
+   }
+
+   uploadSupportDocsToDB();
+   
+}
+
+function uploadSupportDocsToDB(){
+    
+}
 
