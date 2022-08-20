@@ -947,6 +947,66 @@ $router->post('/uploadShippment',function(){
 
 });
 
+$router->post('/uploadShippmentUpdate',function(){
+  $new_name="";
+  $dispatched_url="";
+  $package_url="";
+  $shipped_url="";
+  $delivered_url="";
+
+  
+  // die;
+  if(isset($_FILES['dispatched'])){
+    $countfiles = count($_FILES['dispatched']['name']);
+    for($i=0;$i<$countfiles;$i++){
+      
+    
+      $upload = time().$_FILES['dispatched']['name'][$i];
+      move_uploaded_file($_FILES['dispatched']['tmp_name'][$i],'../shippment/'.$upload);
+      $dispatched_url.= $upload.'_';
+    }
+    //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
+  }
+  if(isset($_FILES['package'])){
+    $countfiles = count($_FILES['package']['name']);
+    for($i=0;$i<$countfiles;$i++){
+      
+    
+      $upload = time().$_FILES['package']['name'][$i];
+      move_uploaded_file($_FILES['package']['tmp_name'][$i],'../shippment/'.$upload);
+      $dispatched_url.= $upload.'_';
+    }
+    //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
+  }
+  if(isset($_FILES['shipped'])){
+    $countfiles = count($_FILES['shipped']['name']);
+    for($i=0;$i<$countfiles;$i++){
+      
+    
+      $upload = time().$_FILES['shipped']['name'][$i];
+      move_uploaded_file($_FILES['shipped']['tmp_name'][$i],'../shippment/'.$upload);
+      $dispatched_url.= $upload.'_';
+    }
+    //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
+  }
+  if(isset($_FILES['delivered'])){
+    $countfiles = count($_FILES['delivered']['name']);
+    for($i=0;$i<$countfiles;$i++){
+      
+    
+      $upload = time().$_FILES['delivered']['name'][$i];
+      move_uploaded_file($_FILES['delivered']['tmp_name'][$i],'../shippment/'.$upload);
+      $dispatched_url.= $upload.'_';
+    }
+    //echo json_encode(["data"=>count($_FILES['shipdocs']['name']),"status"=>true,"uplaod"=>$shipdocs_url]);
+  }
+
+  $query= "";
+
+
+
+});
+
 
 $router->addNotFoundHandler(function(){
 

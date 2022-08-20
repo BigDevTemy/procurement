@@ -6,7 +6,7 @@ function otherComponent(name){
 
     console.log(splitSplash)
     if(splitSplash.length > 1){
-    //    console.log(splitSplash[0]+''+ splitSplash[1])
+       console.log(splitSplash[0]+''+ splitSplash[1])
         let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
         wrapper.innerHTML=getContent
         if(splitSplash[0] === "Approval"){
@@ -148,6 +148,7 @@ function ShippmentDetails(additional){
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Date</label>
+                                    
                                     <input type="date" class="form-control" id="date"/>
                                 </div>
                             </div>
@@ -391,9 +392,7 @@ function fileloader(){
         let soncap  = document.getElementById('soncap');
         let paar  = document.getElementById('paar');
         const formdata = new FormData();
-        console.log(soncap.files)
-        console.log(paar.files)
-        console.log(shipdocs.files)
+       
         for (var i = 0; i < shipdocs.files.length; i++) {
             formdata.append('shipdocs[]', shipdocs.files[i]);
         }
@@ -668,6 +667,58 @@ function uploadSupportDocs(){
 }
 
 function uploadSupportDocsToDB(){
-    
+    document.querySelector('.shippmentUpdate').addEventListener('click',function(e){
+        let status = document.getElementById('status_review').value;
+        let dateOfUpdate = document.getElementById('dateofupdate').value
+        let approve_id = document.getElementById('approve_id').value
+        
+        let dispatched  = document.querySelector('.dispatched');
+        let package  = document.querySelector('.package');
+        let shipped  = document.querySelector('.shipped');
+        let delivered  = document.querySelector('.delivered');
+        const formdata = new FormData();
+       if(status === "dispatched"){
+            for (var i = 0; i < dispatched.files.length; i++) {
+                formdata.append('dispactched[]', dispatched.files[i]);
+            }
+       }
+       else if(status === "package received by agent"){
+            for (var i = 0; i < package.files.length; i++) {
+                formdata.append('package[]', package.files[i]);
+            }
+       }
+       else if(status === "shipped by agent"){
+            for (var i = 0; i < shipped.files.length; i++) {
+                formdata.append('shipped[]', shipped.files[i]);
+            }
+       }
+       else if(status === "delivered"){
+            for (var i = 0; i < delivered.files.length; i++) {
+                formdata.append('delivered[]', delivered.files[i]);
+            }
+        }
+
+        formdata.append('dateupdate',dateOfUpdate);
+        formdata.append('status',status);
+        formdata.append('approve_id',approve_id);
+
+        fetch('/procurement/app/customroute/uploadShippmentUpdate',{
+            method:'POST',
+            // headers: { "Content-type": "application/x-www-form-urlencoded"},
+            body:formdata
+        })
+        .then(response=>response.json())
+        .then(res=>{
+           console.log(res) 
+            
+          
+           
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+
+        
+    })
 }
 

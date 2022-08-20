@@ -323,7 +323,8 @@ function Shippmentreview(id){
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Date</label>
-                                    <input type="date" class="form-control" id="date"/>
+                                    <input type="hidden" id="approve_id" value=${id} />
+                                    <input type="date" class="form-control" id="dateofupdate"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -345,7 +346,7 @@ function Shippmentreview(id){
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-4">
-                            <button class="btn btn-md btn-primary">Upload Docs</button>
+                            <button class="btn btn-md btn-primary shippmentUpdate">Upload Docs</button>
                         </div>
                     </div>
 
