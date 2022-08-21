@@ -94,9 +94,7 @@ function SwitcherContent(search){
         case 'Requisition':
             return saveRequisitionModule();
             break;
-        case 'Report':
-            return saveReportModule();
-            break;
+        
        
 
         default:

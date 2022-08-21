@@ -1224,6 +1224,26 @@ $router->post('/uploadShippmentUpdate',function(){
 
 });
 
+$router->get('/reportShippment',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+
+  $query="SELECT * FROM shippment LEFT JOIN approval_process ON `approval_process`.`id`=  `shippment`.`approve_id` LEFT JOIN `orders` ON `orders`.`id` = `approval_process`.`order_id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id`";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  
+  $connection->close();
+
+
+});
+
 
 $router->addNotFoundHandler(function(){
 
