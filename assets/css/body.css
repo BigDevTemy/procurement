@@ -212,11 +212,13 @@ body{
     display: flex;
     margin-top: 20px;
     flex-wrap: wrap;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .graph-flow > div{
-    margin:10px
+    margin:2px;
+    
+    width:49%;
 }
 
 .card-title-monthly{
@@ -239,6 +241,10 @@ small{
     border-radius: 15px;
     flex-direction: column;
     min-height: 40vh;
+    background-color: #fff;
+    border-radius: 15px;  
+    border: 2px solid #e5e5e5;  
+
     
     
 }
@@ -249,9 +255,6 @@ small{
     display: flex;
     flex-direction: column;
     border-radius: 15px;
-    height: 100%;
-    min-height: 48vh;
-    background-color: #fff;
     padding: 20px;
    
 }
@@ -268,6 +271,28 @@ small{
 .supplierBody{
     display: flex;
     justify-content: space-between;
+    margin: 5px;
+    font-weight: bold;
+
+}
+.supplierBody > div:nth-child(1){
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    
+    padding-left: 20px;
+}
+.supplierBody > div:nth-child(2){
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    
+}
+.supplierBody > div:nth-child(3){
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+   
 }
 
 
@@ -289,3 +314,4 @@ small{
     font-size: 12px;
     margin-bottom: 20px;
 }
+

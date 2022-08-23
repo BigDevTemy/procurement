@@ -7,6 +7,10 @@ function PO(search){
                         <div class="">PO Approved</div>
                     </div>
                     <div class="modalClass"></div>
+                    <div id="toprint" style="display:none">
+                        bvbvbnvbnv
+                    
+                    </div>
                     
 
                     <div class="render_body_content approval">
@@ -292,6 +296,7 @@ function POApproved(){
                                 <th>PO APPROVAL STATUS</th>
                                 <th>DATE</th>
                                 <th>REVIEW</th>
+                                <th>PRINT</th>
                                 
                                 
                             </tr>
@@ -329,7 +334,18 @@ function POClickfetchapproved(){
                          
                          return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id},${row.id})">Delete Approval</div>`
                        } 
+                 },
+                 {
+                    data:"",
+                    render:function(data,type,row){
+                        return  `
+                                    <div style="cursor:pointer;width:100%">
+                                            <button class="btn btn-sm btn-primary" onclick="printpart()">Print</button>
+                                    </div>
+                                `
+                    }
                  }
+    
              
         ]   
 
@@ -338,6 +354,13 @@ function POClickfetchapproved(){
 
 }
 
+function printpart () {
+    var printwin = window.open("");
+    printwin.document.write(document.getElementById("toprint").innerHTML);
+    printwin.stop();
+    printwin.print();
+    printwin.close();
+  }
 
 
 function POreview(id){
