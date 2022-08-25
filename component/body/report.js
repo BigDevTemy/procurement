@@ -212,9 +212,11 @@ function Allreportfetch(){
                         data:"",
                         render:function(data,type,row){
                             
-                           let split = row.shipped_docs.split("_");
+
+                            if(row.shipped_docs){
+                                let split = row.shipped_docs.split("_");
                            
-                           if(split){
+                           
                                 let dataset="";
                                 split.forEach((d)=>{
                                 if(d != ""){
@@ -226,8 +228,10 @@ function Allreportfetch(){
                                 
     
                                 return dataset;
-                           }
-                           
+                            }
+                            else{
+                                return  `<div style="margin:6px">NULL</div>`
+                            }
                            
 
                           }
@@ -237,9 +241,10 @@ function Allreportfetch(){
                         
                         render:function(data,type,row){
                             
-                           let split = row.delivery_docs.split("_");
+                           if(row.delivery_docs){
+                                let split = row.delivery_docs.split("_");
                            
-                           if(split){
+                           
                                 let dataset="";
                                 split.forEach((d)=>{
                                 if(d != ""){
@@ -252,9 +257,10 @@ function Allreportfetch(){
     
                                 return dataset;
                            }
+                           else{
+                            return  `<div style="margin:6px">NULL</div>`
+                           }
                            
-                           
-
                           }
                 
                     },
