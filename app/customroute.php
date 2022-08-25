@@ -258,7 +258,7 @@ $router->post('/upoadrequisition',function($request){
   for($i=0;$i<count($_POST['quotation']);$i++){
     $x = explode(',',$_POST['quotation'][$i]);
    
-      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,note)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$x[1]."','".$x[2]."','".$x[3]."','".$x[4]."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['note']."')";
+      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,note,discount)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$x[1]."','".$x[2]."','".$x[3]."','".$x[4]."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['note']."','".$_POST['discount']."')";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
       
