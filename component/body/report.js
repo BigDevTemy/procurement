@@ -88,17 +88,21 @@ function Allreportfetch(){
                         render:function(data,type,row){
                             
                            let split = row.shippment_docs.split("_");
-                           let dataset="";
-                           split.forEach((d)=>{
-                            if(d != ""){
-                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                            }
-                            
-                            
-                           })
-                           
+                           if(split){
 
-                           return dataset;
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+    
+                                return dataset;
+                           }
+                           
                            
                            
 
@@ -110,20 +114,20 @@ function Allreportfetch(){
                         render:function(data,type,row){
                             
                            let split = row.soncap.split("_");
-                           let dataset="";
-                           split.forEach((d)=>{
-                            if(d != ""){
-                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                           if(split){
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+    
+                                return dataset;
                             }
-                            
-                            
-                           })
-                           
-
-                           return dataset;
-                           
-                           
-
+ 
                         }
                     
                     },
@@ -132,7 +136,8 @@ function Allreportfetch(){
                         render:function(data,type,row){
                             
                            let split = row.paar.split("_");
-                           let dataset="";
+                           if(split){
+                            let dataset="";
                            split.forEach((d)=>{
                             if(d != ""){
                                 dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
@@ -143,6 +148,7 @@ function Allreportfetch(){
                            
 
                            return dataset;
+                           }
                            
                            
 
@@ -152,41 +158,50 @@ function Allreportfetch(){
                     {
                         data:"",
                         render:function(data,type,row){
-                            
-                           let split = row.dispatched_docs.split("_");
-                           let dataset="";
-                           split.forEach((d)=>{
-                            if(d != ""){
-                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                            if(row.dispatched_docs){
+
+                                let split = row.dispatched_docs.split("_");
+                                let dataset="";
+                                split.forEach((d)=>{
+                                    if(d != ""){
+                                        dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                    }
+                                    
+                                    
+                                })
+                                
+                                return dataset;
                             }
-                            
-                            
-                           })
+                            else{
+                               return  `<div style="margin:6px">NULL</div>`
+                            }
                            
-
-                           return dataset;
-                           
-                           
-
                           } 
                     },
                     {
                         
                         data:"",
                         render:function(data,type,row){
-                            
-                           let split = row.package_docs.split("_");
-                           let dataset="";
-                           split.forEach((d)=>{
-                            if(d != ""){
-                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                            if(row.package_docs){
+                                let split = row.package_docs.split("_");
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+    
+                                return dataset;
+                                
                             }
-                            
-                            
-                           })
+                            else{
+                                return  `<div style="margin:6px">NULL</div>`
+                            }
+                          
                            
-
-                           return dataset;
                            
                            
 
@@ -198,17 +213,20 @@ function Allreportfetch(){
                         render:function(data,type,row){
                             
                            let split = row.shipped_docs.split("_");
-                           let dataset="";
-                           split.forEach((d)=>{
-                            if(d != ""){
-                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                            }
-                            
-                            
-                           })
                            
-
-                           return dataset;
+                           if(split){
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+    
+                                return dataset;
+                           }
                            
                            
 
@@ -220,17 +238,20 @@ function Allreportfetch(){
                         render:function(data,type,row){
                             
                            let split = row.delivery_docs.split("_");
-                           let dataset="";
-                           split.forEach((d)=>{
-                            if(d != ""){
-                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                            }
-                            
-                            
-                           })
                            
-
-                           return dataset;
+                           if(split){
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+    
+                                return dataset;
+                           }
                            
                            
 
