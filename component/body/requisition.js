@@ -122,7 +122,7 @@ function loadRequisitionDefault(){
                     </div>
                     <div class="discount_content">
                         
-                        <div class="discountDiv"><input type="text" placeholder="discount in %"  class="form-control"/></div>
+                        <div class="discountDiv"><input type="text" placeholder="discount in %"  id="discount" class="form-control discountClass"/></div>
                     </div>
                     <div class="discount_content">
                             
@@ -262,7 +262,7 @@ function AddRequisition(){
                         </div>
                         <div class="discount_content">
                             
-                            <div class="discountDiv"><input type="text" placeholder="discount in %"  class="form-control"/></div>
+                            <div class="discountDiv"><input type="text" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
                         </div>
                         <div class="discount_content">
                             
@@ -475,7 +475,7 @@ function saveRequisitionModule(){
         
        
         let Grandparent = e.target.parentElement.parentElement;
-        
+        console.log(Grandparent);
         let unitx  = Grandparent.children[2].children[0];
         let quantityx  = Grandparent.children[3].children[0];
         let totalx  = Grandparent.children[4].children[0];
@@ -490,8 +490,9 @@ function saveRequisitionModule(){
             for(let i=0;i<frod.length;i++){
                 sum += parseFloat(frod[i].children[4].children[0].value)
             }
+            myDiscount();
             mytotal.innerHTML=sum
-            
+           
             // mytotal = "200"
             
         })
@@ -506,12 +507,82 @@ function saveRequisitionModule(){
             }
             console.log(mytotal)
             mytotal.innerHTML=sum
+            myDiscount();
             //mytotal = "200"
             
             
         })
+        myDiscountChange()
         
     })
+    // document.querySelector('.discount_content').addEventListener('click',function(e){
+    //     console.log(e.target)
+    //     if(e.target.classList.contains('discountClass')){
+    //         let x = e.target.parentElement.parentElement
+    //         let y = x.children[0].children[0];
+    //         y.addEventListener('change',function(e){
+    //             let total = document.getElementById('myTotal').innerHTML;
+    //             console.log(total)
+    //             let dis = parseFloat(e.target.value) / 100
+    //             let discount = parseFloat(total) * parseFloat(dis);
+    //             console.log(discount)
+    //             total = discount;
+    //         })
+    //     }
+    // })
+    function myDiscount(){
+     
+            if(parseFloat(document.getElementById('myTotal').innerHTML) > 0){
+                let sum =0;
+                let z =document.querySelector('.contentParent').children;
+                for(let i=0;i<z.length;i++){
+                    let xy = z[i].children[4];
+                    console.log(xy.children[0].value)
+                    sum += parseFloat(xy.children[0].value)
+                }
+                console.log(sum)
+                let value = document.querySelector('.discountClass').value;
+                let total = document.getElementById('myTotal')
+                
+                let discount = parseFloat(value) / 100;
+                let discountAmount = parseFloat(sum) * discount;
+                
+                total.innerHTML = parseFloat(total.innerHTML) - discountAmount;  
+            
+            
+            }
+            
+    
+    }
+
+    function myDiscountChange(){
+        
+        
+        document.querySelector('.discountClass').addEventListener('change',function(e){
+
+            let sum =0;
+            let z =document.querySelector('.contentParent').children;
+                for(let i=0;i<z.length;i++){
+                    let xy = z[i].children[4];
+                    console.log(xy.children[0].value)
+                    sum += parseFloat(xy.children[0].value)
+                }
+                console.log(sum)
+            if(parseFloat(sum) > 0){
+                
+                let value = e.target.value;
+                let total = document.getElementById('myTotal')
+                let discount = parseFloat(value) /100;
+                let discountAmount = parseFloat(sum) * discount;
+                total.innerHTML = parseFloat(sum) - discountAmount; 
+
+            }
+             
+        })
+        
+
+}
+    
 
 let handleInput  = document.querySelector('.fileUploadInput');
 
