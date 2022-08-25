@@ -652,7 +652,7 @@ $router->get('/getShippmentPackage',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='package received by agent' GROUP BY `approval_process`.`supplier_id`";
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='package received by agent' GROUP BY `approval_process`.`supplier_id`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -682,7 +682,7 @@ $router->get('/getShippmentShipped',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='shipped by agent' GROUP BY `approval_process`.`supplier_id`";
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id`  WHERE level_1_approval = 'approved' AND po_approval='approved' AND `approval_process`.`shippment_status`='shipped by agent' GROUP BY `approval_process`.`supplier_id`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);

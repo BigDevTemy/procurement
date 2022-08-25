@@ -447,7 +447,7 @@ function ShippmentfetchDelivered(){
                         data:"",
                         render:function(data,type,row){
                             
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm" disabled>Review</button></div>`
+                            return `<div style="cursor:pointer;text-decoration:underline"><button class="btn btn-warning btn-sm" disabled>Review</button></div>`
                           } 
                     }
                 
