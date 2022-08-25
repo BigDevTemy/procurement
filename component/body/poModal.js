@@ -1,6 +1,6 @@
 const newQuotation = [];
 const load = [];
-function poModal(supplierid,orderid,rowid){
+function poModal(orderid,supplierid,rowid){
    
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
@@ -46,7 +46,7 @@ function poModal(supplierid,orderid,rowid){
                                 <div class="mybutton">
                                     <button class="btn btn-primary" onclick="POshippment(${supplierid},${orderid},${rowid})">Approve</button>
                                     <button class="btn btn-danger" onclick="POreject(${orderid},${supplierid})">Reject</button>
-                                    <button class="btn btn-secondary" onclick="close()">Close</button>
+                                    
                                 </div>
                             </div>
                     </div>
@@ -63,6 +63,8 @@ function poModal(supplierid,orderid,rowid){
             let price =  x.children[3].children[0];
             let Sumtotal =  x.children[4].children[0];
             let grandtotal = document.getElementById('grandtotal')
+            let discount = document.getElementById('discount').innerHTML;
+           
             quantity.addEventListener('change',function(e){
                 let pricex = price.value 
                 let quantityx = e.target.value
@@ -72,6 +74,17 @@ function poModal(supplierid,orderid,rowid){
                     let x = y.children[i].children[4].children[0].value;
                     sum += parseFloat(x)
                 
+                }
+                
+                if(parseFloat(discount) > 0){
+                    
+                    let dis = parseFloat(discount) / 100;
+                    let count = parseFloat(sum) * dis;
+                    let adjustedAmount  = parseFloat(sum - count);
+                    grandtotal.innerHTML= adjustedAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                else{
+                    grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
                 grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 
@@ -87,7 +100,18 @@ function poModal(supplierid,orderid,rowid){
                     sum += parseFloat(x)
                 
                 }
-                grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                if(parseFloat(discount) > 0){
+                    
+                    let dis = parseFloat(discount) / 100;
+                    let count = parseFloat(sum) * dis;
+                    let adjustedAmount  = parseFloat(sum - count);
+                    grandtotal.innerHTML= adjustedAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                else{
+                    grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                //grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                //grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             })
 
             
@@ -107,10 +131,14 @@ function close(){
     })
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 
 function supplier_quotationDetails(orderid,supplierid){
-    
-    
+    console.log(orderid,supplierid)
+   
     fetch('/procurement/app/customroute/getsupplierquotation',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
@@ -126,6 +154,7 @@ function supplier_quotationDetails(orderid,supplierid){
         let sum=0
         let currency
         let invoice
+        let discount=0;
         
        if(res.status){
             
@@ -136,7 +165,7 @@ function supplier_quotationDetails(orderid,supplierid){
                 sum += parseFloat(d.total)
                 currency = d.currency
                 invoice = d.order_title
-                
+                discount = d.discount
                 dataset += `
                             <tr>
                                     <td>${index +1}</td>
@@ -154,7 +183,11 @@ function supplier_quotationDetails(orderid,supplierid){
             document.getElementById('addr').innerHTML = address
             document.getElementById('suppliername').innerHTML = supplier_name
             document.getElementById('phonenumber').innerHTML = phonenumber
-            document.getElementById('grandtotal').innerHTML = sum + ` (${currency})` 
+            document.getElementById('discount').innerHTML = discount
+            let dis = parseFloat(discount) /100;
+            let count = dis * sum;
+            document.getElementById('grandtotal').innerHTML = numberWithCommas(parseFloat(sum - count)) + ` (${currency})`
+         
             document.getElementById('invoice').innerHTML='Quotation For '+ invoice
        }
     })

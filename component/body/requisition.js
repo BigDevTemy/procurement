@@ -113,7 +113,7 @@ function loadRequisitionDefault(){
                     <div class="contentParent">
                         <div class="content">
                             <div><input type="number" min="0" value=1 class="form-control" disabled /></div>
-                            <div><input type="number" min="0" placeholder="description" class="form-control "/></div>
+                            <div><input type="text" placeholder="description" class="form-control "/></div>
                             <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
                             <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
                             <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
@@ -446,6 +446,9 @@ function saveRequisitionModule(){
        
     })
 
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     
 
     document.getElementById('ordertype').addEventListener('change',function(e){
@@ -475,7 +478,7 @@ function saveRequisitionModule(){
         
        
         let Grandparent = e.target.parentElement.parentElement;
-        console.log(Grandparent);
+        
         let unitx  = Grandparent.children[2].children[0];
         let quantityx  = Grandparent.children[3].children[0];
         let totalx  = Grandparent.children[4].children[0];
@@ -491,7 +494,8 @@ function saveRequisitionModule(){
                 sum += parseFloat(frod[i].children[4].children[0].value)
             }
             //myDiscount();
-            mytotal.innerHTML=sum
+           
+            mytotal.innerHTML=numberWithCommas(sum)
             document.getElementById('discount').value=0
            
             // mytotal = "200"
@@ -506,8 +510,9 @@ function saveRequisitionModule(){
             for(let i=0;i<frod.length;i++){
                 sum += parseFloat(frod[i].children[4].children[0].value)
             }
+
             
-            mytotal.innerHTML=sum
+            mytotal.innerHTML=numberWithCommas(sum)
             document.getElementById('discount').value=0
             //myDiscount();
             //mytotal = "200"
@@ -565,7 +570,7 @@ function saveRequisitionModule(){
             
     
     }
-
+    
     function myDiscountChange(){
         
         
@@ -586,7 +591,7 @@ function saveRequisitionModule(){
                 let total = document.getElementById('myTotal')
                 let discount = parseFloat(value) /100;
                 let discountAmount = parseFloat(sum) * discount;
-                total.innerHTML = parseFloat(sum) - discountAmount; 
+                total.innerHTML = numberWithCommas(parseFloat(sum) - discountAmount); 
 
             }
              
@@ -632,7 +637,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
        
         let row = `<div class="content additionalcontent">
                         <div class="sn"><input type="text" disabled value=${index + 1} class="form-control"/></div>
-                        <div><input type="number" min="0" placeholder="description" class="form-control"/></div>
+                        <div><input type="text"  placeholder="description" class="form-control"/></div>
                         <div><input type="number" min="0" placeholder="quantity" value="0" class="form-control"/></div>
                         
                         <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>

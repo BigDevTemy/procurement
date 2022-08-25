@@ -54,7 +54,7 @@ function approvalModal(supplierid,orderid){
         `
 
         document.querySelector('.modalClass').innerHTML=content
-        supplier_quotationDetails(orderid,supplierid);
+        supplier_quotationDetailsApproval(orderid,supplierid);
        
         close();
 }
@@ -80,7 +80,11 @@ function close(){
     })
 }
 
-function supplier_quotationDetails(orderid,supplierid){
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function supplier_quotationDetailsApproval(orderid,supplierid){
     
     
     fetch('/procurement/app/customroute/getsupplierquotation',{
@@ -110,9 +114,9 @@ function supplier_quotationDetails(orderid,supplierid){
                             <tr>
                                     <td>${index +1}</td>
                                     <td>${d.description}</td>
-                                    <td>${d.quantity}</td>
-                                    <td>${d.price}</td>
-                                    <td>${d.total}</td>
+                                    <td>${numberWithCommas(d.quantity)}</td>
+                                    <td>${numberWithCommas(d.price)}</td>
+                                    <td>${numberWithCommas(d.total)}</td>
 
                             </tr>
                 
@@ -124,8 +128,9 @@ function supplier_quotationDetails(orderid,supplierid){
             document.getElementById('suppliername').innerHTML = supplier_name
             document.getElementById('phonenumber').innerHTML = phonenumber
             document.getElementById('discount').innerHTML = discount
-            
-            document.getElementById('grandtotal').innerHTML = sum + ` (${currency})` 
+            let dis = parseFloat(discount) /100;
+            let count = dis * sum;
+            document.getElementById('grandtotal').innerHTML = numberWithCommas(parseFloat(sum - count)) + ` (${currency})` 
        }
     })
     .catch(err=>console.log(err))

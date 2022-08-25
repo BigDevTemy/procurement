@@ -73,8 +73,9 @@ function POfetch(){
                     {
                         data:"",
                         render:function(data,type,row){
+                           
                             
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.supplier_id},${row.id})">Review</div>`
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.assigned_supplier},${row.id})">Review</div>`
                           } 
                     }
                 
