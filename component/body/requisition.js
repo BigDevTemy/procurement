@@ -122,7 +122,7 @@ function loadRequisitionDefault(){
                     </div>
                     <div class="discount_content">
                         
-                        <div class="discountDiv"><input type="text" placeholder="discount in %"  id="discount" class="form-control discountClass"/></div>
+                        <div class="discountDiv"><input type="number" min="0" placeholder="discount in %"  id="discount" class="form-control discountClass"/></div>
                     </div>
                     <div class="discount_content">
                             
@@ -262,7 +262,7 @@ function AddRequisition(){
                         </div>
                         <div class="discount_content">
                             
-                            <div class="discountDiv"><input type="text" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
+                            <div class="discountDiv"><<input type="number" min="0" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
                         </div>
                         <div class="discount_content">
                             
