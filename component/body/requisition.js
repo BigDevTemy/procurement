@@ -490,8 +490,9 @@ function saveRequisitionModule(){
             for(let i=0;i<frod.length;i++){
                 sum += parseFloat(frod[i].children[4].children[0].value)
             }
-            myDiscount();
+            //myDiscount();
             mytotal.innerHTML=sum
+            document.getElementById('discount').value=0
            
             // mytotal = "200"
             
@@ -505,16 +506,18 @@ function saveRequisitionModule(){
             for(let i=0;i<frod.length;i++){
                 sum += parseFloat(frod[i].children[4].children[0].value)
             }
-            console.log(mytotal)
+            
             mytotal.innerHTML=sum
-            myDiscount();
+            document.getElementById('discount').value=0
+            //myDiscount();
             //mytotal = "200"
             
             
         })
-        myDiscountChange()
+        
         
     })
+    myDiscountChange()
     // document.querySelector('.discount_content').addEventListener('click',function(e){
     //     console.log(e.target)
     //     if(e.target.classList.contains('discountClass')){
@@ -540,15 +543,23 @@ function saveRequisitionModule(){
                     console.log(xy.children[0].value)
                     sum += parseFloat(xy.children[0].value)
                 }
-                console.log(sum)
+               
                 let value = document.querySelector('.discountClass').value;
+                console.log('value',value)
                 let total = document.getElementById('myTotal')
                 
                 let discount = parseFloat(value) / 100;
+                console.log('discount',discount)
                 let discountAmount = parseFloat(sum) * discount;
+
+                console.log('discountAmount',discountAmount)
+                let actual = parseFloat(sum) - parseFloat(discountAmount);  
                 
-                total.innerHTML = parseFloat(total.innerHTML) - discountAmount;  
-            
+                console.log('actual',actual)
+                
+              
+                document.getElementById('myTotal').innerHTML=actual
+                
             
             }
             
@@ -559,7 +570,7 @@ function saveRequisitionModule(){
         
         
         document.querySelector('.discountClass').addEventListener('change',function(e){
-
+            console.log('i am here')
             let sum =0;
             let z =document.querySelector('.contentParent').children;
                 for(let i=0;i<z.length;i++){
@@ -567,10 +578,11 @@ function saveRequisitionModule(){
                     console.log(xy.children[0].value)
                     sum += parseFloat(xy.children[0].value)
                 }
-                console.log(sum)
+             
             if(parseFloat(sum) > 0){
                 
                 let value = e.target.value;
+
                 let total = document.getElementById('myTotal')
                 let discount = parseFloat(value) /100;
                 let discountAmount = parseFloat(sum) * discount;
