@@ -4,7 +4,7 @@ function otherComponent(name){
     var search = location.hash.replace('#','');
     var splitSplash = search.split('/');
 
-    console.log(splitSplash)
+    
     if(splitSplash.length > 1){
        console.log(splitSplash[0]+''+ splitSplash[1])
         let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
@@ -24,7 +24,8 @@ function otherComponent(name){
             
         }
         else if(splitSplash[0] === "Shippment"){
-            reviewStatus();
+            // console.log(splitSplash[2])
+            reviewStatus(splitSplash[2]);
         }
         
         
@@ -137,11 +138,16 @@ function ApprovalDetails(xcontent){
              `
     return content;
 }
+function back(){
+    _push('#Shippment');
+    loadUrl('#Shippment')
+}
 
 function ShippmentDetails(additional){
+   
     let content = ` 
                     <div class="supplierDiv">
-                        <div> << Back</div> 
+                        <div onClick="back()" style="cursor:pointer"> << Back</div> 
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -258,7 +264,6 @@ function ShippmentDetails(additional){
                  `
         return content;
 }
-
 
 
 
@@ -471,7 +476,7 @@ function getBodyContent(){
    
 }
 
-function reviewStatus(){
+function reviewStatus(id){
     document.querySelector('#status_review').addEventListener('change',function(e){
         if(e.target.value === "dispatched"){
             let buttonDiv =`
@@ -484,7 +489,7 @@ function reviewStatus(){
                         <div class="dispatched_select" id="dispatched_select"></div>
                         `
                         document.getElementById('supporting_docs').innerHTML = buttonDiv
-                        uploadSupportDocs();
+                        uploadSupportDocs(id);
         }
         else if(e.target.value === "package received by agent"){
             let buttonDiv =`
@@ -497,7 +502,7 @@ function reviewStatus(){
                         <div class="package_select" id="package_select"></div>
                         `
                         document.getElementById('supporting_docs').innerHTML = buttonDiv
-                        uploadSupportDocs();
+                        uploadSupportDocs(id);
         }
         else if(e.target.value === "shipped by agent"){
             let buttonDiv =`
@@ -510,7 +515,7 @@ function reviewStatus(){
                         <div class="shipped_select" id="shipped_select"></div>
                         `
                     document.getElementById('supporting_docs').innerHTML = buttonDiv
-                    uploadSupportDocs();
+                    uploadSupportDocs(id);
         }
         else if(e.target.value === "delivered"){
             let buttonDiv =`
@@ -523,13 +528,13 @@ function reviewStatus(){
                         <div class="delivered_select" id="delivered_select"></div>
                         `
                         document.getElementById('supporting_docs').innerHTML = buttonDiv
-                        uploadSupportDocs();
+                        uploadSupportDocs(id);
         }
     })
    
 }
 
-function uploadSupportDocs(){
+function uploadSupportDocs(id){
     let dispatched  = document.querySelector('.dispatched');
     let package  = document.querySelector('.package');
     let shipped  = document.querySelector('.shipped');
@@ -643,17 +648,17 @@ function uploadSupportDocs(){
         })
    }
 
-   uploadSupportDocsToDB();
+   uploadSupportDocsToDB(id);
    
 }
 
-function uploadSupportDocsToDB(){
+function uploadSupportDocsToDB(id){
     document.querySelector('.shippmentUpdate').addEventListener('click',function(e){
         e.preventDefault();
         let status = document.getElementById('status_review').value;
         let dateOfUpdate = document.getElementById('dateofupdate').value
         let approve_id = document.getElementById('approve_id').value
-        
+      
         let dispatched  = document.querySelector('.dispatched');
         let package  = document.querySelector('.package');
         let shipped  = document.querySelector('.shipped');
@@ -690,7 +695,7 @@ function uploadSupportDocsToDB(){
 
         formdata.append('dateupdate',dateOfUpdate);
         formdata.append('status',status);
-        formdata.append('approve_id',approve_id);
+        formdata.append('approve_id',id);
 
         fetch('/procurement/app/customroute/uploadShippmentUpdate',{
             method:'POST',

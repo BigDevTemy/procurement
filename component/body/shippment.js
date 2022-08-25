@@ -1,5 +1,5 @@
 
-
+const counter = true;
 function Shippment(search){
     let content = ` 
                 <div class="supplierDiv">
@@ -73,10 +73,13 @@ function Shippmentfetch(){
 
 function ShippmentHTML(){
 
-    Shippmentfetch();
-    return `
-            
+    if(counter){
+        Shippmentfetch();
+        count=false
+    }
     
+    return `
+
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
@@ -92,21 +95,20 @@ function ShippmentHTML(){
                     </tr>
                 </thead>
             </table>`
+
+            
 }
 
 
 
-
-
-
-
-
-
 function AwaitingShippment(){
-
     
+    if(counter){
+        Shippmentfetch();
+        counter=false
+    }
     let content = `
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="exampleAwaiting" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>SN</th>
@@ -123,7 +125,8 @@ function AwaitingShippment(){
             </table>`
 
             document.querySelector('.render_body_content').innerHTML = content
-            Shippmentfetch();
+           
+            
 
             
 }
@@ -135,7 +138,7 @@ function Shippmentfetch(){
        let table = $('#example').DataTable({
         
            "processing":true,
-            "destroy":true,
+           "destroy":true,
            "serverSide":true,
            "bFilter": true,
            "dom": "Bfrtip",
@@ -157,7 +160,7 @@ function Shippmentfetch(){
                     {
                         data:"",
                         render:function(data,type,row){
-                            
+                            console.log(row)
                             return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm">Review</button></div>`
                           } 
                     }
