@@ -112,11 +112,11 @@ function loadRequisitionDefault(){
                     </div>
                     <div class="contentParent">
                         <div class="content">
-                            <div><input type="text" value=1 class="form-control" disabled /></div>
-                            <div><input type="text" placeholder="description" class="form-control "/></div>
-                            <div><input type="text" placeholder="quantity" value="0"  class="form-control"/></div>
-                            <div><input type="text" placeholder="unit price" value="0"  class="form-control"/></div>
-                            <div><input type="text" placeholder="total price" value="0" disabled  class="form-control"/></div>
+                            <div><input type="number" min="0" value=1 class="form-control" disabled /></div>
+                            <div><input type="number" min="0" placeholder="description" class="form-control "/></div>
+                            <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
+                            <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
+                            <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
                             
                         </div>
                     </div>
@@ -632,11 +632,11 @@ let handleInput  = document.querySelector('.fileUploadInput');
        
         let row = `<div class="content additionalcontent">
                         <div class="sn"><input type="text" disabled value=${index + 1} class="form-control"/></div>
-                        <div><input type="text" placeholder="description" class="form-control"/></div>
-                        <div><input type="text" placeholder="quantity" value="0" class="form-control"/></div>
+                        <div><input type="number" min="0" placeholder="description" class="form-control"/></div>
+                        <div><input type="number" min="0" placeholder="quantity" value="0" class="form-control"/></div>
                         
-                        <div><input type="text" placeholder="unit price" value="0"  class="form-control"/></div>
-                        <div><input type="text" placeholder="total price" value="0" disabled  class="form-control"/></div>
+                        <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
+                        <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
                         
                     </div>`
 

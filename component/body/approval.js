@@ -224,13 +224,13 @@ function makeloader(id){
     }).then(response=>response.json())
         .then(res=>{
             let title ;
-            let dataset;
+            let dataset="";
             if(res.status){
                 if(document.querySelector('.roundingx')){
                     document.querySelector('.roundingx').classList.remove('roundLoader');
                 }
                 
-                console.log(res.data)
+                
                 res.data.forEach((d,index)=>{
                     title = d.order_title;
                     dataset +=`

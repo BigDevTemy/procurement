@@ -42,7 +42,7 @@ function approvalModal(supplierid,orderid){
                             <div class="modalFooter">
                                 <div class="mybutton">
                                     <button class="btn btn-success" onclick="approve(${orderid},${supplierid})">Approve</button>
-                                    <button class="btn btn-secondary" onclick="close()">Close</button>
+                                    
                                 </div>
                             </div>
 
@@ -96,6 +96,7 @@ function supplier_quotationDetails(orderid,supplierid){
         let dataset = ''
         let sum=0
         let currency
+        let discount = 0;
         console.log(res.data)
        if(res.status){
             res.data.forEach((d,index)=>{
@@ -104,6 +105,7 @@ function supplier_quotationDetails(orderid,supplierid){
                 phonenumber = d.contact
                 sum += parseFloat(d.total)
                 currency = d.currency
+                discount = d.discount
                 dataset += `
                             <tr>
                                     <td>${index +1}</td>
@@ -121,6 +123,8 @@ function supplier_quotationDetails(orderid,supplierid){
             document.getElementById('addr').innerHTML = address
             document.getElementById('suppliername').innerHTML = supplier_name
             document.getElementById('phonenumber').innerHTML = phonenumber
+            document.getElementById('discount').innerHTML = discount
+            
             document.getElementById('grandtotal').innerHTML = sum + ` (${currency})` 
        }
     })
