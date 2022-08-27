@@ -15,12 +15,14 @@ session_start();
         <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
         
         <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css"/>
-      
+        <link rel="stylesheet" href="../assets/css/select2.min.css"/>
+        
         <script src="../assets/js/bootstrap.min.js"></script>
         <script src="../assets/js/Chart.js"></script>
         <script src="../assets/js/sweetalert2@11.js"></script>
         <script src="../assets/js/jquery-3.5.1.js"></script>
         <script src="../assets/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/js/select2.min.js"></script>
         
         <style>
       * {
@@ -138,6 +140,7 @@ session_start();
     
     
     </body>
+    <script src="../component/body//filterApproval.js"></script>
     <script src="../component/body/delete.js"></script>
     <script src="../component/body/report.js"></script>
     <script src="../component/body/requisitionModal.js"></script>
@@ -167,6 +170,9 @@ session_start();
     </script>
     <script >
     
-
+    $(document).ready(function() {
+       
+        $('#select_order').select2();
+    });
       </script>
 </html>

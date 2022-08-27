@@ -529,6 +529,11 @@ table th{
     min-height: 50vh;
     
 }
+.modalFilter{
+    width:50%;
+    min-height: 25vh;
+    
+}
 .modalBody{
     display: flex;
     justify-content: center;

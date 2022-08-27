@@ -1,7 +1,7 @@
 function PO(search){
     let content = ` 
                 <div class="supplierDiv">
-
+                    
                     <div class="tabDiv">
                         <div class="tab-active">Pending PO Approval</div>
                         <div class="">PO Approved</div>

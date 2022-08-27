@@ -1,14 +1,19 @@
 function Report(search){
     let content = ` 
             <div class="supplierDiv">
+                <div class="modalClass"></div>
                 <div class="tabDiv">
-                    <div>Approval Report</div>
+                    <div class="tab-active">Approval Report</div>
                     <div>PO Report</div>
                     <div>Shippment Report</div>
                 </div>
 
-                <div class="render_body_content approval">
-                       ${AllreportHTML()}
+                <div class="render_body_content approval mt-4">
+                        <button class="btn btn-secondary btn-md mb-4" onClick="filterApproval()" style="width:10%">Filter</button>
+                        <div class="reportDiv">
+                            ${ApprovedReport()}
+                        </div>
+                       
                 </div>
             
 
@@ -17,6 +22,26 @@ function Report(search){
              `
     return content;
 }
+function ApprovedReport(){
+
+    return ` 
+            <table id="example" class="table table-striped table-bordered " style="width:100%">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Order Type</th>
+                        <th>Supplier Assigned</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+            `
+}
+
+
+
 function AllreportHTML(){
 
     Allreportfetch();
@@ -276,6 +301,11 @@ function Allreportfetch(){
     });
     
     
+}
+
+function modalFilter(){
+
+    alert('We are ready')
 }
 
 
