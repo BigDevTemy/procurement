@@ -16,7 +16,7 @@ session_start();
         
         <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" href="../assets/css/select2.min.css"/>
-        
+
         <script src="../assets/js/bootstrap.min.js"></script>
         <script src="../assets/js/Chart.js"></script>
         <script src="../assets/js/sweetalert2@11.js"></script>

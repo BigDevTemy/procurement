@@ -268,7 +268,7 @@ $router->post('/upoadrequisition',function($request){
         echo json_encode(["data"=>"Internal Server Error","status"=>false]);
       }
   }
-  $query = "INSERT INTO approval_process (order_id,supplier_id,level_1_approval,assigned_supplier)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','pending','unassigned')";
+  $query = "INSERT INTO approval_process (order_id,supplier_id,level_1_approval,assigned_supplier,created_at)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','pending','unassigned','".$_POST['dateofcreation']."')";
   $result = $connection->query($query)or die(mysqli_error($connection));
 
   echo json_encode(["data"=>"Requisition Successfully Uploaded","status"=>true]);
@@ -1269,6 +1269,41 @@ $router->post('/getquotation',function(){
 
 
 });
+
+$router->post('/filterApproval',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  $conditionedQuery = "WHERE ";
+  if($data['orderid']!="" && $data['orderid'] !="All Orders"){
+    $conditionedQuery .= " order_id = '".$data['orderid']."' AND";
+  }
+  if($data['supplierid']!="" && $data['supplierid'] !="All Suppliers"){
+    $conditionedQuery .= " supplier_id = '".$data['supplierid']."' AND";
+  }
+  if($data['status']!="" && $data['status'] !="Status"){
+    $conditionedQuery .= " level_1_approval = '".$data['status']."' AND";
+  }
+
+  if($data['from_date'] && $data['to_date']){
+    $conditionedQuery.=" `approval_process`.`created_at` BETWEEN '".$data['from_date']."' AND '".$data['to_date']."'";
+  }
+
+  // echo json_encode($conditionedQuery);
+  $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` ".$conditionedQuery."";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+});
+
+
 
 
 $router->addNotFoundHandler(function(){
