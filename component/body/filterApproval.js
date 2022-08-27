@@ -175,7 +175,10 @@ function Search(){
     })
     .then(result=>result.json())
     .then(res=>{
-       console.log(res)
+       console.log(res);
+       if(res.status){
+
+       }
         
     })
     .catch(err=>console.log(err))

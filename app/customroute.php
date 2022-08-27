@@ -1273,25 +1273,38 @@ $router->post('/getquotation',function(){
 $router->post('/filterApproval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
+  
   $data = json_decode(file_get_contents('php://input'), true);
 
+  
   $conditionedQuery = "WHERE ";
+  $count =0;
   if($data['orderid']!="" && $data['orderid'] !="All Orders"){
     $conditionedQuery .= " order_id = '".$data['orderid']."' AND";
+    $count += 1;
   }
   if($data['supplierid']!="" && $data['supplierid'] !="All Suppliers"){
     $conditionedQuery .= " supplier_id = '".$data['supplierid']."' AND";
+    $count += 1;
   }
   if($data['status']!="" && $data['status'] !="Status"){
     $conditionedQuery .= " level_1_approval = '".$data['status']."' AND";
+    $count += 1;
   }
 
   if($data['from_date'] && $data['to_date']){
     $conditionedQuery.=" `approval_process`.`created_at` BETWEEN '".$data['from_date']."' AND '".$data['to_date']."'";
+    $count += 1;
   }
 
   // echo json_encode($conditionedQuery);
-  $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` ".$conditionedQuery."";
+  if($count > 0){
+    $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` ".$conditionedQuery."";
+  }
+  else{
+    $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id`";
+  }
+  
   $result = $connection->query($query)or die(mysqli_error($connection));
     $totalData = mysqli_num_rows($result);
     $totalFilter=$totalData;

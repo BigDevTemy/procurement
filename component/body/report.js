@@ -23,9 +23,11 @@ function Report(search){
     return content;
 }
 function ApprovedReport(){
-
+    
+    ApprovedFetch();
+    
     return ` 
-            <table id="example" class="table table-striped table-bordered " style="width:100%">
+            <table id="approvedReport" class="table table-striped table-bordered " style="width:100%">
                 <thead>
                     <tr>
                         <th>SN</th>
@@ -38,6 +40,58 @@ function ApprovedReport(){
                 </thead>
             </table>
             `
+
+            
+}
+
+
+
+
+function ApprovedFetch(){
+    var date = new Date(); 
+    var currentDate = date.toISOString().substring(0,10);
+    
+    $(document).ready(function () {
+
+       let table = $('#approvedReport').DataTable({
+        
+           "processing":true,
+        "destroy":true,
+           "serverSide":true,
+           "bFilter": true,
+           dom: "Bfrtip",
+           "ajax":{
+                url:'/procurement/app/customroute/filterApproval',
+                type:"POST",  
+                data:JSON.stringify({
+                    "to_date":currentDate,
+                    "from_date":currentDate
+                })   
+           },
+           "columns":[
+                
+                    {data:"id"},
+                    {data:"order_title"},
+                    {data:"supplier_name"},
+                    {data:"level_1_approval"},
+                    {data:"created_at"},
+                    {
+                        data:'',
+                        render:function(data,type,row){
+                            
+                            return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" >Print</div>`
+                          } 
+                    }
+                   
+                
+           ]   
+
+        });
+
+
+    });
+    
+    
 }
 
 
@@ -77,6 +131,7 @@ function AllreportHTML(){
                 </thead>
             </table>`
 }
+
 
 
 function Allreportfetch(){
@@ -302,6 +357,8 @@ function Allreportfetch(){
     
     
 }
+
+
 
 function modalFilter(){
 
