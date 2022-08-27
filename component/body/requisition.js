@@ -1,6 +1,7 @@
 function Requisition(search){
     let content = ` 
                         <div class="supplierDiv">
+                        <div class="modalClass"></div>
                             <div class="tabDiv">
                                 <div class="tab-active">Add Requisition</div>
                                 <div>All Requisition</div>
@@ -378,7 +379,7 @@ function allrequisition(){
                    
                          return `<div>
                                     <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.order_id})">Delete</button>
-                                    <button  class="btn btn-secondary ml-2" onclick="deleteItem()">Edit</button>
+                                    <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.id})">Edit</button>
                                 </div>`
                        } 
                  }
