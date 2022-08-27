@@ -5,6 +5,8 @@ function Supplier(search){
                         <div class="tabDiv">
                             <div class="tab-active">Add Supplier</div>
                             <div>All Supplier</div>
+                            <div>Add Abroad/Local Clearing</div>
+                            
                         </div>
                         <div class="tab-body render_body_content">
                             ${loadSupplierDefault()}

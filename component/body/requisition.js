@@ -66,7 +66,7 @@ function loadRequisitionDefault(){
                             <input type="text" id="refnumber" class="form-control selector" placeholder="Ref Number"/>
                         </div>
                         <div>
-                            <label>Date of Sending Name</label>
+                            <label>Date of Sending</label>
                             <input type="date" id="dateofsending" class="form-control selector"  />
                         </div>
                         
@@ -97,15 +97,16 @@ function loadRequisitionDefault(){
                         <button class="btn btn-md btn-danger">Delete</button>
                         <select class="form-control" id="currency">
                             <option value="">SELECT CURRENCY</option>
-                            <option value="USD">USD</option>
+                            <option value="N">NGN</option>
+                            <option value="$">USD</option>
                             <option value="GBP">GBP</option>
-                            <option value="EURO">EURO</option>
+                            <option value="E">EURO</option>
                             <option value="YEN">YEN</option>
                         </select>
                     </div>
                     <div class="contentHeader">
                         <div>SN</div>
-                        <div>Description</div>
+                        <div> Item Description</div>
                         <div>Quantity</div>
                         <div>Unit Price</div>
                         <div>Total Price</div>
@@ -134,7 +135,7 @@ function loadRequisitionDefault(){
                     
                     <div class="uploadattachment">Add/Upload Attachment</div>
                     <div class="fileuploadDiv"> 
-                        <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" />
+                        <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf,image/jpeg" />
                         <button class="btn btn-bg">Choose File</button>
                         <span class="number_files">No File Selected</span>
                     </div>
@@ -237,15 +238,16 @@ function AddRequisition(){
                             <button class="btn btn-md btn-danger">Delete</button>
                             <select class="form-control" id="currency">
                                 <option value="">SELECT CURRENCY</option>
-                                <option value="USD">USD</option>
+                                <option value="N">NGN</option>
+                                <option value="$">USD</option>
                                 <option value="GBP">GBP</option>
-                                <option value="EURO">EURO</option>
+                                <option value="E">EURO</option>
                                 <option value="YEN">YEN</option>
                             </select>
                         </div>
                         <div class="contentHeader">
                             <div>SN</div>
-                            <div>Description</div>
+                            <div> Item Description</div>
                             <div>Quantity</div>
                             <div>Unit Price</div>
                             <div>Total Price</div>
@@ -376,6 +378,7 @@ function allrequisition(){
                    
                          return `<div>
                                     <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.order_id})">Delete</button>
+                                    <button  class="btn btn-secondary ml-2" onclick="deleteItem()">Edit</button>
                                 </div>`
                        } 
                  }
@@ -483,7 +486,7 @@ function saveRequisitionModule(){
         let quantityx  = Grandparent.children[3].children[0];
         let totalx  = Grandparent.children[4].children[0];
         let mytotal = document.getElementById('myTotal')
-        
+        let currency =  document.getElementById('currency').value
         quantityx.addEventListener('change',function(e){
             let sum = 0
             let x = e.target.value;
@@ -495,7 +498,7 @@ function saveRequisitionModule(){
             }
             //myDiscount();
            
-            mytotal.innerHTML=numberWithCommas(sum)
+            mytotal.innerHTML= currency +''+ numberWithCommas(sum)
             document.getElementById('discount').value=0
            
             // mytotal = "200"
@@ -512,7 +515,7 @@ function saveRequisitionModule(){
             }
 
             
-            mytotal.innerHTML=numberWithCommas(sum)
+            mytotal.innerHTML= currency +''+ numberWithCommas(sum)
             document.getElementById('discount').value=0
             //myDiscount();
             //mytotal = "200"
