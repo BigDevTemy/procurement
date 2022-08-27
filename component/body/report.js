@@ -2,8 +2,9 @@ function Report(search){
     let content = ` 
             <div class="supplierDiv">
                 <div class="tabDiv">
-                    
-                    <div>All Report</div>
+                    <div>Approval Report</div>
+                    <div>PO Report</div>
+                    <div>Shippment Report</div>
                 </div>
 
                 <div class="render_body_content approval">
