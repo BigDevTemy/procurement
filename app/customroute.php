@@ -282,7 +282,7 @@ $router->get('/getpendingApproval',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `requisition` ON `orders`.`id` = `requisition`.`order_id` WHERE level_1_approval = 'pending' GROUP BY `approval_process`.order_id";
+  $query="SELECT  * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `requisition` ON `orders`.`id` = `requisition`.`order_id` WHERE level_1_approval = 'pending' GROUP BY `approval_process`.order_id";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -1238,6 +1238,32 @@ $router->get('/reportShippment',function(){
     }
     $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
     echo json_encode($json_data);
+  
+  $connection->close();
+
+
+});
+
+$router->post('/getquotation',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+  $query="SELECT * FROM requisition  LEFT JOIN`orders` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` WHERE `requisition`.`order_id`='".$data['orderid']."' AND  `requisition`.`supplier_id` = '".$data['supplierid']."'";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    // $totalData = mysqli_num_rows($result);
+    // $totalFilter=$totalData;
+    // $data = [];
+    // while($row = mysqli_fetch_assoc($result)){
+    //   $data[] = $row;
+    // }
+    if(mysqli_num_rows($result)){
+      while($row = mysqli_fetch_assoc($result)){
+        $getData[] = $row;
+      }
+      $json_data = array("data"=>$getData,"status"=>true);
+      echo json_encode($json_data);
+    }
+    
   
   $connection->close();
 

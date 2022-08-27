@@ -379,7 +379,7 @@ function allrequisition(){
                    
                          return `<div>
                                     <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.order_id})">Delete</button>
-                                    <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.id})">Edit</button>
+                                    <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.supplier_id},${row.order_id},${row.id})">Edit</button>
                                 </div>`
                        } 
                  }

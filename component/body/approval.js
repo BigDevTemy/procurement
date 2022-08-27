@@ -25,7 +25,7 @@ function loadApprovalDefault(){
                         <tr>
                             <th>SN</th>
                             <th>ORDER TYPE</th>
-                            <th>QUOTATION</th>
+                            <th>NUMBER OF SUPPLIERS</th>
                             <th>STATUS</th>
                             <th>DATE</th>   
                         </tr>
@@ -42,7 +42,7 @@ function PendingApproval(){
                         <tr>
                             <th>SN</th>
                             <th>ORDER TYPE</th>
-                            <th>QUOTATION</th>
+                            <th>NUMBER OF SUPPLIERS</th>
                             <th>STATUS</th>
                             <th>DATE</th>   
                         </tr>
@@ -79,10 +79,11 @@ function approvalfetchx(){
                         
                     },
                     {
-                        data:'quotation_receipt',
+                        data:'',
                         render:function(data,type,row){
-                            
-                            return `<a href="/procurement/quotation/${row.quotation_receipt}" target="_blank">Quotation</a>`
+                            console.log('row',row);
+                            console.log('data',data)
+                            return  `<div>2</div>`
                           },
                     },
                     {data:"level_1_approval"},
