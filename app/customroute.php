@@ -1461,7 +1461,7 @@ $router->post('/filterRequisition',function(){
 
   // echo json_encode($conditionedQuery);
   if($count > 0){
-    $query = "SELECT * FROM requisition  LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` LEFT JOIN `orders` ON `orders`.`id` = `requisition`.`order_id` ".$conditionedQuery."";
+    $query = "SELECT * FROM requisition  LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` LEFT JOIN `orders` ON `orders`.`id` = `requisition`.`order_id` ".$conditionedQuery." GROUP BY `requisition`.`supplier_id`";
   }
   else{
     $query = "SELECT * FROM requisition  LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` LEFT JOIN `orders` ON `orders`.`id` = `requisition`.`order_id`";

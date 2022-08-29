@@ -673,7 +673,7 @@ function RequisitionReportReside(){
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" placeholder="Reference No" />
+                                    <input type="text" class="form-control" id="ref_number" placeholder="Reference No" />
                                 </div>
 
                             </div>
@@ -736,6 +736,7 @@ function callSelect3_shippment(){
 
 function SearchRequisition(){
     
+    
     let orderid = document.getElementById('select_order').value;
     let supplierid = document.getElementById('select_supplier').value;
    
@@ -745,7 +746,7 @@ function SearchRequisition(){
     let description = document.getElementById('description').value;
     let serial_number = document.getElementById('serial_number').value;
     let project_name = document.getElementById('project_name').value;
-    let ref_number = document.getElementById('ref_number').value;
+    let ref_no = document.getElementById('ref_number').value;
     // console.log(orderid);
     // console.log(supplerid);
     // console.log(status);
@@ -755,7 +756,7 @@ function SearchRequisition(){
     fetch('/procurement/app/customroute/filterRequisition',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
-        body:JSON.stringify({orderid,supplierid,project_name,description,serial_number,ref_number,from_date,to_date})
+        body:JSON.stringify({orderid,supplierid,project_name,description,serial_number,ref_no,from_date,to_date})
     })
     .then(result=>result.json())
     .then(res=>{
@@ -771,152 +772,25 @@ function SearchRequisition(){
                     {data:"id"},
                     {data:"order_title"},
                     {data:"supplier_name"},
-                    {data:"mode_shippment"},
-                    {data:"payment_mode"},
-                    {data:"abroad_forwarder"},
-                    {data:"cleared"},
-                    {data:"status"},
-                    {
-                            
+                    {data:"description"},
+                    {data:"quantity"},
+                    {data:"price"},
+                    {data:"discount"},
+                    {data:"total"},
+                    { 
                         data:"",
+                        
                         render:function(data,type,row){
-                            
-                        let split = row.shippment_docs.split("_");
-                        if(split){
-
-                                let dataset="";
-                                split.forEach((d)=>{
-                                if(d != ""){
-                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                                }
-                                
-                                
-                                })
-                                
-
-                                return dataset;
-                        }
+                            return `<div>Quotation</div>`
+                        } 
+                           
                         
-                        
-                        
-
-                        }
                     },
-                    {
-                        
-                        data:"",
-                        render:function(data,type,row){
-                            
-                        let split = row.soncap.split("_");
-                        if(split){
-                                let dataset="";
-                                split.forEach((d)=>{
-                                if(d != ""){
-                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                                }
-                                
-                                
-                                })
-                                
-
-                                return dataset;
-                            }
-
-                        }
-                    
-                    },
-                    {
-                        data:"",
-                        render:function(data,type,row){
-                            
-                        let split = row.paar.split("_");
-                        if(split){
-                            let dataset="";
-                            split.forEach((d)=>{
-                                if(d != ""){
-                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                                }
-                                
-                                
-                            })
-                            return dataset;
-                        }
-                        
-                        
-
-                        }
-                    },
-                    {
-                        data:'',
-                        render:function(data,type,row){
-                            console.log('xxxwwewew',row.status)
-                            if(row.status === "dispatched"){
-                                let split = row.dispatched_docs.split("_");
-                                if(split){
-                                    let dataset="";
-                                    split.forEach((d)=>{
-                                        if(d != ""){
-                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                                        }
-                                        
-                                        
-                                    })
-                                    return dataset;
-                                }
-
-                            }
-                            else if(row.status === "package received by agent"){
-                                let split = row.package_docs.split("_");
-                                if(split){
-                                    let dataset="";
-                                    split.forEach((d)=>{
-                                        if(d != ""){
-                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                                        }
-                                        
-                                        
-                                    })
-                                    return dataset;
-                                }
-
-                            }
-                            else if(row.status === "shipped by agent"){
-                                let split = row.shipped_docs.split("_");
-                                if(split){
-                                    let dataset="";
-                                    split.forEach((d)=>{
-                                        if(d != ""){
-                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                                        }
-                                        
-                                        
-                                    })
-                                    return dataset;
-                                }
-
-                            }
-                            else if(row.status === "delivered"){
-                                let split = row.delivery_docs.split("_");
-                                if(split){
-                                    let dataset="";
-                                    split.forEach((d)=>{
-                                        if(d != ""){
-                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
-                                        }
-                                        
-                                        
-                                    })
-                                    return dataset;
-                                }
-
-                            }
-
-                            
-                        }
-
-                    },
-                    
-                    {data:"created_at"}
+    
+                    {data:"project_name"},
+                    {data:"currency"},
+                    {data:"dateofcreation"},
+                    {data:"dateofsending"},
                     
                 ]
             })

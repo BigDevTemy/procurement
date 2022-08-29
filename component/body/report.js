@@ -414,7 +414,7 @@ function RequisitionFetch(){
     fetch('/procurement/app/customroute/filterRequisition',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
-        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:'',project_name:'',description:'',ref_no:''})
+        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:'',project_name:'',description:'',ref_no:'',serial_number:''})
     })
     .then(result=>result.json())
     .then(res=>{
