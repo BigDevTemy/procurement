@@ -46,9 +46,24 @@ function modalContent(title,Id){
 function editSupplier(id){
     let content= `
             <div style="margin-top:20px">
-                    <div class="form-group">
+                    <div class="form-group mt-4">
                         <label>Supplier name</label>
                         <input type="text" class="form-control" id="supplier_name"/>
+
+                    <div>
+                    <div class="form-group mt-4">
+                        <label>Supplier email</label>
+                        <input type="email" class="form-control" id="email"/>
+
+                    <div>
+                    <div class="form-group mt-4">
+                        <label>Supplier contact</label>
+                        <input type="text" class="form-control" id="contact"/>
+
+                    <div>
+                    <div class="form-group mt-4">
+                        <label>Supplier address</label>
+                        <input type="text" class="form-control" id="address"/>
 
                     <div>
 
@@ -113,7 +128,9 @@ function loadDataSupplier(id,supplier){
         console.log("data",data.data.supplier_name)
         if(data['status']){
            document.getElementById('supplier_name').value=data.data.supplier_name
-
+           document.getElementById('contact').value=data.data.contact
+           document.getElementById('address').value=data.data.address
+           document.getElementById('email').value=data.data.email
         }
         
     })
@@ -155,12 +172,18 @@ function edit(id){
         document.querySelector('#edit_supplier').addEventListener('click',function(e){
             e.preventDefault();
             let supplier_name = document.getElementById('supplier_name').value;
+            let contact = document.getElementById('contact').value;
+            let address = document.getElementById('address').value;
+            let email = document.getElementById('email').value;
     
             fetch('/procurement/app/customroute/editdata',{
                 method:'POST',
                 body:JSON.stringify({
                    tableName:"supplier",
                    updatedata:supplier_name,
+                   contact,
+                   address,
+                   email,
                    affectedColumn:'supplier_name',
                    id:id
                 }),

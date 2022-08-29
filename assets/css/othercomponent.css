@@ -527,6 +527,7 @@ table th{
 .modalApproval{
     width:50%;
     min-height: 50vh;
+
     
 }
 .modalFilter{
@@ -542,7 +543,9 @@ table th{
 
 .modalSupplier{
     width: 500px;
-    height: 40vh;
+    min-height: 80vh;
+
+
 }
 
 .modalClassCustom{

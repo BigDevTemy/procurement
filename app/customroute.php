@@ -820,8 +820,13 @@ $router->post('/getdata',function(){
 $router->post('/editdata',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
-
-  $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."' WHERE id='".$data['id']."'";
+  if($data['affectedColumn'] == 'order_title'){
+    $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."' WHERE id='".$data['id']."'";
+  }
+  else{
+    $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."', email='".$data['email']."',contact='".$data['contact']."',address='".$data['address']."' WHERE id='".$data['id']."'";
+  }
+  
   
   $result = $connection->query($query)or die(mysqli_error($connection));
 

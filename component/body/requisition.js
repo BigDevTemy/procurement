@@ -88,6 +88,11 @@ function loadRequisitionDefault(){
                                 
                             </select>
                         </div>
+
+                        <div class=" d-flex align-items-center mt-4">
+                            <input type="checkbox" id="received" style="margin-right:10px"/><span>Received</span>
+
+                        </div>
                         
                     </div>
 
@@ -228,6 +233,11 @@ function AddRequisition(){
                                     <option value="">SELECT SUPPLIER</option>
                                     
                                 </select>
+                            </div>
+
+                            <div class=" d-flex align-items-center mt-4">
+                                <input type="checkbox" id="received" style="margin-right:10px"/><span>Received</span>
+
                             </div>
                             
                         </div>
