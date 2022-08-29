@@ -400,7 +400,7 @@ function ShippmentReportReside(){
 
                             <div class="row mt-4">
                                 <div class="col-md-4">
-                                    <select class="form-control" id="select_status">
+                                    <select class="form-control" id="select_mode">
                                         <option>Mode of Shippment</option>
                                         <option value="Air">Air</option>
                                         <option value="Land">Land</option>
@@ -416,7 +416,7 @@ function ShippmentReportReside(){
                             </div>
 
                             <div class="d-flex mt-4 justify-content-end">
-                                <button class="btn btn-secondary" onClick="Search()">Search</button>
+                                <button class="btn btn-secondary" onClick="SearchShippment()">Search</button>
                                 <button class="btn btn-outline" style="margin-left:10px" onClick="CloseButton()">Close</button>
                             </div>
 
@@ -426,9 +426,218 @@ function ShippmentReportReside(){
 
         document.querySelector('.modalClass').innerHTML=content
         close();
-        callSelect2()
+        callSelect2_shippment()
 
         
+}
+
+
+function callSelect2_shippment(){
+    $('#select_order').select2();
+    $('#select_supplier').select2();
+    $('#select_status').select2();
+    $('#select_mode').select2()
+    fetchRequired();
+    var date = new Date();  
+    var currentDate = date.toISOString().substring(0,10);
+    
+    document.getElementById('from_date').value = currentDate
+    document.getElementById('to_date').value = currentDate
+}
+
+function SearchShippment(){
+    
+    let orderid = document.getElementById('select_order').value;
+    let supplierid = document.getElementById('select_supplier').value;
+    let status = document.getElementById('select_status').value;
+    let from_date = document.getElementById('from_date').value;
+    let to_date = document.getElementById('to_date').value;
+    let mode = document.getElementById('select_mode').value
+
+    // console.log(orderid);
+    // console.log(supplerid);
+    // console.log(status);
+    // console.log(from_date);
+    // console.log(to_date);
+
+    fetch('/procurement/app/customroute/filterShippment',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({orderid,supplierid,status,from_date,to_date})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+        console.log(res)
+       let dataset="";
+       if(res.status){
+
+            let table = $('#ShippmentReport').DataTable({
+                data:res.data,
+                destroy:true,
+
+                columns:[
+                    {data:"id"},
+                    {data:"order_title"},
+                    {data:"supplier_name"},
+                    {data:"mode_shippment"},
+                    {data:"payment_mode"},
+                    {data:"abroad_forwarder"},
+                    {data:"cleared"},
+                    {data:"status"},
+                    {
+                            
+                        data:"",
+                        render:function(data,type,row){
+                            
+                        let split = row.shippment_docs.split("_");
+                        if(split){
+
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+
+                                return dataset;
+                        }
+                        
+                        
+                        
+
+                        }
+                    },
+                    {
+                        
+                        data:"",
+                        render:function(data,type,row){
+                            
+                        let split = row.soncap.split("_");
+                        if(split){
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+
+                                return dataset;
+                            }
+
+                        }
+                    
+                    },
+                    {
+                        data:"",
+                        render:function(data,type,row){
+                            
+                        let split = row.paar.split("_");
+                        if(split){
+                            let dataset="";
+                            split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                            })
+                            return dataset;
+                        }
+                        
+                        
+
+                        }
+                    },
+                    {
+                        data:'',
+                        render:function(data,type,row){
+                            console.log('xxxwwewew',row.status)
+                            if(row.status === "dispatched"){
+                                let split = row.dispatched_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+                            else if(row.status === "package received by agent"){
+                                let split = row.package_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+                            else if(row.status === "shipped by agent"){
+                                let split = row.shipped_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+                            else if(row.status === "delivered"){
+                                let split = row.delivery_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+
+                            
+                        }
+
+                    },
+                    
+                    {data:"created_at"}
+                    
+                ]
+            })
+        
+       
+            CloseButton();
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
+
+
 }
 
 

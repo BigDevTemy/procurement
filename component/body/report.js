@@ -217,10 +217,10 @@ function POFetch(){
 
 function ShippmentReportClick(){
     
-    // POFetch();
+    ShippmentFetch();
     
     let content =  ` 
-            <table id="POReport" class="table table-striped table-bordered " style="width:100%">
+            <table id="ShippmentReport" class="table table-striped table-bordered " style="width:100%">
                 <thead>
                     <tr class="shippmentTR">
                         <th>SN</th>
@@ -231,8 +231,10 @@ function ShippmentReportClick(){
                         <th>Abroad Forwarder</th>
                         <th>Clearing Amount</th>
                         <th>Status</th>
-                        <th>Soncap</th>
-                        <th>Paar</th>
+                        <th>Shippment Docs</th>
+                        <th>Soncap Docs</th>
+                        <th>Paar Docs</th>
+                        <th>Additional Docs</th>
                         <th>Created_at</th>
                         
                     </tr>
@@ -246,6 +248,124 @@ function ShippmentReportClick(){
         document.querySelector('.render_body_content').innerHTML = content
 
             
+}
+
+
+function ShippmentFetch(){
+    var date = new Date(); 
+    var currentDate = date.toISOString().substring(0,10);
+
+    fetch('/procurement/app/customroute/filterShippment',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:''})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+    //    console.log(res);
+       let dataset="";
+       if(res.status){
+
+        let table = $('#ShippmentReport').DataTable({
+            data:res.data,
+            destroy:true,
+
+            columns:[
+                {data:"id"},
+                {data:"order_title"},
+                {data:"supplier_name"},
+                {data:"mode_shippment"},
+                {data:"payment_mode"},
+                {data:"	abroad_forwarder"},
+                {data:"	cleared"},
+                {data:"	status"},
+                {
+                        
+                    data:"",
+                    render:function(data,type,row){
+                        
+                       let split = row.shippment_docs.split("_");
+                       if(split){
+
+                            let dataset="";
+                            split.forEach((d)=>{
+                            if(d != ""){
+                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                            }
+                            
+                            
+                            })
+                            
+
+                            return dataset;
+                       }
+                       
+                       
+                       
+
+                    }
+                },
+                {
+                    
+                    data:"",
+                    render:function(data,type,row){
+                        
+                       let split = row.soncap.split("_");
+                       if(split){
+                            let dataset="";
+                            split.forEach((d)=>{
+                            if(d != ""){
+                                dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                            }
+                            
+                            
+                            })
+                            
+
+                            return dataset;
+                        }
+
+                    }
+                
+                },
+                {
+                    data:"",
+                    render:function(data,type,row){
+                        
+                       let split = row.paar.split("_");
+                       if(split){
+                        let dataset="";
+                       split.forEach((d)=>{
+                        if(d != ""){
+                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                        }
+                        
+                        
+                       })
+                       
+
+                       return dataset;
+                       }
+                       
+                       
+
+                    }
+                },
+                
+                {data:"created_at"}
+                
+            ]
+        })
+        
+       
+            CloseButton();
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
+
+       
 }
 
 
