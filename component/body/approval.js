@@ -144,8 +144,14 @@ function allapprovedx(){
                  {
                      data:'',
                      render:function(data,type,row){
-                     
-                         return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
+                        console.log('po_approval',row.po_approval)
+                        if(row.po_approval === "approved"){
+                            return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" disabled>Cant Delete</div>`
+                        }
+                        else{
+                            return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
+                        }
+                         
                        } 
                  }
              

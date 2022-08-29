@@ -690,6 +690,8 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let note = document.getElementById('note').value;
         let discount = document.getElementById('discount').value;
         let description = document.querySelectorAll('.content');
+        let received = document.querySelector('#received')
+        
         
         for(let i=0;i<description.length;i++){
             let child = description[i].children;
@@ -747,6 +749,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
             formdata.append('currency',currency);
             formdata.append('note',note);
             formdata.append('discount',discount);
+            formdata.append('received',received.checked);
 
             fetch('/procurement/app/customroute/upoadrequisition',{
                 method:'POST',
