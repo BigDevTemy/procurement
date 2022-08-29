@@ -1385,7 +1385,11 @@ $router->post('/filterShippment',function(){
     $count += 1;
   }
   if($data['status']!="" && $data['status'] !="Status"){
-    $conditionedQuery .= " level_1_approval = '".$data['status']."' AND";
+    $conditionedQuery .= " status = '".$data['status']."' AND";
+    $count += 1;
+  }
+  if($data['mode']!="" && $data['mode'] !="Mode Of Shippment"){
+    $conditionedQuery .= " mode_shippment = '".$data['mode']."' AND";
     $count += 1;
   }
 
@@ -1400,6 +1404,67 @@ $router->post('/filterShippment',function(){
   }
   else{
     $query = "SELECT * FROM shippment  LEFT JOIN `approval_process` ON `approval_process`.`id` = `shippment`.`approve_id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` LEFT JOIN `orders` ON `orders`.`id` = `approval_process`.`order_id`";
+  }
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
+    echo json_encode($json_data);
+});
+
+
+$router->post('/filterRequisition',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  
+  
+  $conditionedQuery = "WHERE ";
+  $count =0;
+  if($data['orderid']!="" && $data['orderid'] !="All Orders"){
+    $conditionedQuery .= " order_id = '".$data['orderid']."' AND";
+    $count += 1;
+  }
+  if($data['supplierid']!="" && $data['supplierid'] !="All Suppliers"){
+    $conditionedQuery .= " supplier_id = '".$data['supplierid']."' AND";
+    $count += 1;
+  }
+
+  if($data['project_name']!="" && $data['project_name'] !="Project Name"){
+    $conditionedQuery .= " project_name = '".$data['project_name']."' AND";
+    $count += 1;
+  }
+  if($data['description']!="" && $data['description'] != "Description"){
+    $conditionedQuery .= " description = '".$data['description']."' AND";
+    $count += 1;
+  }
+  if($data['ref_no']!="" && $data['ref_no'] != "Reference No"){
+    $conditionedQuery .= " 	file_ref = '".$data['ref_no']."' AND";
+    $count += 1;
+  }
+  if($data['serial_number']!="" && $data['serial_number'] != "Serial Number"){
+    $conditionedQuery .= " serial_quotation_number = '".$data['serial_number']."' AND";
+    $count += 1;
+  }
+
+  if($data['from_date'] && $data['to_date']){
+    $conditionedQuery.=" `requisition`.`created_at` BETWEEN '".$data['from_date']."' AND '".$data['to_date']."'";
+    $count += 1;
+  }
+
+  // echo json_encode($conditionedQuery);
+  if($count > 0){
+    $query = "SELECT * FROM requisition  LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` LEFT JOIN `orders` ON `orders`.`id` = `requisition`.`order_id` ".$conditionedQuery."";
+  }
+  else{
+    $query = "SELECT * FROM requisition  LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` LEFT JOIN `orders` ON `orders`.`id` = `requisition`.`order_id`";
   }
   
   $result = $connection->query($query)or die(mysqli_error($connection));

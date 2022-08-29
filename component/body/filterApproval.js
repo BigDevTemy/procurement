@@ -19,6 +19,9 @@ function filterApproval(){
         case 'Shippment Report':
             ShippmentReportReside();
             break;
+        case 'Requisition Report':
+            RequisitionReportReside();
+            break;
     }
 
    
@@ -361,6 +364,7 @@ function SearchPO(){
 }
 
 function ShippmentReportReside(){
+
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
                     <div class="customModal modalFilter">
@@ -640,4 +644,291 @@ function SearchShippment(){
 
 }
 
+
+
+
+function RequisitionReportReside(){
+    document.querySelector('.modalClass').classList.add('modalClassCustom');
+    let content =  ` 
+                    <div class="customModal modalFilter">
+                            <div class="modalTitle mb-4">
+                                <div> 
+                            
+                                </div> 
+                                <div class="closeModal">X</div>
+                            </div>
+                            
+
+                            <div class="modalBody">
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select id="select_order" class="form-control">
+                                        <option>Order Type</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="select_supplier">
+                                        <option>All Suppliers</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" placeholder="Reference No" />
+                                </div>
+
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control"  id="description" placeholder="Description" />
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="project_name" placeholder="Project name" />
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="serial_number" placeholder="Serial Number" /> 
+                                </div>
+                                
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <input type="date" class="form-control" id="from_date" /> 
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="date" class="form-control" id="to_date" /> 
+                                </div>
+                                
+                                
+                            </div>
+
+                            
+
+                            <div class="d-flex mt-4 justify-content-end">
+                                <button class="btn btn-secondary" onClick="SearchRequisition()">Search</button>
+                                <button class="btn btn-outline" style="margin-left:10px" onClick="CloseButton()">Close</button>
+                            </div>
+
+                            </div>
+                    </div>
+                `
+
+        document.querySelector('.modalClass').innerHTML=content
+        close();
+        callSelect3_shippment()
+
+        
+}
+
+
+function callSelect3_shippment(){
+    $('#select_order').select2();
+    $('#select_supplier').select2();
+    $('#select_status').select2();
+    $('#select_mode').select2()
+    fetchRequired();
+    var date = new Date();  
+    var currentDate = date.toISOString().substring(0,10);
+    
+    document.getElementById('from_date').value = currentDate
+    document.getElementById('to_date').value = currentDate
+}
+
+function SearchRequisition(){
+    
+    let orderid = document.getElementById('select_order').value;
+    let supplierid = document.getElementById('select_supplier').value;
+   
+    let from_date = document.getElementById('from_date').value;
+    let to_date = document.getElementById('to_date').value;
+    // let deliveryaddress = document.getElementById('delivery_address').value;
+    let description = document.getElementById('description').value;
+    let serial_number = document.getElementById('serial_number').value;
+    let project_name = document.getElementById('project_name').value;
+    let ref_number = document.getElementById('ref_number').value;
+    // console.log(orderid);
+    // console.log(supplerid);
+    // console.log(status);
+    // console.log(from_date);
+    // console.log(to_date);
+
+    fetch('/procurement/app/customroute/filterRequisition',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({orderid,supplierid,project_name,description,serial_number,ref_number,from_date,to_date})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+        console.log(res)
+       let dataset="";
+       if(res.status){
+
+            let table = $('#RequisitionReport').DataTable({
+                data:res.data,
+                destroy:true,
+
+                columns:[
+                    {data:"id"},
+                    {data:"order_title"},
+                    {data:"supplier_name"},
+                    {data:"mode_shippment"},
+                    {data:"payment_mode"},
+                    {data:"abroad_forwarder"},
+                    {data:"cleared"},
+                    {data:"status"},
+                    {
+                            
+                        data:"",
+                        render:function(data,type,row){
+                            
+                        let split = row.shippment_docs.split("_");
+                        if(split){
+
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+
+                                return dataset;
+                        }
+                        
+                        
+                        
+
+                        }
+                    },
+                    {
+                        
+                        data:"",
+                        render:function(data,type,row){
+                            
+                        let split = row.soncap.split("_");
+                        if(split){
+                                let dataset="";
+                                split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                                })
+                                
+
+                                return dataset;
+                            }
+
+                        }
+                    
+                    },
+                    {
+                        data:"",
+                        render:function(data,type,row){
+                            
+                        let split = row.paar.split("_");
+                        if(split){
+                            let dataset="";
+                            split.forEach((d)=>{
+                                if(d != ""){
+                                    dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                }
+                                
+                                
+                            })
+                            return dataset;
+                        }
+                        
+                        
+
+                        }
+                    },
+                    {
+                        data:'',
+                        render:function(data,type,row){
+                            console.log('xxxwwewew',row.status)
+                            if(row.status === "dispatched"){
+                                let split = row.dispatched_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+                            else if(row.status === "package received by agent"){
+                                let split = row.package_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+                            else if(row.status === "shipped by agent"){
+                                let split = row.shipped_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+                            else if(row.status === "delivered"){
+                                let split = row.delivery_docs.split("_");
+                                if(split){
+                                    let dataset="";
+                                    split.forEach((d)=>{
+                                        if(d != ""){
+                                            dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                        }
+                                        
+                                        
+                                    })
+                                    return dataset;
+                                }
+
+                            }
+
+                            
+                        }
+
+                    },
+                    
+                    {data:"created_at"}
+                    
+                ]
+            })
+        
+       
+            CloseButton();
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
+
+
+}
 

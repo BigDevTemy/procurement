@@ -6,6 +6,7 @@ function Report(search){
                     <div class="tab-active">Approval Report</div>
                     <div>PO Report</div>
                     <div>Shippment Report</div>
+                    <div>Requisition Report</div>
                 </div>
                 <div>
                     <button class="btn btn-secondary btn-md mt-4" onClick="filterApproval()" style="width:10%">Filter</button>
@@ -258,7 +259,7 @@ function ShippmentFetch(){
     fetch('/procurement/app/customroute/filterShippment',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
-        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:''})
+        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:'',mode:''})
     })
     .then(result=>result.json())
     .then(res=>{
@@ -367,6 +368,102 @@ function ShippmentFetch(){
 
        
 }
+
+
+function RequisitionReportClick(){
+    
+    // ShippmentFetch();
+    RequisitionFetch();
+    
+    let content =  ` 
+            <table id="RequisitionReport" class="table table-striped table-bordered " style="width:100%">
+                <thead>
+                    <tr class="shippmentTR">
+                        <th>SN</th>
+                        <th>Order Type</th>
+                        <th>Supplier Name</th>
+                        <th>Description</th>
+                        <th>Quality</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                        <th>Quotation Receipt</th>
+                        <th>Project name</th>
+                        <th>Currency</th>
+                        <th>Date of Sending</th>
+                        <th>Date of creation</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="reportApprovaltbody">
+
+                </tbody>
+            </table>
+            `
+    
+        document.querySelector('.render_body_content').innerHTML = content
+
+            
+}
+
+
+function RequisitionFetch(){
+    var date = new Date(); 
+    var currentDate = date.toISOString().substring(0,10);
+
+    fetch('/procurement/app/customroute/filterRequisition',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:'',project_name:'',description:'',ref_no:''})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+    //    console.log(res);
+       let dataset="";
+       if(res.status){
+
+        let table = $('#RequisitionReport').DataTable({
+            data:res.data,
+            destroy:true,
+
+            columns:[
+                {data:"id"},
+                {data:"order_title"},
+                {data:"supplier_name"},
+                {data:"description"},
+                {data:"quantity"},
+                {data:"	price"},
+                {data:"	discount"},
+                {data:"	total"},
+                { 
+                    data:"",
+                    
+                    render:function(data,type,row){
+                        return `<div>Quotation</div>`
+                    } 
+                       
+                    
+                },
+
+                {data:"project_name"},
+                {data:"currency"},
+                {data:"dateofcreation"},
+                {data:"dateofsending"},
+                
+            ]
+        })
+        
+       
+            CloseButton();
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
+
+       
+}
+
 
 
 

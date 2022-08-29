@@ -205,6 +205,8 @@ function switchComponentBodyRender(tab_name){
             return POReportClick();
         case 'Shippment Report':
             return ShippmentReportClick();
+        case 'Requisition Report':
+            return RequisitionReportClick();
         default:
             
     }
