@@ -91,13 +91,20 @@ function ApprovedFetch(){
        
        let dataset="";
        if(res.status){
-
+        
+        let count = 0;
         let table = $('#approvedReport').DataTable({
             data:res.data,
             destroy:true,
 
             columns:[
-                {data:"id"},
+                {
+                    data:"",
+                    render:function(){
+                        return count = count+ 1;
+                    }
+
+                },
                 {data:"order_title"},
                 {data:"supplier_name"},
                 {data:"level_1_approval"},

@@ -72,7 +72,7 @@ function AllOrder(){
 }
 
 function allprocessedorders(){
-    
+    let count = 0;
     let table = $('#processedOrder').DataTable({
          
         "processing":true,
@@ -87,7 +87,13 @@ function allprocessedorders(){
         },
         "columns":[
              
-                 {data:"id"},
+                 {
+                    
+                    data:"",
+                    render:function(){
+                        return count = count+ 1;
+                    }
+                },
                  {data:"order_title"},
                  {data:"order_ref"},
                  {data:"author"},

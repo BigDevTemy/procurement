@@ -263,7 +263,8 @@ function Search(){
     })
     .then(result=>result.json())
     .then(res=>{
-       console.log(res);
+        let count = 0;
+       
        let dataset="";
        if(res.status){
 
@@ -272,7 +273,12 @@ function Search(){
             destroy:true,
 
             columns:[
-                {data:"id"},
+                {
+                    data:"",
+                    render:function(){
+                        return count = count+ 1;
+                    }
+                },
                 {data:"order_title"},
                 {data:"supplier_name"},
                 {data:"level_1_approval"},
@@ -392,7 +398,7 @@ function ShippmentReportReside(){
                                 <div class="col-md-4">
                                     <select class="form-control" id="select_status">
                                         <option>Status</option>
-                                        <option value="pending">Pending</option>
+                                        <option value="pending with supplier">Pending</option>
                                         <option value="dispatched">Dispatched</option>
                                         <option value="package received by agent">Package received by agent</option>
                                         <option value="shipped by agent">Shipped by agent</option>
@@ -471,8 +477,7 @@ function SearchShippment(){
     })
     .then(result=>result.json())
     .then(res=>{
-        console.log(res)
-       let dataset="";
+       
        if(res.status){
 
             let table = $('#ShippmentReport').DataTable({

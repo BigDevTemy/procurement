@@ -247,7 +247,7 @@ function PendingPOApproval(){
 }
 function POClickfetch(){
     $(document).ready(function () {
-
+        let count =0;
        let table = $('#poclick').DataTable({
         
            "processing":true,
@@ -263,7 +263,14 @@ function POClickfetch(){
            },
            "columns":[
                 
-                    {data:"id"},
+                    {
+                        
+                        data:"",
+                        render:function(){
+                            return count = count+ 1;
+                        }
+                    
+                    },
                     {data:"order_title"},
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
@@ -308,6 +315,7 @@ function POApproved(){
 }
 
 function POClickfetchapproved(){
+    let count = 0;
     let table = $('#poapproved').DataTable({
         
         "processing":true,
@@ -323,7 +331,14 @@ function POClickfetchapproved(){
         },
         "columns":[
              
-                 {data:"id"},
+                 {
+                    
+                    data:"",
+                    render:function(){
+                        return count = count+ 1;
+                    }
+                
+                },
                  {data:"order_title"},
                  {data:"supplier_name"},
                  {data:"level_1_approval"},

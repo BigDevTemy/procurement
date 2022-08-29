@@ -121,7 +121,7 @@ function TreatedApproval(){
 
 
 function allapprovedx(){
-    
+    let count = 0
     let table = $('#treated').DataTable({
      
         "processing":true,
@@ -136,15 +136,22 @@ function allapprovedx(){
         },
         "columns":[
              
-                 {data:"id"},
+                 {
+                    data:"",
+                    render:function(){
+                        return count = count+ 1;
+                    }
+                    
+                
+                },
                  {data:"order_title"},
                  {data:"supplier_name"},
                  {data:"level_1_approval"},
                  {data:"created_at"},
                  {
                      data:'',
-                     render:function(data,type,row){
-                        console.log('po_approval',row.po_approval)
+                     render:function(datax,type,row){
+                        
                         if(row.po_approval === "approved"){
                             return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" disabled>Cant Delete</div>`
                         }

@@ -1,5 +1,5 @@
 
-const counter = true;
+let counter = true;
 function Shippment(search){
     let content = ` 
                 <div class="supplierDiv">
@@ -28,55 +28,56 @@ function Shippment(search){
 
 
 
-function Shippmentfetch(){
-    $(document).ready(function () {
+// function Shippmentfetch(){
+//     $(document).ready(function () {
 
-       let table = $('#example').DataTable({
+//        let table = $('#example').DataTable({
         
-           "processing":true,
-            "destroy":true,
-           "serverSide":true,
-           "bFilter": true,
-           dom: "Bfrtip",
-           "ajax":{
-                url:'/procurement/app/customroute/getShippment',
-                type:"GET",
+//            "processing":true,
+//             "destroy":true,
+//            "serverSide":true,
+//            "bFilter": true,
+//            dom: "Bfrtip",
+//            "ajax":{
+//                 url:'/procurement/app/customroute/getShippment',
+//                 type:"GET",
                 
                
-           },
-           "columns":[
+//            },
+//            "columns":[
                 
-                    {data:"id"},
-                    {data:"order_title"},
-                    {data:"supplier_name"},
-                    {data:"level_1_approval"},
-                    {data:"po_approval"},
-                    {data:"shippment_status"},
-                    {data:"created_at"},
-                    {
-                        data:"",
-                        render:function(data,type,row){
+//                     {data:"id"},
+//                     {data:"order_title"},
+//                     {data:"supplier_name"},
+//                     {data:"level_1_approval"},
+//                     {data:"po_approval"},
+//                     {data:"shippment_status"},
+//                     {data:"created_at"},
+//                     {
+//                         data:"",
+//                         render:function(data,type,row){
                             
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm">Review</button></div>`
-                          } 
-                    }
+//                             return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm">Review</button></div>`
+//                           } 
+//                     }
                 
-           ]   
+//            ]   
 
-        });
+//         });
 
 
-    });
+//     });
     
     
-}
+// }
 
 function ShippmentHTML(){
 
-    if(counter){
-        Shippmentfetch();
-        count=false
-    }
+    // if(counter){
+        
+    //     counter=false
+    // }
+    Shippmentfetch();
     
     return `
 
@@ -103,12 +104,13 @@ function ShippmentHTML(){
 
 function AwaitingShippment(){
     
-    if(counter){
-        Shippmentfetch();
-        counter=false
-    }
+    // if(counter){
+        
+    //     counter=false
+    // }
+    Shippmentfetch();
     let content = `
-            <table id="exampleAwaiting" class="table table-striped table-bordered" style="width:100%">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>SN</th>
@@ -133,6 +135,60 @@ function AwaitingShippment(){
 
 
 function Shippmentfetch(){
+    let count = 0;
+    fetch('/procurement/app/customroute/getShippment',{
+        method:'GET',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        
+    })
+    .then(result=>result.json())
+    .then(res=>{
+       console.log(res)
+       if(res.status){
+
+            let table = $('#example').DataTable({
+                    data:res.data,
+                    destroy:true,
+                    columns:[
+                
+                        {
+                            
+                            data:"",
+                            render:function(){
+                                return count = count+ 1;
+                            }
+                        },
+                        {data:"order_title"},
+                        {data:"supplier_name"},
+                        {data:"level_1_approval"},
+                        {data:"po_approval"},
+                        {data:"shippment_status"},
+                        {data:"created_at"},
+                        {
+                            data:"",
+                            render:function(data,type,row){
+                                
+                                return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm">Review</button></div>`
+                              } 
+                        }
+                    
+                    ] 
+
+            })
+        
+       
+            
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
+
+
+
+
+
+
     $(document).ready(function () {
 
        let table = $('#example').DataTable({
@@ -150,7 +206,13 @@ function Shippmentfetch(){
            },
            "columns":[
                 
-                    {data:"id"},
+                    {
+                        
+                        data:"",
+                        render:function(){
+                            return count = count+ 1;
+                        }
+                    },
                     {data:"order_title"},
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
@@ -160,7 +222,7 @@ function Shippmentfetch(){
                     {
                         data:"",
                         render:function(data,type,row){
-                            console.log(row)
+                            
                             return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewShippment(${row.id})"><button class="btn btn-warning btn-sm">Review</button></div>`
                           } 
                     }
@@ -206,6 +268,7 @@ function Dispatched(){
 
 
 function ShippmentfetchDispached(){
+    let count = 0;
     $(document).ready(function () {
 
        let table = $('#example').DataTable({
@@ -223,7 +286,13 @@ function ShippmentfetchDispached(){
            },
            "columns":[
                 
-                    {data:"id"},
+                    {
+                        
+                        data:"",
+                        render:function(){
+                            return count = count+ 1;
+                        }
+                    },
                     {data:"order_title"},
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
@@ -278,6 +347,8 @@ function Package(){
 
 
 function ShippmentfetchPackage(){
+
+    let count = 0;
     $(document).ready(function () {
 
        let table = $('#example').DataTable({
@@ -295,7 +366,12 @@ function ShippmentfetchPackage(){
            },
            "columns":[
                 
-                    {data:"id"},
+                    { 
+                        data:"",
+                        render:function(){
+                            return count = count+ 1;
+                        }
+                    },
                     {data:"order_title"},
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
@@ -348,6 +424,7 @@ function Shipped(){
 
 
 function ShippmentfetchShipped(){
+    let count = 0;
     $(document).ready(function () {
 
        let table = $('#example').DataTable({
@@ -365,7 +442,12 @@ function ShippmentfetchShipped(){
            },
            "columns":[
                 
-                    {data:"id"},
+                    {
+                        data:"",
+                        render:function(){
+                            return count = count+ 1;
+                        }
+                    },
                     {data:"order_title"},
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
@@ -420,7 +502,7 @@ function Delivered(){
 
 function ShippmentfetchDelivered(){
     $(document).ready(function () {
-
+        let count = 0;
        let table = $('#example').DataTable({
         
            "processing":true,
@@ -436,7 +518,12 @@ function ShippmentfetchDelivered(){
            },
            "columns":[
                 
-                    {data:"id"},
+                    {
+                        data:"",
+                        render:function(){
+                            return count = count+ 1;
+                        }
+                    },
                     {data:"order_title"},
                     {data:"supplier_name"},
                     {data:"level_1_approval"},

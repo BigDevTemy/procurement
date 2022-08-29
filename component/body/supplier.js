@@ -97,6 +97,8 @@ function AllSupplier(){
 
 function getAllSupplier(){
 
+    let count=0;
+
         let table = $('#supplier').DataTable({
          
             "processing":true,
@@ -111,7 +113,14 @@ function getAllSupplier(){
             },
             "columns":[
                  
-                     {data:"id"},
+                     {
+                        
+                        data:"",
+                        render:function(){
+                            return count = count+ 1;
+                        }
+                    
+                    },
                      {data:"supplier_name"},
                      {data:"address"},
                      {data:"contact"},
