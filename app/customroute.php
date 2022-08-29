@@ -1236,7 +1236,7 @@ $router->get('/reportShippment',function(){
     while($row = mysqli_fetch_assoc($result)){
       $data[] = $row;
     }
-    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     echo json_encode($json_data);
   
   $connection->close();
@@ -1277,6 +1277,7 @@ $router->post('/filterApproval',function(){
   $data = json_decode(file_get_contents('php://input'), true);
 
   
+  
   $conditionedQuery = "WHERE ";
   $count =0;
   if($data['orderid']!="" && $data['orderid'] !="All Orders"){
@@ -1312,7 +1313,55 @@ $router->post('/filterApproval',function(){
     while($row = mysqli_fetch_assoc($result)){
       $data[] = $row;
     }
-    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
+    echo json_encode($json_data);
+});
+
+
+$router->post('/filterPO',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  
+  
+  $conditionedQuery = "WHERE po_approval IS NOT NULL AND";
+  $count =0;
+  if($data['orderid']!="" && $data['orderid'] !="All Orders"){
+    $conditionedQuery .= " order_id = '".$data['orderid']."' AND";
+    $count += 1;
+  }
+  if($data['supplierid']!="" && $data['supplierid'] !="All Suppliers"){
+    $conditionedQuery .= " supplier_id = '".$data['supplierid']."' AND";
+    $count += 1;
+  }
+  if($data['status']!="" && $data['status'] !="Status"){
+    $conditionedQuery .= " level_1_approval = '".$data['status']."' AND";
+    $count += 1;
+  }
+
+  if($data['from_date'] && $data['to_date']){
+    $conditionedQuery.=" `approval_process`.`created_at` BETWEEN '".$data['from_date']."' AND '".$data['to_date']."'";
+    $count += 1;
+  }
+
+  // echo json_encode($conditionedQuery);
+  if($count > 0){
+    $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` LEFt JOIN `requisition` ON `requisition`.`supplier_id` = `approval_process`.`assigned_supplier` ".$conditionedQuery." GROUP BY `requisition`.`supplier_id`";
+  }
+  else{
+    $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` LEFt JOIN `requisition` ON `requisition`.`supplier_id` = `approval_process`.`assigned_supplier` WHERE po_approval IS NOT NULL GROUP BY `requisition`.`suppler_id`";
+  }
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     echo json_encode($json_data);
 });
 

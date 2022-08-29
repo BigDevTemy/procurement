@@ -140,10 +140,11 @@ session_start();
     
     
     </body>
-    <script src="../component/body//filterApproval.js"></script>
+    
     <script src="../component/body/delete.js"></script>
     <script src="../component/body/report.js"></script>
     <script src="../component/body/requisitionModal.js"></script>
+    <script src="../component/body/filterApproval.js"></script>
     <script src="../component/body/approvalModal.js"></script>
     <script src="../component/body/poModal.js"></script>
     <script src="../component/body/modal.js"></script>

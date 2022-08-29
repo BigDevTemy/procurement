@@ -199,6 +199,10 @@ function switchComponentBodyRender(tab_name){
             return Delivered();
         case 'PO Approved':
             return POApproved();
+        case 'Approval Report':
+            return ApprovedReportClick();
+        case 'PO Report':
+            return POReportClick();
         default:
             
     }

@@ -7,13 +7,12 @@ function Report(search){
                     <div>PO Report</div>
                     <div>Shippment Report</div>
                 </div>
-
+                <div>
+                    <button class="btn btn-secondary btn-md mt-4" onClick="filterApproval()" style="width:10%">Filter</button>
+                </div>
+                
                 <div class="render_body_content approval mt-4">
-                        <button class="btn btn-secondary btn-md mb-4" onClick="filterApproval()" style="width:10%">Filter</button>
-                        <div class="reportDiv">
-                            ${ApprovedReport()}
-                        </div>
-                       
+                    ${ApprovedReport()}  
                 </div>
             
 
@@ -35,11 +34,41 @@ function ApprovedReport(){
                         <th>Supplier Assigned</th>
                         <th>Status</th>
                         <th>Date</th>
-                        <th>Action</th>
+                        
                     </tr>
                 </thead>
+                <tbody id="reportApprovaltbody">
+
+                </tbody>
             </table>
             `
+
+            
+}
+
+function ApprovedReportClick(){
+    
+    ApprovedFetch();
+    
+    let content =  ` 
+            <table id="approvedReport" class="table table-striped table-bordered " style="width:100%">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Order Type</th>
+                        <th>Supplier Assigned</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="reportApprovaltbody">
+
+                </tbody>
+            </table>
+            `
+    
+        document.querySelector('.render_body_content').innerHTML = content
 
             
 }
@@ -50,49 +79,140 @@ function ApprovedReport(){
 function ApprovedFetch(){
     var date = new Date(); 
     var currentDate = date.toISOString().substring(0,10);
-    
-    $(document).ready(function () {
 
-       let table = $('#approvedReport').DataTable({
+    fetch('/procurement/app/customroute/filterApproval',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:''})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+       console.log(res);
+       let dataset="";
+       if(res.status){
+
+        let table = $('#approvedReport').DataTable({
+            data:res.data,
+            destroy:true,
+
+            columns:[
+                {data:"id"},
+                {data:"order_title"},
+                {data:"supplier_name"},
+                {data:"level_1_approval"},
+                {data:"created_at"}
+                
+            ]
+        })
         
-           "processing":true,
-        "destroy":true,
-           "serverSide":true,
-           "bFilter": true,
-           dom: "Bfrtip",
-           "ajax":{
-                url:'/procurement/app/customroute/filterApproval',
-                type:"POST",  
-                data:JSON.stringify({
-                    "to_date":currentDate,
-                    "from_date":currentDate
-                })   
-           },
-           "columns":[
-                
-                    {data:"id"},
-                    {data:"order_title"},
-                    {data:"supplier_name"},
-                    {data:"level_1_approval"},
-                    {data:"created_at"},
-                    {
-                        data:'',
-                        render:function(data,type,row){
-                            
-                            return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" >Print</div>`
-                          } 
-                    }
-                   
-                
-           ]   
+       
+            CloseButton();
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
 
-        });
-
-
-    });
-    
-    
+       
 }
+
+
+function POReportClick(){
+    
+    POFetch();
+    
+    let content =  ` 
+            <table id="POReport" class="table table-striped table-bordered " style="width:100%">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Order Type</th>
+                        <th>Supplier Assigned</th>
+                        <th>PO Approval Status</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="reportApprovaltbody">
+
+                </tbody>
+            </table>
+            `
+    
+        document.querySelector('.render_body_content').innerHTML = content
+
+            
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function POFetch(){
+    var date = new Date(); 
+    var currentDate = date.toISOString().substring(0,10);
+
+    fetch('/procurement/app/customroute/filterPO',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({to_date:currentDate,from_date:currentDate,orderid:'',supplierid:'',status:''})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+       console.log(res);
+       let dataset="";
+       if(res.status){
+
+        let table = $('#POReport').DataTable({
+            data:res.data,
+            destroy:true,
+
+            columns:[
+                {data:"id"},
+                {data:"order_title"},
+                {data:"supplier_name"},
+                {data:"po_approval"},
+                {
+ 
+                    data:"",
+                    render:function(data,type,row,){
+                        return numberWithCommas(row.quantity)
+                    }
+ 
+                },
+                {
+                    data:"",
+                    render:function(data,type,row,){
+                        return numberWithCommas(row.price)
+                    }
+                
+                },
+                {
+                    data:"",
+                    render:function(data,type,row,){
+                        return numberWithCommas(row.total)
+                    }
+                
+                },
+                {data:"created_at"}
+                
+            ]
+        })
+        
+       
+            CloseButton();
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
+
+       
+}
+
 
 
 
