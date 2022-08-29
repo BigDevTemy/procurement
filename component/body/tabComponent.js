@@ -203,6 +203,8 @@ function switchComponentBodyRender(tab_name){
             return ApprovedReportClick();
         case 'PO Report':
             return POReportClick();
+        case 'Shippment Report':
+            return ShippmentReportClick();
         default:
             
     }

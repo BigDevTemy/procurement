@@ -314,4 +314,7 @@ small{
     font-size: 12px;
     margin-bottom: 20px;
 }
+.shippmentTR > th{
+    font-size: 12px;
+}
 

@@ -28,7 +28,7 @@ function ApprovedReport(){
     return ` 
             <table id="approvedReport" class="table table-striped table-bordered " style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
                         <th>Supplier Assigned</th>
@@ -53,7 +53,7 @@ function ApprovedReportClick(){
     let content =  ` 
             <table id="approvedReport" class="table table-striped table-bordered " style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
                         <th>Supplier Assigned</th>
@@ -124,7 +124,7 @@ function POReportClick(){
     let content =  ` 
             <table id="POReport" class="table table-striped table-bordered " style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
                         <th>Supplier Assigned</th>
@@ -211,6 +211,40 @@ function POFetch(){
     .catch(err=>console.log(err))
 
        
+}
+
+
+function ShippmentReportClick(){
+    
+    // POFetch();
+    
+    let content =  ` 
+            <table id="POReport" class="table table-striped table-bordered " style="width:100%">
+                <thead>
+                    <tr class="shippmentTR">
+                        <th>SN</th>
+                        <th>Order Type</th>
+                        <th>Supplier Name</th>
+                        <th>Mode of Shippment</th>
+                        <th>Payment Mode</th>
+                        <th>Abroad Forwarder</th>
+                        <th>Clearing Amount</th>
+                        <th>Status</th>
+                        <th>Soncap</th>
+                        <th>Paar</th>
+                        <th>Created_at</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="reportApprovaltbody">
+
+                </tbody>
+            </table>
+            `
+    
+        document.querySelector('.render_body_content').innerHTML = content
+
+            
 }
 
 
