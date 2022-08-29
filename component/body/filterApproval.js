@@ -8,7 +8,6 @@ function filterApproval(){
         }
     }
     
-    console.log(getActiveLink)
 
     switch(getActiveLink){
         case 'Approval Report':
@@ -176,7 +175,7 @@ function callSelect2(){
     fetchRequired();
     var date = new Date();  
     var currentDate = date.toISOString().substring(0,10);
-    console.log('current',currentDate)
+    
     document.getElementById('from_date').value = currentDate
     document.getElementById('to_date').value = currentDate
 }
@@ -189,7 +188,7 @@ function fetchRequired(){
         fetch('/procurement/app/customroute/getAllorder')
     .then(res=>res.json())
     .then(data=>{
-        console.log("data",data)
+       
         if(data['status']){
             let dataset ="<option>All Orders</option>"
             document.getElementById('select_order').innerHTML=""
@@ -309,7 +308,7 @@ function SearchPO(){
     })
     .then(result=>result.json())
     .then(res=>{
-       console.log(res);
+     
        let dataset="";
        if(res.status){
 
@@ -322,7 +321,31 @@ function SearchPO(){
                 {data:"order_title"},
                 {data:"supplier_name"},
                 {data:"po_approval"},
+                {
+ 
+                    data:"",
+                    render:function(data,type,row,){
+                       
+                        return numberWithCommas(row.quantity)
+                    }
+ 
+                },
+                {
+                    data:"",
+                    render:function(data,type,row,){
+                        return numberWithCommas(row.price)
+                    }
+                
+                },
+                {
+                    data:"",
+                    render:function(data,type,row,){
+                        return numberWithCommas(row.total)
+                    }
+                
+                },
                 {data:"created_at"}
+                
             ]
         })
         
@@ -335,6 +358,77 @@ function SearchPO(){
     .catch(err=>console.log(err))
 
 
+}
+
+function ShippmentReportReside(){
+    document.querySelector('.modalClass').classList.add('modalClassCustom');
+    let content =  ` 
+                    <div class="customModal modalFilter">
+                            <div class="modalTitle mb-4">
+                                <div> 
+                            
+                                </div> 
+                                <div class="closeModal">X</div>
+                            </div>
+                            
+
+                            <div class="modalBody">
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select id="select_order" class="form-control">
+                                        <option>Order Type</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="select_supplier">
+                                        <option>All Suppliers</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="select_status">
+                                        <option>Status</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="dispatched">Dispatched</option>
+                                        <option value="package received by agent">Package received by agent</option>
+                                        <option value="shipped by agent">Shipped by agent</option>
+                                        <option value="delivered">Delivered</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <select class="form-control" id="select_status">
+                                        <option>Mode of Shippment</option>
+                                        <option value="Air">Air</option>
+                                        <option value="Land">Land</option>
+                                        <option value="Ship">Ship</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" id="from_date" /> 
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" id="to_date" /> 
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4 justify-content-end">
+                                <button class="btn btn-secondary" onClick="Search()">Search</button>
+                                <button class="btn btn-outline" style="margin-left:10px" onClick="CloseButton()">Close</button>
+                            </div>
+
+                            </div>
+                    </div>
+        `
+
+        document.querySelector('.modalClass').innerHTML=content
+        close();
+        callSelect2()
+
+        
 }
 
 

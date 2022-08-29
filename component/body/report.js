@@ -87,7 +87,7 @@ function ApprovedFetch(){
     })
     .then(result=>result.json())
     .then(res=>{
-       console.log(res);
+       
        let dataset="";
        if(res.status){
 
@@ -162,7 +162,7 @@ function POFetch(){
     })
     .then(result=>result.json())
     .then(res=>{
-       console.log(res);
+    //    console.log(res);
        let dataset="";
        if(res.status){
 
@@ -179,6 +179,7 @@ function POFetch(){
  
                     data:"",
                     render:function(data,type,row,){
+                        console.log("trtyrtyr",row.quantity)
                         return numberWithCommas(row.quantity)
                     }
  
