@@ -81,9 +81,9 @@ function ShippmentHTML(){
     
     return `
 
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="exampleShippment" class="table table-striped table-bordered" style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="ShippmentTR">
                         <th>SN</th>
                         <th>ORDER TYPE</th>
                         <th>SUPPLIER NAME</th>
@@ -110,9 +110,9 @@ function AwaitingShippment(){
     // }
     Shippmentfetch();
     let content = `
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="exampleShippment" class="table table-striped table-bordered" style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="ShippmentTR">
                         <th>SN</th>
                         <th>ORDER TYPE</th>
                         <th>SUPPLIER NAME</th>
@@ -146,7 +146,7 @@ function Shippmentfetch(){
        console.log(res)
        if(res.status){
 
-            let table = $('#example').DataTable({
+            let table = $('#exampleShippment').DataTable({
                     data:res.data,
                     destroy:true,
                     columns:[
@@ -246,7 +246,7 @@ function Dispatched(){
     let content = `
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="ShippmentTR">
                         <th>SN</th>
                         <th>ORDER TYPE</th>
                         <th>SUPPLIER NAME</th>
@@ -323,7 +323,7 @@ function Package(){
     let content = `
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="ShippmentTR">
                         <th>SN</th>
                         <th>ORDER TYPE</th>
                         <th>SUPPLIER NAME</th>
@@ -400,7 +400,7 @@ function Shipped(){
     let content = `
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="ShippmentTR">
                         <th>SN</th>
                         <th>ORDER TYPE</th>
                         <th>SUPPLIER NAME</th>
@@ -477,7 +477,7 @@ function Delivered(){
     let content = `
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
-                    <tr>
+                    <tr class="ShippmentTR">
                         <th>SN</th>
                         <th>ORDER TYPE</th>
                         <th>SUPPLIER NAME</th>
@@ -564,7 +564,7 @@ function reviewShippment(id){
 function Shippmentreview(id){
     return `
                 <div class="shippmentDiv">
-                    <div><< Back</div>
+                    <div onClick="back()" style="cursor:pointer"><< Back</div>
                    
                     <div class="row mt-4">
                             <div class="col-md-6">
@@ -603,6 +603,7 @@ function Shippmentreview(id){
 
              
 }
+
 
 
 
