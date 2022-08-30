@@ -77,6 +77,9 @@ function logoNonActive(logoNavname){
         case 'Order':
             return "../assets/images/sidebar-icons/item.svg";
             break
+        case 'Project':
+            return "../assets/images/sidebar-icons/project.svg";
+            break
         case 'Requisition':
             return "../assets/images/sidebar-icons/requisition.svg";
             break
@@ -102,6 +105,9 @@ function logoActive(logoNavname){
             break;
         case 'Supplier':
             return "../assets/images/sidebar-icons/supplierActive.svg";
+            break
+        case 'Project':
+            return "../assets/images/sidebar-icons/projectActive.svg";
             break
         case 'Order':
             return "../assets/images/sidebar-icons/itemActive.svg";

@@ -179,6 +179,10 @@ function switchComponentBodyRender(tab_name){
             return AddSupplier();
         case 'All Supplier':
             return AllSupplier();
+        case 'Add Project':
+            return AddProject();
+        case 'All Project':
+            return AllProject();
         case 'Add Order':
              return AddOrder();
         case 'All Order':

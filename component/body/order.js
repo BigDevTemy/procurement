@@ -22,10 +22,18 @@ function Order(search){
 
 
 function loadOrderDefault(){
+    getProject();
     return `
-                <div>
+                <div class="col-md-6">
                     <label>Order name</label>
-                    <input type="text" class="form-control selector" placeholder="Create Order" id="order_title"/>
+                    <input type="text" class="form-control selector " placeholder="Create Order" id="order_title"/>
+                </div>
+                <div class="col-md-6">
+                    <label>Project name</label>
+                    <select class="form-control" id="selectProject">
+                        <option>Select Project</option>
+
+                    </select>
                 </div>
 
                 <div>
@@ -35,6 +43,40 @@ function loadOrderDefault(){
                 `
         //document.querySelector('.render_body_content').innerHTML = content
 }
+
+function getProject(){
+    fetch('/procurement/app/customroute/fetchallproject')
+    .then(res=>res.json())
+    .then(result=>{
+        let dataset = "<option>Select Project Name</option>";
+        console.log(result.data)
+        if(result.status){
+            
+
+            result.data.forEach((d)=>{
+                dataset += `
+                            <option value=${d.id}>${d.project_name}</option>
+                            `
+            })
+            console.log(dataset)
+
+            document.getElementById('selectProject').innerHTML = dataset;
+
+
+             
+        }
+           
+        
+    })
+    .catch(err=> {
+        
+        console.log(err)
+        
+       
+    })
+    
+}
+
 function AddOrder(){
     let content =
                 `
@@ -121,6 +163,7 @@ function saveOrderModule(){
     document.getElementById('saveOrder').addEventListener('click',function(e){
         let order_title = document.getElementById('order_title').value
         let author = document.getElementById('username').value
+        let project = document.getElementById('selectProject').value
         
         e.preventDefault();
                         
@@ -140,7 +183,8 @@ function saveOrderModule(){
                 method:'POST',
                 body:JSON.stringify({
                     order_title:order_title,
-                    author:author
+                    author:author,
+                    project_name:project
                     
                 }),
                 headers: { "Content-type": "application/x-www-form-urlencoded"},

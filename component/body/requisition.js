@@ -404,6 +404,7 @@ function allrequisition(){
 
 function saveRequisitionModule(){
     let dataOrderref = [];
+    let dataProjectref = [];
     let count = true;
     if(count){
         count=false
@@ -423,7 +424,12 @@ function saveRequisitionModule(){
                                 id:d.id,
                                 value:d.order_ref
                             }
+                            let xitem = {
+                                id:d.id,
+                                value:d.project_name
+                            }
                 dataOrderref.push(item);
+                dataProjectref.push(xitem);
             })
             document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
            
@@ -469,6 +475,7 @@ function saveRequisitionModule(){
 
         let value = e.target.value;
         dataOrderref.forEach((d,index)=>{
+            console.log(d)
             if(d.id === value){
                 document.getElementById('order_ref').value=d.value;
             }

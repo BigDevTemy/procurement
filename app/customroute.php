@@ -108,7 +108,7 @@ $router->post('/createorder',function(array $params){
          }
         
          
-          $query = "INSERT INTO orders(order_title,author,order_ref)VALUES('".$data['order_title']."','".$data['author']."','".$order_ref."')";
+          $query = "INSERT INTO orders(order_title,author,order_ref,project_id)VALUES('".$data['order_title']."','".$data['author']."','".$order_ref."','".$data['project']."')";
           $result = $connection->query($query)or die(mysqli_error($connection));
           if($result){
           
@@ -177,6 +177,38 @@ $router->post('/addsupplier',function(array $params){
   $connection->close();
 });
 
+$router->post('/addproject',function(array $params){
+  
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  $result = $connection->query("SELECT * FROM project WHERE project_name ='".$data['project_name']."'");
+  if($result){
+    if(mysqli_num_rows($result) > 0){
+      echo json_encode(["data"=>"Project name has to be Unique","status"=>false]);
+    }
+    else{
+          
+          $query = "INSERT INTO project (project_name,user)VALUES('".$data['project_name']."','".$data['author']."')";
+          $result = $connection->query($query)or die(mysqli_error($connection));
+          if($result){
+          
+            echo json_encode(["data"=>"Project Successfully Created","status"=>true]);
+          }
+          else{
+            echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+          }
+    }
+
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
+
+
+  $connection->close();
+});
+
+
 $router->get('/getAllSupplier',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
@@ -207,16 +239,47 @@ $router->get('/getAllSupplier',function(){
 
 });
 
+
+$router->get('/getAllProject',function(){
+
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  $result = $connection->query("SELECT * FROM project");
+  $output = [];
+  if($result){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+   
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+
+   
+
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
+
+
+  $connection->close();
+
+});
+
+
 $router->get('/getAllorder',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
-  $result = $connection->query("SELECT * FROM orders");
+  $result = $connection->query("SELECT * FROM orders LEFT JOIN project ON `orders`.`project_id` = `project`.`id`");
   $output = [];
   if($result){
     if(mysqli_num_rows($result) > 0){
         while($row= mysqli_fetch_assoc($result)){
-          array_push($output,array ("ordertype"=> $row['order_title'],"id"=>$row['id'],"order_ref"=>$row['order_ref']));
+          array_push($output,array ("ordertype"=> $row['order_title'],"id"=>$row['id'],"order_ref"=>$row['order_ref'],"project_name"=>$row['project_name']));
         }
 
         echo json_encode(["data"=>$output,"status"=>true]); 
@@ -821,6 +884,10 @@ $router->post('/editdata',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   if($data['affectedColumn'] == 'order_title'){
+    $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."' WHERE id='".$data['id']."'";
+  }
+  else if($data['affectedColumn'] == 'project_name'){
+
     $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."' WHERE id='".$data['id']."'";
   }
   else{
@@ -1483,6 +1550,26 @@ $router->post('/filterRequisition',function(){
     echo json_encode($json_data);
 });
 
+
+$router->get('/fetchallproject',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  
+  $query = "SELECT * FROM project";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    $output=[];
+    while($row= mysqli_fetch_assoc($result)){
+          
+      array_push($output,array ("project_name"=> $row['project_name'],"id"=>$row['id']));
+    }
+
+    echo json_encode(["data"=>$output,"status"=>true]);
+    
+    //echo json_encode($json_data);
+  
+
+    $connection->close();
+});
 
 
 

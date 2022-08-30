@@ -102,6 +102,11 @@ session_start();
                             
                         </div>
                         <div class="navNon">
+                          
+                                <div><img src="../assets/images/sidebar-icons/project.svg" /></div>
+                                <div>Project</div>
+                        </div>
+                        <div class="navNon">
                             <div><img src="../assets/images/sidebar-icons/item.svg" /></div>
                             <div>Order</div>
                         </div>
@@ -143,6 +148,7 @@ session_start();
     
     <script src="../component/body/delete.js"></script>
     <script src="../component/body/report.js"></script>
+    <script src="../component/body/project.js"></script>
     <script src="../component/body/requisitionModal.js"></script>
     <script src="../component/body/filterApproval.js"></script>
     <script src="../component/body/approvalModal.js"></script>

@@ -23,20 +23,20 @@ function Supplier(search){
 
 function loadSupplierDefault(){
     return `
-                <div>
+                <div class="col-md-6">
                     <label>Company Name</label>
                     <input type="text" class="form-control selector" placeholder="Provide Supplier Name" id="supplier_name"/>
                 </div>
 
-                <div>
+                <div class="col-md-6">
                     <label>Company Address</label>
                     <input type="text" class="form-control selector" id="supplieraddress" placeholder="Provide Company Address (optional)"/>
                 </div>
-                <div>
+                <div class="col-md-6">
                     <label>Company Contact</label>
                     <input type="text" class="form-control selector" id="suppliercontact" placeholder="Provide Company Contact Number (optional)"/>
                 </div>
-                <div>
+                <div class="col-md-6">
                     <label>Company Email</label>
                     <input type="email" id="supplieremail" class="form-control selector" placeholder="Provide Company Email (optional)"/>
                 </div>
@@ -49,24 +49,24 @@ function loadSupplierDefault(){
 }
 function AddSupplier(){
     let content =`
-                    <div>
+                    <div class="col-md-6">
                     <label>Company Name</label>
                     <input type="text" class="form-control selector" placeholder="Provide Supplier Name" id="supplier_name"/>
                     </div>
 
-                <div>
+                <div class="col-md-6">
                     <label>Company Address</label>
                     <input type="text" class="form-control selector" placeholder="Provide Supplier Address" id="supplieraddress"/>
                 </div>
-                <div>
+                <div class="col-md-6">
                     <label>Company Contact</label>
                     <input type="text" id="suppliercontact" class="form-control selector" placeholder="Provide Company Contact Number (optional)"/>
                 </div>
-                <div>
+                <div class="col-md-6">
                     <label>Company Email</label>
                     <input type="email" id="supplieremail" class="form-control selector" placeholder="Provide Company Email (optional)"/>
                 </div>
-                <div>
+                <div class="col-md-6">
                     <input type="submit" class="form-control selectorSave" value="Save" id="saveSupplier"/>
                 </div>
 

@@ -76,6 +76,8 @@ function Switcher(search,additional){
             return Shippmentreview(additional)
         case 'POshippment':
             return ShippmentDetails(additional)
+        case 'Project':
+            return Project(additional)
         default:
 
     }
@@ -83,7 +85,7 @@ function Switcher(search,additional){
 
 
 function SwitcherContent(search){
-
+    console.log(search)
     switch(search){
         case 'Supplier':
             return saveSupplierModule();
@@ -95,6 +97,8 @@ function SwitcherContent(search){
         case 'Requisition':
             return saveRequisitionModule();
             break;
+        case 'Project':
+            return saveProjectModule();
         
        
 

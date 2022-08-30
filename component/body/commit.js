@@ -6,6 +6,7 @@ function saveOrderModule(){
     document.getElementById('saveOrder').addEventListener('click',function(e){
         let order_title = document.getElementById('order_title').value
         let author = document.getElementById('username').value
+        let project = document.getElementById('selectProject').value
         
         e.preventDefault();
                         
@@ -23,7 +24,8 @@ function saveOrderModule(){
                 method:'POST',
                 body:JSON.stringify({
                     order_title:order_title,
-                    author:author
+                    author:author,
+                    project:project
                     
                 }),
                 headers: { "Content-type": "application/x-www-form-urlencoded"},
@@ -37,6 +39,7 @@ function saveOrderModule(){
                     document.querySelector('.rounding').classList.remove('roundLoader');
                     Swal.fire(data['data'],'', 'success') 
                     document.getElementById('order_title').value=""
+                    document.getElementById('selectProject').value=""
                     
                 }else{
                     document.querySelector('.loader').classList.remove('overlayLoader');

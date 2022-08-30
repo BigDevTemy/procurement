@@ -38,6 +38,8 @@ function modalContent(title,Id){
             break;
         case 'Edit Order Title':
             return editOrder(Id);
+        case 'Edit Projectname':
+            return editProject(Id);
         default:
 
     }
@@ -68,7 +70,7 @@ function editSupplier(id){
                     <div>
 
                     <div class="form-group space-top-md"> 
-                        <input type="submit" id="edit_supplier" class="form-control" value="Edit Supplier"/>
+                        <input type="submit" id="edit_supplier" class="form-control" value="Save"/>
                     <div>
 
             </div>
@@ -90,7 +92,7 @@ function editOrder(id){
                     <div>
 
                     <div class="form-group space-top-md"> 
-                        <input type="submit" id="edit_order" class="form-control" value="Edit Order Title"/>
+                        <input type="submit" id="edit_order" class="form-control" value="Save"/>
                     <div>
 
             </div>
@@ -98,6 +100,28 @@ function editOrder(id){
             `
             document.querySelector('.modalBody').innerHTML=content
             loadDataOrder(id,'orders');
+            edit(id);
+            
+}
+
+function editProject(id){
+    let content= `
+            <div style="margin-top:20px">
+                    <div class="form-group">
+                        <label>Project name</label>
+                        <input type="text" class="form-control" id="project_name"/>
+
+                    <div>
+
+                    <div class="form-group space-top-md"> 
+                        <input type="submit" id="edit_project" class="form-control" value="Save"/>
+                    <div>
+
+            </div>
+    
+            `
+            document.querySelector('.modalBody').innerHTML=content
+            loadDataProject(id,'project');
             edit(id);
             
 }
@@ -157,6 +181,31 @@ function loadDataOrder(id,order){
         console.log("data",data.data.order_title)
         if(data['status']){
            document.getElementById('order_title').value=data.data.order_title
+
+        }
+        
+    })
+    .catch(err=> {
+        console.log(err) 
+    })
+
+}
+function loadDataProject(id,project){
+    console.log(project)
+    fetch('/procurement/app/customroute/getdata',{
+        method:'POST',
+        body:JSON.stringify({
+           tableName:project,
+           id:id 
+        }),
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                            
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        
+        if(data['status']){
+           document.getElementById('project_name').value=data.data.project_name
 
         }
         
@@ -237,6 +286,44 @@ function edit(id){
                 if(data['status']){
                     forceClose();
                     allprocessedorders()
+                    Swal.fire('Update Successfully made','','success')
+                   
+                }
+                else{
+                    Swal.fire('Update Failed...Pls try again','','error')
+                }
+                
+            })
+            .catch(err=> {
+                console.log(err) 
+            })
+    
+        })
+    }
+
+    
+    if(document.querySelector('#edit_project')){
+        document.querySelector('#edit_project').addEventListener('click',function(e){
+            e.preventDefault();
+            let project_new_name = document.getElementById('project_name').value;
+    
+            fetch('/procurement/app/customroute/editdata',{
+                method:'POST',
+                body:JSON.stringify({
+                   tableName:"project",
+                   updatedata:project_new_name,
+                   affectedColumn:'project_name',
+                   id:id
+                }),
+                headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                                    
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                console.log("data",data)
+                if(data['status']){
+                    forceClose();
+                    AllProject()
                     Swal.fire('Update Successfully made','','success')
                    
                 }

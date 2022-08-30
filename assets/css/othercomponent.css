@@ -547,6 +547,12 @@ table th{
 
 
 }
+.modalProject{
+    width: 500px;
+    min-height: 40vh;
+
+
+}
 
 .modalClassCustom{
     display: flex;
