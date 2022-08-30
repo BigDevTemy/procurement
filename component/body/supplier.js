@@ -38,7 +38,7 @@ function loadSupplierDefault(){
                 </div>
                 <div class="col-md-6">
                     <label>Company Email</label>
-                    <input type="email" id="supplieremail" class="form-control selector" placeholder="Provide Company Email (optional)"/>
+                    <input type="email" id="supplier_email" class="form-control selector" placeholder="Provide Company Email (optional)"/>
                 </div>
                 <div>
                     <input type="submit" class="form-control selectorSave" value="Save" id="saveSupplier"/>
@@ -64,7 +64,7 @@ function AddSupplier(){
                 </div>
                 <div class="col-md-6">
                     <label>Company Email</label>
-                    <input type="email" id="supplieremail" class="form-control selector" placeholder="Provide Company Email (optional)"/>
+                    <input type="email" id="supplier_email" class="form-control selector" placeholder="Provide Company Email (optional)"/>
                 </div>
                 <div class="col-md-6">
                     <input type="submit" class="form-control selectorSave" value="Save" id="saveSupplier"/>
@@ -72,6 +72,7 @@ function AddSupplier(){
 
                 `
         document.querySelector('.render_body_content').innerHTML = content
+        saveSupplierModule()
 }
 
 function AllSupplier(){
@@ -152,6 +153,7 @@ function saveSupplierModule(){
         let supplier_name = document.getElementById('supplier_name').value
         let supplier_address =document.getElementById('supplieraddress').value;
         let supplier_contact = document.getElementById('suppliercontact').value
+        let supplier_email = document.getElementById('supplier_email').value
         let author = document.getElementById('username').value
                     
         if(supplier_name === ""){
@@ -164,10 +166,15 @@ function saveSupplierModule(){
             Swal.fire('Supplier Contact is Required!','', 'error') 
             return false 
         }
-
-        if(supplier_name === ""){
+        if(supplier_address === ""){
             
-            Swal.fire('Supplier Name is Required!','', 'error') 
+            Swal.fire('Supplier Address is Required!','', 'error') 
+            return false 
+        }
+
+        if(supplier_email === ""){
+            
+            Swal.fire('Supplier Email is Required!','', 'error') 
             return false 
         }
 
@@ -184,7 +191,8 @@ function saveSupplierModule(){
                     supplier_name:supplier_name,
                     author:author,
                     supplier_address:supplier_address,
-                    supplier_contact:supplier_contact
+                    supplier_contact:supplier_contact,
+                    supplier_email:supplier_email
                     
                 }),
                 headers: { "Content-type": "application/x-www-form-urlencoded"},
@@ -212,7 +220,7 @@ function saveSupplierModule(){
                 
                 console.log(err)
                 document.querySelector('.loader').classList.remove('overlayLoader');
-                document.querySelector('.rounding').classList.remove('roundLoader');
+                //document.querySelector('.rounding').classList.remove('roundLoader');
                 Swal.fire(data['data'],'', 'error') 
                
             })

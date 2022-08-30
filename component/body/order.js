@@ -80,17 +80,25 @@ function getProject(){
 function AddOrder(){
     let content =
                 `
-                    <div>
-                        <label>Order name</label>
-                        <input type="text" class="form-control selector" placeholder="Create Order" id="order_title"/>
-                    </div>
+                <div class="col-md-6">
+                    <label>Order name</label>
+                    <input type="text" class="form-control selector " placeholder="Create Order" id="order_title"/>
+                </div>
+                <div class="col-md-6">
+                    <label>Project name</label>
+                    <select class="form-control" id="selectProject">
+                        <option>Select Project</option>
 
-                    <div>
-                        <input type="submit" class="form-control selectorSave" value="Save" id="saveOrder"/>
-                    </div>
+                    </select>
+                </div>
+
+                <div>
+                    <input type="submit" class="form-control selectorSave" value="Save" id="saveOrder"/>
+                </div>
 
                 `
         document.querySelector('.render_body_content').innerHTML = content
+        saveOrderModule();
 }
 
 function AllOrder(){

@@ -57,7 +57,7 @@ function loadRequisitionDefault(){
                         </div>
                         <div>
                             <label>Project Name</label>
-                            <input type="text" id="project_name" class="form-control selector"  placeholder="Project name" />
+                            <input type="text" id="project_name" disabled class="form-control selector"  placeholder="Project name" />
                         </div>
                         
                     </div>
@@ -103,10 +103,10 @@ function loadRequisitionDefault(){
                         <button class="btn btn-md btn-danger">Delete</button>
                         <select class="form-control" id="currency">
                             <option value="">SELECT CURRENCY</option>
-                            <option value="N">NGN</option>
-                            <option value="$">USD</option>
+                            <option value="NGN">NGN</option>
+                            <option value="USD">USD</option>
                             <option value="GBP">GBP</option>
-                            <option value="E">EURO</option>
+                            <option value="EURO">EURO</option>
                             <option value="YEN">YEN</option>
                         </select>
                     </div>
@@ -141,7 +141,7 @@ function loadRequisitionDefault(){
                     
                     <div class="uploadattachment">Add/Upload Attachment</div>
                     <div class="fileuploadDiv"> 
-                        <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf,image/jpeg" />
+                        <input type="file" id="fileInput" name="file" class="fileUploadInput" accept="application/pdf,image/jpeg" multiple />
                         <button class="btn btn-bg">Choose File</button>
                         <span class="number_files">No File Selected</span>
                     </div>
@@ -249,10 +249,10 @@ function AddRequisition(){
                             <button class="btn btn-md btn-danger">Delete</button>
                             <select class="form-control" id="currency">
                                 <option value="">SELECT CURRENCY</option>
-                                <option value="N">NGN</option>
-                                <option value="$">USD</option>
+                                <option value="NGN">NGN</option>
+                                <option value="USD">USD</option>
                                 <option value="GBP">GBP</option>
-                                <option value="E">EURO</option>
+                                <option value="EURO">EURO</option>
                                 <option value="YEN">YEN</option>
                             </select>
                         </div>
@@ -275,7 +275,7 @@ function AddRequisition(){
                         </div>
                         <div class="discount_content">
                             
-                            <div class="discountDiv"><<input type="number" min="0" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
+                            <div class="discountDiv"><input type="number" min="0" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
                         </div>
                         <div class="discount_content">
                             
@@ -475,9 +475,15 @@ function saveRequisitionModule(){
 
         let value = e.target.value;
         dataOrderref.forEach((d,index)=>{
-            console.log(d)
+           
             if(d.id === value){
                 document.getElementById('order_ref').value=d.value;
+            }
+        });
+        dataProjectref.forEach((d,index)=>{
+            
+            if(d.id === value){
+                document.getElementById('project_name').value=d.value;
             }
         });
         
@@ -630,25 +636,41 @@ let handleInput  = document.querySelector('.fileUploadInput');
             // const image_input = document.querySelector("#image-input");
             handleInput.addEventListener("change", function() {
                 console.log(handleInput.files[0].name)
+                let dataset = "";
                 
                 for(let i=0; i<handleInput.files.length; i++){
                   
-                   let dataset = "";
+                   
                     dataset += `
                                 <div class="d-image">
-                                     <div> <img src="../assets/images/file-pdf.svg"/></div>
+                                     <div style="cursor:pointer" class="preview"><u>Preview</u></div>
                                     <div id=${handleInput.files[i].name}>${handleInput.files[i].name}</div>
-                                    <span>X</span>
+                                    <span style="cursor:pointer" class="removeImageUpload">X</span>
                                 </div>
                     
                                 `
-                    document.querySelector('.selectedFiles').insertAdjacentHTML('beforeend',dataset)
+                    
                 }
+                document.querySelector('.selectedFiles').innerHTML=dataset
 
                 document.querySelector('.number_files').innerHTML = handleInput.files.length  > 1 ? handleInput.files.length +' Files Selected' : handleInput.files.length +' File Selected';
             });
     })
 
+    document.querySelector('.selectedFiles').addEventListener('click',function(e){
+        if(e.target.classList.contains("preview")){
+
+        }
+
+        if(e.target.classList.contains("removeImageUpload")){
+            
+            let parent = e.target.parentElement
+            parent.remove(e.target)
+            let x = parent.children.length
+           
+            //document.querySelector('.number_files').innerHTML = x  > 1 ? x +' Files Selected' : x +' File Selected';
+        }
+    })
    
 
     document.querySelector('.rowplus').addEventListener('click',function(e){

@@ -85,7 +85,7 @@ function Switcher(search,additional){
 
 
 function SwitcherContent(search){
-    console.log(search)
+    
     switch(search){
         case 'Supplier':
             return saveSupplierModule();

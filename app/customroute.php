@@ -157,7 +157,7 @@ $router->post('/addsupplier',function(array $params){
     }
     else{
           
-          $query = "INSERT INTO supplier (supplier_name,author,address,contact)VALUES('".$data['supplier_name']."','".$data['author']."','".$data['supplier_address']."','".$data['supplier_contact']."')";
+          $query = "INSERT INTO supplier (supplier_name,author,address,contact,email)VALUES('".$data['supplier_name']."','".$data['author']."','".$data['supplier_address']."','".$data['supplier_contact']."','".$data['supplier_email']."')";
           $result = $connection->query($query)or die(mysqli_error($connection));
           if($result){
           

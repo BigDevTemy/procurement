@@ -1,4 +1,5 @@
 function Project(search){
+    
     let content = ` 
                     <div class="supplierDiv">
                         <div class="modalClass"></div>
@@ -12,6 +13,8 @@ function Project(search){
                     </div>
                 `
     return content;
+    
+
    
 }
 
@@ -40,6 +43,7 @@ function AddProject(){
 
                 `
         document.querySelector('.render_body_content').innerHTML = content
+        saveProjectModule();
 }
 
 function AllProject(){
@@ -110,50 +114,6 @@ function getAllProject(){
     })
     .catch(err=>console.log(err))
 
-    
-
-
-        // let table = $('#project').DataTable({
-         
-        //     "processing":true,
-        //     "destroy":true,
-        //     "serverSide":true,
-            
-        //     'dom': "Bfrtip",
-        //     "ajax":{
-        //          url:'/procurement/app/customroute/getAllProject',
-        //          type:"GET"
-                 
-        //     },
-        //     "columns":[
-                 
-        //              {
-                        
-        //                 data:"",
-        //                 render:function(){
-        //                     return count = count+ 1;
-        //                 }
-                    
-        //             },
-        //              {data:"project_name"},
-        //              {data:"created_at"},
-        //              {
-        //                  data:"",
-        //                  render:function(data,type,row){
-                         
-        //                      return `<div>
-        //                                 <button class="btn btn-secondary" onclick="modal('modalProject',${row.id},'Edit Projectname')">Edit</button>
-                                        
-        //                             </div>`
-        //                    } 
-        //              }
-                 
-        //     ]   
-    
-             
-    
-        //  });
-    
       
 }
 
@@ -161,7 +121,7 @@ function getAllProject(){
 function saveProjectModule(){
     document.getElementById('saveProject').addEventListener('click',function(e){
         e.preventDefault();
-
+       
         let project_name = document.getElementById('project_name').value
         let author = document.getElementById('username').value
                     
