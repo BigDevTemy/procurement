@@ -1405,7 +1405,7 @@ $router->post('/filterPO',function(){
     $count += 1;
   }
   if($data['supplierid']!="" && $data['supplierid'] !="All Suppliers"){
-    $conditionedQuery .= " supplier_id = '".$data['supplierid']."' AND";
+    $conditionedQuery .= " `approval_process`.`supplier_id` = '".$data['supplierid']."' AND";
     $count += 1;
   }
   if($data['status']!="" && $data['status'] !="Status"){
@@ -1423,7 +1423,7 @@ $router->post('/filterPO',function(){
     $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` LEFt JOIN `requisition` ON `requisition`.`supplier_id` = `approval_process`.`assigned_supplier` ".$conditionedQuery." GROUP BY `requisition`.`supplier_id`";
   }
   else{
-    $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` LEFt JOIN `requisition` ON `requisition`.`supplier_id` = `approval_process`.`assigned_supplier` WHERE po_approval IS NOT NULL GROUP BY `requisition`.`suppler_id`";
+    $query = "SELECT * FROM approval_process  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` LEFt JOIN `requisition` ON `requisition`.`supplier_id` = `approval_process`.`assigned_supplier` WHERE po_approval IS NOT NULL GROUP BY `requisition`.`supplier_id`";
   }
   
   $result = $connection->query($query)or die(mysqli_error($connection));
@@ -1527,7 +1527,7 @@ $router->post('/filterRequisition',function(){
   }
 
   if($data['from_date'] && $data['to_date']){
-    $conditionedQuery.=" `requisition`.`created_at` BETWEEN '".$data['from_date']."' AND '".$data['to_date']."'";
+    $conditionedQuery.=" `requisition`.`dateofcreation` BETWEEN '".$data['from_date']."' AND '".$data['to_date']."'";
     $count += 1;
   }
 

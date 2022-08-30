@@ -160,6 +160,7 @@ function numberWithCommas(x) {
 }
 
 function POFetch(){
+    let count=0
     var date = new Date(); 
     var currentDate = date.toISOString().substring(0,10);
 
@@ -179,7 +180,11 @@ function POFetch(){
             destroy:true,
 
             columns:[
-                {data:"id"},
+                {
+                    render:function(){
+                        return count = count + 1;
+                    }
+                },
                 {data:"order_title"},
                 {data:"supplier_name"},
                 {data:"po_approval"},
@@ -284,9 +289,9 @@ function ShippmentFetch(){
                 {data:"supplier_name"},
                 {data:"mode_shippment"},
                 {data:"payment_mode"},
-                {data:"	abroad_forwarder"},
-                {data:"	cleared"},
-                {data:"	status"},
+                {data:"abroad_forwarder"},
+                {data:"cleared"},
+                {data:"status"},
                 {
                         
                     data:"",
@@ -359,6 +364,56 @@ function ShippmentFetch(){
 
                     }
                 },
+                {
+                        data:'',
+                        render:function(data,type,row){
+                            if(row.status === "pending with the supplier"){
+
+                               
+                                
+                                return 'null';
+                            }
+                            else if(row.status === "package"){
+                                let split = row.package_docs.split("_");
+                                let dataset="";
+                                split.forEach((d)=>{
+                                    if(d != ""){
+                                        dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                    }
+                                    
+                                    
+                                })
+                                
+                                return dataset;
+                            }
+                            else if(row.status === "dispatched"){
+                                let split = row.dispatched_docs.split("_");
+                                let dataset="";
+                                split.forEach((d)=>{
+                                    if(d != ""){
+                                        dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                    }
+                                    
+                                    
+                                })
+                                
+                                return dataset;
+                            }
+                            else if(row.status === "delivery_docs"){
+                                let split = row.delivery_docs.split("_");
+                                let dataset="";
+                                split.forEach((d)=>{
+                                    if(d != ""){
+                                        dataset += `<div style="margin:6px"><a href="/procurement/shippment/${d}">${d}</a></div>`
+                                    }
+                                    
+                                    
+                                })
+                                
+                                return dataset;
+                            }
+                        }
+                },
                 
                 {data:"created_at"}
                 
@@ -417,7 +472,7 @@ function RequisitionReportClick(){
 function RequisitionFetch(){
     var date = new Date(); 
     var currentDate = date.toISOString().substring(0,10);
-
+console.log(currentDate)
     fetch('/procurement/app/customroute/filterRequisition',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
@@ -439,9 +494,9 @@ function RequisitionFetch(){
                 {data:"supplier_name"},
                 {data:"description"},
                 {data:"quantity"},
-                {data:"	price"},
-                {data:"	discount"},
-                {data:"	total"},
+                {data:"price"},
+                {data:"discount"},
+                {data:"total"},
                 { 
                     data:"",
                     
