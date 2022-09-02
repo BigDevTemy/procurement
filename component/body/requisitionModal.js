@@ -92,7 +92,7 @@ function requisitionModal(supplierid,orderid,rowid){
 
                             <div class="modalFooter">
                                 <div class="mybutton">
-                                    <button class="btn btn-primary" >Save</button>
+                                    <button class="btn btn-primary" id="saveButton" >Save</button>
                                     
                                     
                                 </div>
@@ -102,7 +102,8 @@ function requisitionModal(supplierid,orderid,rowid){
 
         document.querySelector('.modalClass').innerHTML=content
         close();
-        fetchEdit(supplierid,orderid,rowid);
+    
+        fetchEditx(supplierid,orderid,rowid);
         
         
 }
@@ -117,7 +118,7 @@ function close(){
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-function fetchEdit(supplierid,orderid,id){
+function fetchEditx(supplierid,orderid,id){
 
     fetch('/procurement/app/customroute/getquotation',{
         method:'POST',

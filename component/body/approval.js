@@ -81,8 +81,7 @@ function approvalfetchx(){
                     {
                         data:'',
                         render:function(data,type,row){
-                            console.log('row',row);
-                            console.log('data',data)
+                            
                             return  `<div>2</div>`
                           },
                     },

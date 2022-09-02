@@ -100,7 +100,7 @@ function loadRequisitionDefault(){
 
                 <div class="tab-body-more">
                     <div class="currencyDiv">
-                        <button class="btn btn-md btn-danger">Delete</button>
+                        
                         <select class="form-control" id="currency">
                             <option value="">SELECT CURRENCY</option>
                             <option value="NGN">NGN</option>
@@ -118,14 +118,14 @@ function loadRequisitionDefault(){
                         <div>Total Price</div>
                         <div>Action</div>
                     </div>
-                    <div class="contentParent">
+                    <div class="contentParent" id="contentParent">
                         <div class="content">
                             <div><input type="number" min="0" value=1 class="form-control" disabled /></div>
                             <div><input type="text" placeholder="description" class="form-control "/></div>
                             <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
                             <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
                             <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                            <div class="closerAction"><img src='../assets/images/close.svg'  /></div>
+                            <div class="closerAction"><img src='../assets/images/close.svg' class="closeImg"  /></div>
                             
                         </div>
                     </div>
@@ -168,6 +168,13 @@ function loadRequisitionDefault(){
             
     
             `
+            loadCloser()
+}
+
+function loadCloser(){
+    if(document.querySelector('.contentParent')){
+        console.log(e.target)
+    }
 }
 
 function AddRequisition(){
@@ -248,7 +255,7 @@ function AddRequisition(){
 
                     <div class="tab-body-more">
                         <div class="currencyDiv">
-                            <button class="btn btn-md btn-danger">Delete</button>
+                            
                             <select class="form-control" id="currency">
                                 <option value="">SELECT CURRENCY</option>
                                 <option value="NGN">NGN</option>
@@ -265,14 +272,14 @@ function AddRequisition(){
                             <div>Unit Price</div>
                             <div>Total Price</div>
                         </div>
-                        <div class="contentParent">
+                        <div class="contentParent" id="contentParent">
                             <div class="content">
                                 <div><input type="text" value=1 class="form-control" disabled /></div>
                                 <div><input type="text" placeholder="description" class="form-control "/></div>
                                 <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
                                 <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
                                 <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                                <div class="closerAction"><img src='../assets/images/close.svg'  /></div>
+                                <div class="closerAction"><img src='../assets/images/close.svg'  class="closeImg" /></div>
                             </div>
                         </div>
                         <div class="discount_content">
@@ -315,12 +322,7 @@ function AddRequisition(){
     
             `
             document.querySelector('.render_body_content').innerHTML = content
-            if(document.querySelector('.currencyDiv')){
-                let x = document.querySelector('.contentParent').children
-                if(x.length == 1){
-                    document.querySelector('.btn-danger').classList.add('hideDelete');
-                }
-            }
+            
             saveRequisitionModule();
 }
 
@@ -490,12 +492,7 @@ function saveRequisitionModule(){
         });
         
     })
-    if(document.querySelector('.currencyDiv')){
-        let x = document.querySelector('.contentParent').children
-        if(x.length == 1){
-            document.querySelector('.btn-danger').classList.add('hideDelete');
-        }
-    }
+    
 
 
     document.querySelector('.contentParent').addEventListener('click',function(e){
@@ -504,7 +501,22 @@ function saveRequisitionModule(){
         // for(let i=0;i<frod.length;i++){
         //     sum += parseFloat(frod[i].children[4].children[0].value)
         // }
+       if(e.target.classList.contains('closeImg')){
         
+            let parent = e.target.parentElement;
+            let grandParent = parent.parentElement
+            let greatGrandparent = grandParent.parentElement
+           
+            
+            if(greatGrandparent.children.length > 1){
+
+                greatGrandparent.removeChild(grandParent)
+            }
+            else{
+                alert('A quotation is required')
+            }
+                // grandParent.remove(grandParent);
+       }
        
         let Grandparent = e.target.parentElement.parentElement;
         
@@ -678,6 +690,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
     document.querySelector('.rowplus').addEventListener('click',function(e){
         let index  = document.querySelector('.contentParent').children.length
         let parent  = document.querySelector('.contentParent')
+        let x = document.getElementById('contentParent')
         let incremeent = 1
        
         let row = `<div class="content additionalcontent">
@@ -687,19 +700,20 @@ let handleInput  = document.querySelector('.fileUploadInput');
                         
                         <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
                         <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                        <div class="closerAction"><img src='../assets/images/close.svg'  /></div>
+                        <div class="closerAction"><img src='../assets/images/close.svg' class="closeImg"  /></div>
                     </div>`
 
                     parent.insertAdjacentHTML('beforeend',row)
-        if(document.querySelector('.currencyDiv')){
-            let x = document.querySelector('.contentParent').children
-            if(x.length == 1){
-                document.querySelector('.btn-danger').classList.add('hideDelete');
-            }
-            else if(x.length >0){
-                document.querySelector('.btn-danger').classList.remove('hideDelete');
-            }
-        }
+                    
+        // if(document.querySelector('.currencyDiv')){
+        //     let x = document.querySelector('.contentParent').children
+        //     if(x.length == 1){
+        //         document.querySelector('.btn-danger').classList.add('hideDelete');
+        //     }
+        //     else if(x.length >0){
+        //         document.querySelector('.btn-danger').classList.remove('hideDelete');
+        //     }
+        // }
     })
 
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
