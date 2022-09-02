@@ -100,48 +100,52 @@ function getAllSupplier(){
 
     let count=0;
 
-        let table = $('#supplier').DataTable({
-         
-            "processing":true,
-            "destroy":true,
-            "serverSide":true,
-            
-            'dom': "Bfrtip",
-            "ajax":{
-                 url:'/procurement/app/customroute/alldatasupplier',
-                 type:"GET"
+        fetch('/procurement/app/customroute/alldatasupplier')
+        .then(response=>response.json())
+        .then(res=>{
+            console.log(res)
+            let tableSupplier= $('#supplier').DataTable({
+                dom: 'Blfrtp',
+                
+                data:res.data,
+                destroy:true,
+                buttons: ['excel', 'pdf' ],
+                columns:[
                  
-            },
-            "columns":[
-                 
-                     {
-                        
-                        data:"",
-                        render:function(){
-                            return count = count+ 1;
-                        }
-                    
-                    },
-                     {data:"supplier_name"},
-                     {data:"address"},
-                     {data:"contact"},
-                     {data:"created_at"},
-                     {
-                         data:"",
-                         render:function(data,type,row){
-                         
-                             return `<div>
-                                        <button class="btn btn-secondary" onclick="modal('modalSupplier',${row.id},'Edit Supplier')">Edit</button>
-                                        
-                                    </div>`
-                           } 
-                     }
-                 
-            ]   
-    
-             
-    
-         });
+                                {
+                                
+                                data:"",
+                                render:function(){
+                                    return count = count+ 1;
+                                }
+                            
+                            },
+                                {data:"supplier_name"},
+                                {data:"address"},
+                                {data:"contact"},
+                                {data:"created_at"},
+                                {
+                                    data:"",
+                                    render:function(data,type,row){
+                                    
+                                        return `<div>
+                                                <button class="btn btn-secondary" onclick="modal('modalSupplier',${row.id},'Edit Supplier')">Edit</button>
+                                                
+                                            </div>`
+                                    } 
+                                }
+                
+                 ]
+
+
+
+            })
+        }
+                
+            )
+        .catch(err=>console.log(err))
+
+        
     
       
 }

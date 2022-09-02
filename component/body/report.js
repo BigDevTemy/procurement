@@ -483,6 +483,7 @@ console.log(currentDate)
     //    console.log(res);
        let dataset="";
        if(res.status){
+        
 
         let table = $('#RequisitionReport').DataTable({
             data:res.data,

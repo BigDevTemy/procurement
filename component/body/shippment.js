@@ -81,7 +81,7 @@ function ShippmentHTML(){
     
     return `
 
-            <table id="exampleShippment" class="table table-striped table-bordered" style="width:100%">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr class="ShippmentTR">
                         <th>SN</th>
@@ -110,7 +110,7 @@ function AwaitingShippment(){
     // }
     Shippmentfetch();
     let content = `
-            <table id="exampleShippment" class="table table-striped table-bordered" style="width:100%">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr class="ShippmentTR">
                         <th>SN</th>
@@ -146,7 +146,7 @@ function Shippmentfetch(){
        console.log(res)
        if(res.status){
 
-            let table = $('#exampleShippment').DataTable({
+            let table = $('#example').DataTable({
                     data:res.data,
                     destroy:true,
                     columns:[
@@ -236,9 +236,6 @@ function Shippmentfetch(){
     
     
 }
-
-
-
 
 function Dispatched(){
 

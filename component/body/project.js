@@ -84,6 +84,7 @@ function getAllProject(){
         let table = $('#project').DataTable({
             data:res.data,
             destroy:true,
+            dom:'Blfrtp',
             columns:[
                 {
                     data:"",
