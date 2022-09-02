@@ -116,6 +116,7 @@ function loadRequisitionDefault(){
                         <div>Quantity</div>
                         <div>Unit Price</div>
                         <div>Total Price</div>
+                        <div>Action</div>
                     </div>
                     <div class="contentParent">
                         <div class="content">
@@ -124,6 +125,7 @@ function loadRequisitionDefault(){
                             <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
                             <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
                             <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
+                            <div class="closerAction"><img src='../assets/images/close.svg'  /></div>
                             
                         </div>
                     </div>
@@ -203,7 +205,7 @@ function AddRequisition(){
                             </div>
                             <div>
                                 <label>Project Name</label>
-                                <input type="text" id="project_name" class="form-control selector"  placeholder="Project name" />
+                                <input type="text" id="project_name" class="form-control selector" disabled  placeholder="Project name" />
                             </div>
                             
                         </div>
@@ -267,10 +269,10 @@ function AddRequisition(){
                             <div class="content">
                                 <div><input type="text" value=1 class="form-control" disabled /></div>
                                 <div><input type="text" placeholder="description" class="form-control "/></div>
-                                <div><input type="text" placeholder="quantity" value="0"  class="form-control"/></div>
-                                <div><input type="text" placeholder="unit price" value="0"  class="form-control"/></div>
-                                <div><input type="text" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                                
+                                <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
+                                <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
+                                <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
+                                <div class="closerAction"><img src='../assets/images/close.svg'  /></div>
                             </div>
                         </div>
                         <div class="discount_content">
@@ -685,7 +687,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
                         
                         <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
                         <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                        
+                        <div class="closerAction"><img src='../assets/images/close.svg'  /></div>
                     </div>`
 
                     parent.insertAdjacentHTML('beforeend',row)

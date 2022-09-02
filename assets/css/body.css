@@ -318,3 +318,11 @@ small{
     font-size: 12px;
 }
 
+
+.closerAction{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

@@ -296,12 +296,13 @@
 .discount_content{
     display: flex;
     width: 100%;
-    padding-right: 3%;
+    padding-right: 14.5%;
     justify-content: flex-end;
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
     margin-top: 10px;
+    
 }
 .discountDiv{
     font-size: 20px;
