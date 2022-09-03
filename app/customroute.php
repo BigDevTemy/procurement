@@ -240,6 +240,38 @@ $router->get('/getAllSupplier',function(){
 });
 
 
+
+$router->get('/getOrders',function(){
+
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  $result = $connection->query("SELECT * FROM orders");
+  $output = [];
+  if($result){
+    if(mysqli_num_rows($result) > 0){
+        while($row= mysqli_fetch_assoc($result)){
+          
+          array_push($output,array ("order_title"=> $row['order_title'],"id"=>$row['id']));
+        }
+
+        echo json_encode(["data"=>$output,"status"=>true]); 
+    }
+    else{
+      echo json_encode(["data"=>"No Order","status"=>false]); 
+        
+    }
+
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
+
+
+  $connection->close();
+
+});
+
+
 $router->get('/getAllProject',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
@@ -321,7 +353,7 @@ $router->post('/upoadrequisition',function($request){
   for($i=0;$i<count($_POST['quotation']);$i++){
     $x = explode(',',$_POST['quotation'][$i]);
    
-      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,note,discount,received)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$x[1]."','".$x[2]."','".$x[3]."','".$x[4]."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['note']."','".$_POST['discount']."','".$_POST['received']."')";
+      $query = "INSERT INTO requisition (order_id,supplier_id,username,description,quantity,price,total,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,note,discount,received,ref_number)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$x[1]."','".$x[2]."','".$x[3]."','".$x[4]."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['note']."','".$_POST['discount']."','".$_POST['received']."','".$_POST['fileref']."')";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
       
@@ -1320,7 +1352,7 @@ $router->post('/getquotation',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
-  $query="SELECT * FROM requisition  LEFT JOIN`orders` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` WHERE `requisition`.`order_id`='".$data['orderid']."' AND  `requisition`.`supplier_id` = '".$data['supplierid']."'";
+  $query="SELECT `requisition`.`id` AS id, `orders`.`order_title`,`supplier`.`supplier_name`,`orders`.`order_ref`,`requisition`.`file_ref`,`requisition`.`ref_number`,`requisition`.`dateofcreation`,`requisition`.`dateofsending`,`supplier`.`id` AS supplierID,`orders`.`id` AS orderID, supplier_name,contact,address,discount, description,quantity,price,total,currency,project_name FROM requisition  LEFT JOIN`orders` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` WHERE `requisition`.`order_id`='".$data['orderid']."' AND  `requisition`.`supplier_id` = '".$data['supplierid']."'";
   $result = $connection->query($query)or die(mysqli_error($connection));
     // $totalData = mysqli_num_rows($result);
     // $totalFilter=$totalData;
@@ -1569,6 +1601,27 @@ $router->get('/fetchallproject',function(){
   
 
     $connection->close();
+});
+
+$router->post('/save_edit_requisition',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  
+  for($i=0;$i <count($data['Quotation']);$i++){
+
+      $x = $data['Quotation'][$i];
+  
+    
+   
+   
+    $query = "UPDATE requisition SET dateofcreation='".$data['date']."',dateofsending='".$data['dateofsending']."',project_name='".$data['projectname']."', file_ref='".$data['fileref']."', currency='".$data['currency']."', order_id='".$data['ordertitle']."', supplier_id='".$data['supplier']."', ref_number='".$data['refnumber']."', description='".$x[2]."',quantity='".$x[3]."',price='".$x[4]."',total='".$x[5]."',discount='".$data['discount']."' WHERE id='".$x[1]."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+
+    
+  }
+  
+  echo json_encode(["data"=>'Update was Successful',"status"=>true]);
 });
 
 

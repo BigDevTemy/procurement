@@ -492,6 +492,25 @@ function saveRequisitionModule(){
         });
         
     })
+
+    document.getElementById('currency').addEventListener('change',function(e){
+        
+        let getcurrency = currencySelect(e.target.value);
+        let grandtotal = document.getElementById('myTotal').innerHTML;
+        let spliter = grandtotal.split(' ');
+        if(spliter.length > 1){
+            document.getElementById('myTotal').innerHTML = ""
+            document.getElementById('myTotal').innerHTML = getcurrency +' '+ spliter[1];
+        }
+        else{
+            document.getElementById('myTotal').innerHTML = ""
+            document.getElementById('myTotal').innerHTML = getcurrency +' '+ grandtotal;
+        }
+      
+        
+        
+        
+    })
     
 
 
@@ -511,6 +530,18 @@ function saveRequisitionModule(){
             if(greatGrandparent.children.length > 1){
 
                 greatGrandparent.removeChild(grandParent)
+
+                let sum = 0;
+
+                for(let x=0;x<greatGrandparent.children.length;x++){
+                   
+                    sum += parseFloat(greatGrandparent.children[x].children[4].children[0].value)
+                }
+                let currency = document.getElementById('currency').value
+                document.getElementById('discount').value = 0;
+                document.getElementById('myTotal').innerHTML = currencySelect(currency)+' '+ numberWithCommas(sum);
+
+
             }
             else{
                 alert('A quotation is required')
@@ -536,7 +567,7 @@ function saveRequisitionModule(){
             }
             //myDiscount();
            
-            mytotal.innerHTML= currency +''+ numberWithCommas(sum)
+            mytotal.innerHTML= currencySelect(currency) +' '+ numberWithCommas(sum)
             document.getElementById('discount').value=0
            
             // mytotal = "200"
@@ -553,7 +584,7 @@ function saveRequisitionModule(){
             }
 
             
-            mytotal.innerHTML= currency +''+ numberWithCommas(sum)
+            mytotal.innerHTML= currencySelect(currency) +' '+ numberWithCommas(sum)
             document.getElementById('discount').value=0
             //myDiscount();
             //mytotal = "200"
@@ -616,7 +647,8 @@ function saveRequisitionModule(){
         
         
         document.querySelector('.discountClass').addEventListener('change',function(e){
-            console.log('i am here')
+            let currency =  document.getElementById('currency').value
+          
             let sum =0;
             let z =document.querySelector('.contentParent').children;
                 for(let i=0;i<z.length;i++){
@@ -632,7 +664,7 @@ function saveRequisitionModule(){
                 let total = document.getElementById('myTotal')
                 let discount = parseFloat(value) /100;
                 let discountAmount = parseFloat(sum) * discount;
-                total.innerHTML = numberWithCommas(parseFloat(sum) - discountAmount); 
+                total.innerHTML = currencySelect(currency) +' '+ numberWithCommas(parseFloat(sum) - discountAmount); 
 
             }
              
@@ -715,6 +747,23 @@ let handleInput  = document.querySelector('.fileUploadInput');
         //     }
         // }
     })
+
+    function currencySelect (currency){
+        switch(currency){
+            case 'NGN':
+                return '&#8358;'
+            case 'USD':
+                return '&#36;' 
+            case 'EURO':
+                return '&#x20AC;'
+            case 'GBP':
+                return '&#163;'
+            case 'YEN':
+            return '&#165;'
+            default:
+                return ''
+        }
+    }
 
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
         e.preventDefault();
