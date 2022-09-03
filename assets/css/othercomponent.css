@@ -548,6 +548,12 @@ table th{
 
 
 }
+.modalAgent{
+    width: 500px;
+    min-height: 80vh;
+
+
+}
 .modalProject{
     width: 500px;
     min-height: 40vh;
@@ -630,13 +636,16 @@ h4{
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-end;
     font-size: 12px;
     font-weight: bold;
     padding-right: 5%;
 }
 .discountTotal > div{
     margin: 5px;
+}
+.discountTotal >input{
+    width: 100px;
 }
 
 #invoice{

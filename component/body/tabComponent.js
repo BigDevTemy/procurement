@@ -9,8 +9,12 @@ function switchComponentBodyRender(tab_name){
             return AllRequisition();
         case 'Add Supplier':
             return AddSupplier();
+        case 'Add Abroad/Local Clearing':
+            return AddAbroadAgent();
         case 'All Supplier':
             return AllSupplier();
+            case 'All Agent':
+                return AllAgent();
         case 'Add Project':
             return AddProject();
         case 'All Project':
@@ -33,6 +37,8 @@ function switchComponentBodyRender(tab_name){
             return Shipped();
         case 'Delivered':
             return Delivered();
+        case 'Pending PO Approval':
+            return POPendingClicked();
         case 'PO Approved':
             return POApproved();
         case 'Approval Report':

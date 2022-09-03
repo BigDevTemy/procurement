@@ -20,7 +20,7 @@ function Approval(search){
 
 function loadApprovalDefault(){
     approvalfetchx();
-        return `<table id="example" class="table table-striped table-bordered" style="width:100%;">
+        return `<table id="approvalfetchpending" class="table table-striped table-bordered" style="width:100%;">
                     <thead>
                         <tr>
                             <th>SN</th>
@@ -37,7 +37,7 @@ function loadApprovalDefault(){
 function PendingApproval(){
     
     
-        let content = `<table id="example" class="table table-striped table-bordered" style="width:100%;">
+        let content = `<table id="approvalfetchpending" class="table table-striped table-bordered" style="width:100%;">
                     <thead>
                         <tr>
                             <th>SN</th>
@@ -55,42 +55,49 @@ function PendingApproval(){
 
 function approvalfetchx(){
     $(document).ready(function () {
-
-       let table = $('#example').DataTable({
         
-           "processing":true,
-           "destroy":true,
-           "serverSide":true,
-           "bFilter": true,
-           'dom': "Bfrtip",
-           "ajax":{
-                url:'/procurement/app/customroute/getpendingApproval',
-                type:"GET"
-           },
-           "columns":[
-                
-                    {data:"id"},
-                    {
-                      data:"order_title",
-                      render:function(data,type,row){
-                        //
-                        return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.order_id})">${data}</div>`
-                      }  
-                        
-                    },
-                    {
-                        data:'',
-                        render:function(data,type,row){
-                            
-                            return  `<div>2</div>`
-                          },
-                    },
-                    {data:"level_1_approval"},
-                    {data:"created_at"},
-                
-           ]   
+        fetch('/procurement/app/customroute/getpendingApproval',{
+            method:'GET'
+           
+        })
+        .then(result=>result.json())
+        .then(res=>{
 
-        });
+           let dataset="";
+           if(res.status){
+    
+                let table = $('#approvalfetchpending').DataTable({
+                    data:res.data,
+                    destroy:true,
+                    columns:[
+                    
+                            {data:"id"},
+                            {
+                            data:"order_title",
+                            render:function(data,type,row){
+                                
+                                return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.order_id})">${data}</div>`
+                            }  
+                                
+                            },
+                            {
+                                data:'',
+                                render:function(data,type,row){
+                                    
+                                    return  `<div>${row.allsuppliers}</div>`
+                                },
+                            },
+                            {data:"level_1_approval"},
+                            {data:"created_at"},
+                        
+                    ]         
+                })
+            }
+            
+ 
+            
+        })
+        .catch(err=>console.log(err))
 
 
     });
@@ -121,51 +128,61 @@ function TreatedApproval(){
 
 function allapprovedx(){
     let count = 0
-    let table = $('#treated').DataTable({
-     
-        "processing":true,
-        "destroy":true,
-        "serverSide":true,
-        "bFilter": true,
-        'dom': "Bfrtip",
-        "ajax":{
-             url:'/procurement/app/customroute/allapproved',
-             type:"GET"
+
+    fetch('/procurement/app/customroute/allapproved',{
+        method:'GET'
+       
+    })
+    .then(result=>result.json())
+    .then(res=>{
+
+       let dataset="";
+       if(res.status){
+
+            let table = $('#treated').DataTable({
+                data:res.data,
+                destroy:true,
+                columns:[
              
-        },
-        "columns":[
-             
-                 {
-                    data:"",
-                    render:function(){
-                        return count = count+ 1;
+                    {
+                       data:"",
+                       render:function(){
+                           return count = count+ 1;
+                       }
+                       
+                   
+                   },
+                    {data:"order_title"},
+                    {data:"supplier_name"},
+                    {data:"level_1_approval"},
+                    {data:"created_at"},
+                    {
+                        data:'',
+                        render:function(datax,type,row){
+                           
+                           if(row.po_approval === "approved"){
+                               return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" disabled>Cant Delete</div>`
+                           }
+                           else{
+                               return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
+                           }
+                            
+                          } 
                     }
-                    
                 
-                },
-                 {data:"order_title"},
-                 {data:"supplier_name"},
-                 {data:"level_1_approval"},
-                 {data:"created_at"},
-                 {
-                     data:'',
-                     render:function(datax,type,row){
+           ] 
                         
-                        if(row.po_approval === "approved"){
-                            return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" disabled>Cant Delete</div>`
-                        }
-                        else{
-                            return `<div style="text-decoration:underline;color:#ff0000;font-weight:bold;cursor:pointer" onclick="deleteApprove(${row.id},${row.order_id})">Delete</div>`
-                        }
-                         
-                       } 
-                 }
-             
-        ]   
+            })
+        }
+        
 
-         
+        
+    })
+    .catch(err=>console.log(err))
 
-     });
+
+
+
 }
 
 function openDetails(url){

@@ -30,7 +30,7 @@ function POHTML(){
     return `
             
     
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="fetchpendingpo" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>SN</th>
@@ -46,42 +46,75 @@ function POHTML(){
             </table>`
 }
 
+function POPendingClicked(){
+
+    
+    let content =`
+            
+    
+            <table id="fetchpendingpo" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>ORDER TYPE</th>
+                        <th>SUPPLIER NAME</th>
+                        <th>STATUS</th>
+                        <th>DATE</th>
+                        <th>REVIEW</th>
+                        
+                        
+                    </tr>
+                </thead>
+            </table>`
+
+            document.querySelector('.render_body_content').innerHTML=content
+            POfetch();
+}
+
 
 function POfetch(){
     $(document).ready(function () {
 
-       let table = $('#example').DataTable({
-        
-           "processing":true,
-            "destroy":true,
-           "serverSide":true,
-           "bFilter": true,
-           dom: "Bfrtip",
-           "ajax":{
-                url:'/procurement/app/customroute/getPO',
-                type:"GET",
-                
-               
-           },
-           "columns":[
-                
-                    {data:"id"},
-                    {data:"order_title"},
-                    {data:"supplier_name"},
-                    {data:"level_1_approval"},
-                    {data:"created_at"},
-                    {
-                        data:"",
-                        render:function(data,type,row){
-                           
-                            
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.assigned_supplier},${row.id})">Review</div>`
-                          } 
-                    }
-                
-           ]   
+        fetch('/procurement/app/customroute/getPO',{
+            method:'GET'
+           
+        })
+        .then(result=>result.json())
+        .then(res=>{
 
-        });
+           let dataset="";
+           if(res.status){
+    
+                let table = $('#fetchpendingpo').DataTable({
+                    data:res.data,
+                    destroy:true,
+                    "columns":[
+                
+                        {data:"id"},
+                        {data:"order_title"},
+                        {data:"supplier_name"},
+                        {data:"level_1_approval"},
+                        {data:"created_at"},
+                        {
+                            data:"",
+                            render:function(data,type,row){
+                               
+                                
+                                return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.assigned_supplier},${row.id})">Review</div>`
+                              } 
+                        }
+                    
+               ]   
+           
+                })
+            }
+            
+ 
+            
+        })
+        .catch(err=>console.log(err))
+
+
 
 
     });

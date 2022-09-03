@@ -159,6 +159,7 @@ session_start();
     <script src="../component/body/approval.js"></script>
     <script src="../component/body/requisition.js"></script>
     <script src="../component/body/order.js"></script>
+  
     <script src="../component/body/supplier.js"></script>
     <script src="../component/body/commit.js"></script>
     <script src="../component/body/tabcomponent.js"></script>

@@ -1,5 +1,6 @@
 const newQuotation = [];
 const load = [];
+let currency;
 function poModal(orderid,supplierid,rowid){
    
     document.querySelector('.modalClass').classList.add('modalClassCustom');
@@ -33,8 +34,8 @@ function poModal(orderid,supplierid,rowid){
 
                                </table>
                                <div class="discountTotal">
-                                    <div>Discount(%)</div> 
-                                    <div id="discount">0%</div>
+                                    <div>Discount(%):-</div> 
+                                    <input type="number" class="form-control" min="0" value=0 id="discount" />
                                 </div>
                                 <div class="discountTotal">
                                     <div>Grand Total</div> 
@@ -54,6 +55,7 @@ function poModal(orderid,supplierid,rowid){
 
         document.querySelector('.modalClass').innerHTML=content
         supplier_quotationDetails(orderid,supplierid);
+        myDiscountChange();
         close();
         document.querySelector('#tbody').addEventListener('click',function(e){
             let y = e.target.parentElement.parentElement.parentElement
@@ -63,30 +65,15 @@ function poModal(orderid,supplierid,rowid){
             let price =  x.children[3].children[0];
             let Sumtotal =  x.children[4].children[0];
             let grandtotal = document.getElementById('grandtotal')
-            let discount = document.getElementById('discount').innerHTML;
+            let discount = document.getElementById('discount').value;
            
             quantity.addEventListener('change',function(e){
                 let pricex = price.value 
                 let quantityx = e.target.value
                 let total = parseFloat(pricex * quantityx);
                 Sumtotal.value = total
-                for(let i=0;i<y.children.length;i++){
-                    let x = y.children[i].children[4].children[0].value;
-                    sum += parseFloat(x)
+                sumTotal(grandtotal,discount);
                 
-                }
-                
-                if(parseFloat(discount) > 0){
-                    
-                    let dis = parseFloat(discount) / 100;
-                    let count = parseFloat(sum) * dis;
-                    let adjustedAmount  = parseFloat(sum - count);
-                    grandtotal.innerHTML= adjustedAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-                else{
-                    grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-                grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 
             })
             price.addEventListener('change',function(e){
@@ -94,24 +81,9 @@ function poModal(orderid,supplierid,rowid){
                 let  pricex= e.target.value
                 let total = parseFloat(pricex * quantityx);
                 Sumtotal.value = total
+                sumTotal(grandtotal,discount);
 
-                for(let i=0;i<y.children.length;i++){
-                    let x = y.children[i].children[4].children[0].value;
-                    sum += parseFloat(x)
                 
-                }
-                if(parseFloat(discount) > 0){
-                    
-                    let dis = parseFloat(discount) / 100;
-                    let count = parseFloat(sum) * dis;
-                    let adjustedAmount  = parseFloat(sum - count);
-                    grandtotal.innerHTML= adjustedAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-                else{
-                    grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-                //grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                //grandtotal.innerHTML=sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             })
 
             
@@ -123,12 +95,82 @@ function poModal(orderid,supplierid,rowid){
         
 }
 
+function myDiscountChange(){
+        
+        
+    document.getElementById('discount').addEventListener('change',function(e){
+        
+      
+        let sum =0;
+        let z =document.querySelector('tbody').children;
+            for(let i=0;i<z.length;i++){
+                let xy = z[i].children[4];
+                console.log(xy.children[0].value)
+                sum += parseFloat(xy.children[0].value)
+            }
+         
+        if(parseFloat(sum) > 0){
+            
+            let value = e.target.value;
+
+            let total = document.getElementById('grandtotal')
+            let discount = parseFloat(value) /100;
+            let discountAmount = parseFloat(sum) * discount;
+            total.innerHTML = currencySelect(currency) +' '+ numberWithCommas(parseFloat(sum) - discountAmount); 
+
+        }
+         
+    })
+    
+
+}
+
+
+function sumTotal(grandtotal,discount){
+    let y = grandtotal.innerHTML;
+    let splitter = y.split(' ');
+
+    
+    let x = document.querySelector('tbody').children;
+    let sum =0;
+    for(let i=0;i<x.length;i++){
+        console.log(x[i].children[4].children[0].value)
+        sum += parseFloat(x[i].children[4].children[0].value)
+    }
+    console.log("sum",sum)
+
+    let d = parseFloat(discount/100);
+    
+    
+    let getcurrency = currencySelect(currency);
+    grandtotal.innerHTML = ` (${getcurrency}) ` + numberWithCommas(sum - (d * sum)) 
+            
+}
+
+
 
 function close(){
     document.querySelector('.closeModal').addEventListener('click',function(e){
         document.querySelector('.modalClass').classList.remove('modalClassCustom');
         document.querySelector('.modalClass').innerHTML=""
     })
+}
+
+
+
+function currencySelect (currency){
+    switch(currency){
+        case 'NGN':
+            return '&#8358;'
+        case 'USD':
+            return '&#36;' 
+        case 'EURO':
+            return '&#x20AC;'
+        case 'GBP':
+            return '&#163;'
+        case 'YEN':
+        return '&#165;'
+    }
 }
 
 function numberWithCommas(x) {
@@ -152,7 +194,7 @@ function supplier_quotationDetails(orderid,supplierid){
         let phonenumber
         let dataset = ''
         let sum=0
-        let currency
+        
         let invoice
         let discount=0;
         
@@ -183,10 +225,10 @@ function supplier_quotationDetails(orderid,supplierid){
             document.getElementById('addr').innerHTML = address
             document.getElementById('suppliername').innerHTML = supplier_name
             document.getElementById('phonenumber').innerHTML = phonenumber
-            document.getElementById('discount').innerHTML = discount
+            document.getElementById('discount').value = discount
             let dis = parseFloat(discount) /100;
             let count = dis * sum;
-            document.getElementById('grandtotal').innerHTML = numberWithCommas(parseFloat(sum - count)) + ` (${currency})`
+            document.getElementById('grandtotal').innerHTML = currencySelect(currency) +' '+ numberWithCommas(parseFloat(sum - count))
          
             document.getElementById('invoice').innerHTML='Quotation For '+ invoice
        }
@@ -271,6 +313,8 @@ function POshippment(supperid,orderid,rowid){
     _push(`#PO/shippment/1`)
     loadUrl('#PO/shippment/1');
 }
+
+
 
 
 

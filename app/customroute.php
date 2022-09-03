@@ -177,6 +177,39 @@ $router->post('/addsupplier',function(array $params){
   $connection->close();
 });
 
+
+
+$router->post('/addagent',function(array $params){
+  
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  $result = $connection->query("SELECT * FROM agent WHERE agent_name ='".$data['agent_name']."'");
+  if($result){
+    if(mysqli_num_rows($result) > 0){
+      echo json_encode(["data"=>"Agent name has to be Unique","status"=>false]);
+    }
+    else{
+          
+          $query = "INSERT INTO agent (agent_name,created_by,agent_address,agent_contact,agent_email)VALUES('".$data['agent_name']."','".$data['author']."','".$data['agent_address']."','".$data['agent_contact']."','".$data['agent_email']."')";
+          $result = $connection->query($query)or die(mysqli_error($connection));
+          if($result){
+          
+            echo json_encode(["data"=>"Agent Successfully Created","status"=>true]);
+          }
+          else{
+            echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+          }
+    }
+
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
+
+
+  $connection->close();
+});
+
 $router->post('/addproject',function(array $params){
   
   $connection = new mysqli("localhost","root","BiL@18","procurement");
@@ -377,7 +410,7 @@ $router->get('/getpendingApproval',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT  * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `requisition` ON `orders`.`id` = `requisition`.`order_id` WHERE level_1_approval = 'pending' GROUP BY `approval_process`.order_id";
+  $query="SELECT   `approval_process`.*, `orders`.*, COUNT(supplier_id) AS allsuppliers FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id`  WHERE level_1_approval = 'pending' GROUP BY `approval_process`.order_id";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -391,7 +424,7 @@ $router->get('/getpendingApproval',function(){
       // $subarray[]=$row['created_at'];
       $data[] = $row;
     }
-    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     echo json_encode($json_data);
   // }
   // else{
@@ -452,7 +485,7 @@ $router->get('/allapproved',function(){
       // $subarray[]=$row['created_at'];
       $data[] = $row;
     }
-    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     echo json_encode($json_data);
   // }
   // else{
@@ -522,6 +555,35 @@ $router->get('/alldatasupplier',function(){
 
 });
 
+
+$router->get('/alldataAgent',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  // $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM agent";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      // $subarray=[];
+      // $subarray[]=$row['id'];
+      // $subarray[]=$row['order_title'];
+      // $subarray[]=$row['level_1_approval'];
+      // $subarray[]=$row['created_at'];
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    echo json_encode($json_data);
+  // }
+  // else{
+  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
+  // }
+  $connection->close();
+
+});
 
 $router->post('/fetchapprovaldetails',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
@@ -605,7 +667,7 @@ $router->get('/getPO',function(){
       // $subarray[]=$row['created_at'];
       $data[] = $row;
     }
-    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     echo json_encode($json_data);
   // }
   // else{
@@ -921,6 +983,10 @@ $router->post('/editdata',function(){
   else if($data['affectedColumn'] == 'project_name'){
 
     $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."' WHERE id='".$data['id']."'";
+  }
+  else if($data['affectedColumn'] == 'agent_name'){
+
+    $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."', agent_email='".$data['email']."',agent_contact='".$data['contact']."',agent_address='".$data['address']."' WHERE id='".$data['id']."'";
   }
   else{
     $query = "UPDATE  ".$data['tableName']." SET ".$data['affectedColumn']." = '".$data['updatedata']."', email='".$data['email']."',contact='".$data['contact']."',address='".$data['address']."' WHERE id='".$data['id']."'";

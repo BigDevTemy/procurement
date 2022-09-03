@@ -36,6 +36,10 @@ function modalContent(title,Id){
         case 'Edit Supplier':
             return editSupplier(Id);
             break;
+        case 'Edit Agent':
+            return editAgent(Id);
+            break;
+        
         case 'Edit Order Title':
             return editOrder(Id);
         case 'Edit Projectname':
@@ -81,6 +85,44 @@ function editSupplier(id){
             edit(id)
             
 }
+
+function editAgent(id){
+    let content= `
+            <div style="margin-top:20px">
+                    <div class="form-group mt-4">
+                        <label>Agent name</label>
+                        <input type="text" class="form-control" id="agent_name"/>
+
+                    <div>
+                    <div class="form-group mt-4">
+                        <label>Agent email</label>
+                        <input type="email" class="form-control" id="agent_email"/>
+
+                    <div>
+                    <div class="form-group mt-4">
+                        <label>Agent contact</label>
+                        <input type="text" class="form-control" id="agent_contact"/>
+
+                    <div>
+                    <div class="form-group mt-4">
+                        <label>Agent address</label>
+                        <input type="text" class="form-control" id="agent_address"/>
+
+                    <div>
+
+                    <div class="form-group space-top-md"> 
+                        <input type="submit" id="edit_agent" class="form-control" value="Save"/>
+                    <div>
+
+            </div>
+    
+            `
+            document.querySelector('.modalBody').innerHTML=content
+            loadDataAgent(id,'agent');
+            edit(id)
+            
+}
+
 
 function editOrder(id){
     let content= `
@@ -166,6 +208,38 @@ function loadDataSupplier(id,supplier){
     })
 
 }
+
+
+function loadDataAgent(id,agent){
+    fetch('/procurement/app/customroute/getdata',{
+        method:'POST',
+        body:JSON.stringify({
+           tableName:agent,
+           id:id 
+        }),
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                            
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        
+        if(data['status']){
+           document.getElementById('agent_name').value=data.data.agent_name
+           document.getElementById('agent_contact').value=data.data.agent_contact
+           document.getElementById('agent_address').value=data.data.agent_address
+           document.getElementById('agent_email').value=data.data.agent_email
+        }
+        
+    })
+    .catch(err=> {
+        
+        console.log(err)
+      
+       
+    })
+
+}
+
 function loadDataOrder(id,order){
     fetch('/procurement/app/customroute/getdata',{
         method:'POST',
@@ -262,6 +336,53 @@ function edit(id){
         })
     
     }
+
+    if(document.querySelector('#edit_agent')){
+        document.querySelector('#edit_agent').addEventListener('click',function(e){
+            e.preventDefault();
+            let agent_name = document.getElementById('agent_name').value;
+            let contact = document.getElementById('agent_contact').value;
+            let address = document.getElementById('agent_address').value;
+            let email = document.getElementById('agent_email').value;
+    
+            fetch('/procurement/app/customroute/editdata',{
+                method:'POST',
+                body:JSON.stringify({
+                   tableName:"agent",
+                   updatedata:agent_name,
+                   contact,
+                   address,
+                   email,
+                   affectedColumn:'agent_name',
+                   id:id
+                }),
+                headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                                    
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                console.log("data",data)
+                if(data['status']){
+                   //document.getElementById('order_title').value=data.data.order_title
+                   forceClose();
+                   getAllAgent();
+                   
+                   Swal.fire('Update Successfully made','','success')
+                   
+                }
+                else{
+                    Swal.fire('Update Failed...Pls try again','','error')
+                }
+                
+            })
+            .catch(err=> {
+                console.log(err) 
+            })
+    
+        })
+    
+    }
+    
     
 
     if(document.querySelector('#edit_order')){
