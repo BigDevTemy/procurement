@@ -157,6 +157,7 @@ session_start();
     <script src="../component/body/shippment.js"></script>
     <script src="../component/body/po.js"></script>
     <script src="../component/body/approval.js"></script>
+    <script src="../component/body/previewModal.js"></script>
     <script src="../component/body/requisition.js"></script>
     <script src="../component/body/order.js"></script>
   

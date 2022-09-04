@@ -145,7 +145,7 @@ function loadRequisitionDefault(){
                     <div class="fileuploadDiv"> 
                         <input type="file" id="fileInput" name="file" class="fileUploadInput" accept="application/pdf,image/jpeg" multiple />
                         <button class="btn btn-bg">Choose File</button>
-                        <span class="number_files">No File Selected</span>
+                        <div class="number_files">No File Selected</div>
                     </div>
                     <div class="selectedFiles">
                         
@@ -298,7 +298,7 @@ function AddRequisition(){
                         <div class="fileuploadDiv"> 
                             <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" />
                             <button class="btn btn-bg">Choose File</button>
-                            <span class="number_files" id="number_files">No File Selected</span>
+                            <div class="number_files" id="number_files">No File Selected</div>
                         </div>
                         <div class="selectedFiles">
                             
@@ -681,15 +681,16 @@ let handleInput  = document.querySelector('.fileUploadInput');
         handleInput.click();
             // const image_input = document.querySelector("#image-input");
             handleInput.addEventListener("change", function() {
-                console.log(handleInput.files[0].name)
+               
                 let dataset = "";
-                
+                let src=""
                 for(let i=0; i<handleInput.files.length; i++){
-                  
-                   
+                    src = URL.createObjectURL(handleInput.files[i])
                     dataset += `
                                 <div class="d-image">
-                                     <div style="cursor:pointer" class="preview"><u>Preview</u></div>
+                                        
+                                     <div style="cursor:pointer" class="preview">Preview</div>
+                                     <input type="hidden" value=${src} />
                                     <div id=${handleInput.files[i].name}>${handleInput.files[i].name}</div>
                                     <span style="cursor:pointer" class="removeImageUpload">X</span>
                                 </div>
@@ -704,8 +705,28 @@ let handleInput  = document.querySelector('.fileUploadInput');
     })
 
     document.querySelector('.selectedFiles').addEventListener('click',function(e){
+        
         if(e.target.classList.contains("preview")){
+            let fileURL =  e.target.parentElement.children[1].value
+            document.querySelector('.modalClass').classList.add('modalClassCustom');
+            let content = `
+                            <div class="customModal modalApproval">
 
+                          <div class="container">
+                            <iframe 
+                            src=${fileURL}
+                            frameborder="0" allowfullscreen  
+                            scrolling="auto" class="video">
+                            </iframe>
+                          </div>
+                                
+
+                            </div>
+                            
+                
+                         `
+                         document.querySelector('.modalClass').innerHTML=content
+                         window.scroll(0,0)
         }
 
         if(e.target.classList.contains("removeImageUpload")){
@@ -717,6 +738,12 @@ let handleInput  = document.querySelector('.fileUploadInput');
             //document.querySelector('.number_files').innerHTML = x  > 1 ? x +' Files Selected' : x +' File Selected';
         }
     })
+
+    var date = new Date();  
+    var currentDate = date.toISOString().substring(0,10);
+    
+    document.getElementById('dateofcreation').value = currentDate
+    document.getElementById('dateofsending').value = currentDate
    
 
     document.querySelector('.rowplus').addEventListener('click',function(e){
@@ -764,6 +791,8 @@ let handleInput  = document.querySelector('.fileUploadInput');
                 return ''
         }
     }
+
+   
 
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
         e.preventDefault();
@@ -814,13 +843,32 @@ let handleInput  = document.querySelector('.fileUploadInput');
 
         if(totalfiles === 0){
             Swal.fire('Upload Supplier Quotation','','error')
+            return false;
         }
         if(allsupplier == "SELECT SUPPLIER"){
             Swal.fire('Select Supplier','','error')
+            return false;
         }
         if(order == "SELECT ORDER"){
             Swal.fire('Select Order','','error')
+            return false;
         }
+
+        if(currency == "SELECT CURRENCY"){
+            Swal.fire('Select Currency','','error')
+            return false;
+        }
+        if(serial_number == ""){
+            Swal.fire('Serial Number is Required','','error')
+            return false;
+        }
+        if(fileref == ""){
+            Swal.fire('File Ref is Required','','error')
+            return false;
+        }
+
+        
+
 
         if(totalfiles >0 && allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && currency != "" && fileref !="" &&  projectname != "" && dateofsending!="" && totalfiles!="" ){
             
@@ -859,18 +907,44 @@ let handleInput  = document.querySelector('.fileUploadInput');
                     row=[];
                     document.getElementById('myTotal').innerHTML = 0;
                     // document.getElementById("myform").reset();
-                    var inputElements = document.getElementsByTagName('input');
+                    var inputElements = document.querySelector('input') 
                     var inputElementSelect = document.getElementsByTagName('select');
 
                     for (var i=0; i < inputElements.length; i++) {
-                        if (inputElements[i].type == 'text' || inputElements[i].type == 'file'  ) {
+                        if (inputElements[i].type == 'text' || inputElements[i].type == 'file' || inputElements[i].type == 'number'  ) {
                             inputElements[i].value = '';
                         }
                     }
 
                    document.getElementById('allsupplier').value="";
                    document.getElementById('ordertype').value="";
-                   document.getElementById('number_files').innerHTML="";
+                   document.getElementById('discount').value="";
+                   currency.value=""
+    
+                   document.querySelector('.selectedFiles').innerHTML=""
+                   document.querySelector('.number_files').innerHTML="No File Selected"
+                   
+                   document.getElementById('received').checked = false
+                   
+                   
+                   
+
+                   for(let i=0;i<description.length;i++){
+                    let child = description[i].children;
+                    
+                    for(let x=0;x<child.length;x++){
+                       
+                        child[x].children[0].value=""
+                       
+
+                        
+                        
+                         
+                    }
+        
+        
+             }
+
                     
                 }
                 else{

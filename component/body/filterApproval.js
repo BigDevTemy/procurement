@@ -264,7 +264,7 @@ function Search(){
     .then(result=>result.json())
     .then(res=>{
         let count = 0;
-       
+       console.log(res);
        let dataset="";
        if(res.status){
 
