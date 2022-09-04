@@ -711,7 +711,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
             document.querySelector('.modalClass').classList.add('modalClassCustom');
             let content = `
                             <div class="customModal modalApproval">
-
+                            <div class="closeModal mb-4" >X</div>
                           <div class="container">
                             <iframe 
                             src=${fileURL}
@@ -726,6 +726,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
                 
                          `
                          document.querySelector('.modalClass').innerHTML=content
+                         forceClosePreview();
                          window.scroll(0,0)
         }
 
@@ -738,6 +739,14 @@ let handleInput  = document.querySelector('.fileUploadInput');
             //document.querySelector('.number_files').innerHTML = x  > 1 ? x +' Files Selected' : x +' File Selected';
         }
     })
+
+    function forceClosePreview(){
+        document.querySelector('.closeModal').addEventListener('click',function(e){
+            document.querySelector('.modalClass').classList.remove('modalClassCustom');
+            document.querySelector('.modalClass').innerHTML=""
+        })
+        
+    }
 
     var date = new Date();  
     var currentDate = date.toISOString().substring(0,10);
