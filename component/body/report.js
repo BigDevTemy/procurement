@@ -32,6 +32,7 @@ function ApprovedReport(){
                     <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
+                        <th>Order Ref</th>
                         <th>Supplier Assigned</th>
                         <th>Status</th>
                         <th>Date</th>
@@ -106,6 +107,7 @@ function ApprovedFetch(){
 
                 },
                 {data:"order_title"},
+                {data:"order_ref"},
                 {data:"supplier_name"},
                 {data:"level_1_approval"},
                 {data:"created_at"}

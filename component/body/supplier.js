@@ -33,7 +33,7 @@ function loadSupplierDefault(){
                     <input type="text" class="form-control selector" id="supplieraddress" placeholder="Provide Company Address"/>
                 </div>
                 <div class="col-md-6">
-                    <label>Company Contact</label>
+                    <label>Supplier's Phonenumber</label>
                     <input type="text" class="form-control selector" id="suppliercontact" placeholder="Provide Company Contact Number"/>
                 </div>
                 <div class="col-md-6">
@@ -59,7 +59,7 @@ function AddSupplier(){
                     <input type="text" class="form-control selector" placeholder="Provide Supplier Address" id="supplieraddress"/>
                 </div>
                 <div class="col-md-6">
-                    <label>Company Contact</label>
+                    <label> Supplier's Phonenumber</label>
                     <input type="text" id="suppliercontact" class="form-control selector" placeholder="Provide Company Contact Number (optional)"/>
                 </div>
                 <div class="col-md-6">
@@ -316,7 +316,7 @@ function saveSupplierModule(){
                     document.getElementById('supplier_name').value=""
                     document.getElementById('supplieraddress').value=""
                     document.getElementById('suppliercontact').value=""
-
+                    document.getElementById('supplier_email').value=""
                 }else{
                     document.querySelector('.loader').classList.remove('overlayLoader');
                     document.querySelector('.rounding').classList.remove('roundLoader');

@@ -153,7 +153,7 @@ $router->post('/addsupplier',function(array $params){
   $result = $connection->query("SELECT * FROM supplier WHERE supplier_name ='".$data['supplier_name']."'");
   if($result){
     if(mysqli_num_rows($result) > 0){
-      echo json_encode(["data"=>"Supplier name has to be Unique","status"=>false]);
+      echo json_encode(["data"=>"Supplier already exist","status"=>false]);
     }
     else{
           
@@ -339,12 +339,12 @@ $router->get('/getAllorder',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
-  $result = $connection->query("SELECT * FROM orders LEFT JOIN project ON `orders`.`project_id` = `project`.`id`");
+  $result = $connection->query("SELECT `orders`.`id` AS myID ,order_title,order_ref,project_name FROM orders LEFT JOIN project ON `orders`.`project_id` = `project`.`id`");
   $output = [];
   if($result){
     if(mysqli_num_rows($result) > 0){
         while($row= mysqli_fetch_assoc($result)){
-          array_push($output,array ("ordertype"=> $row['order_title'],"id"=>$row['id'],"order_ref"=>$row['order_ref'],"project_name"=>$row['project_name']));
+          array_push($output,array ("ordertype"=> $row['order_title'],"id"=>$row['myID'],"order_ref"=>$row['order_ref'],"project_name"=>$row['project_name']));
         }
 
         echo json_encode(["data"=>$output,"status"=>true]); 

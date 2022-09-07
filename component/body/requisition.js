@@ -112,10 +112,10 @@ function loadRequisitionDefault(){
                     </div>
                     <div class="contentHeader">
                         <div>SN</div>
-                        <div> Item Description</div>
+                        <div> Item Description/Part No</div>
                         <div>Quantity</div>
                         <div>Unit Price</div>
-                        <div>Total Price</div>
+                        <div>Total Amount</div>
                         <div>Action</div>
                     </div>
                     <div class="contentParent" id="contentParent">
@@ -131,7 +131,7 @@ function loadRequisitionDefault(){
                     </div>
                     <div class="discount_content">
                         
-                        <div class="discountDiv"><input type="number" min="0" placeholder="discount in %"  id="discount" class="form-control discountClass"/></div>
+                        <div class="discountDiv"><label style="font-size:13px;margin-right:10px;margin-top:5px">Discount:</label><input type="number" min="0" placeholder="discount in %"  id="discount" class="form-control discountClass"/></div>
                     </div>
                     <div class="discount_content">
                             
@@ -162,7 +162,7 @@ function loadRequisitionDefault(){
 
                     
                     <div class="submitBtnParent">
-                        <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
+                        <button class="btn btn-bg uploadRequisition">Save Requisition For Approval</button>
                     </div>
                 </div>
             
@@ -267,10 +267,10 @@ function AddRequisition(){
                         </div>
                         <div class="contentHeader">
                             <div>SN</div>
-                            <div> Item Description</div>
+                            <div> Item Description/ Part No.</div>
                             <div>Quantity</div>
                             <div>Unit Price</div>
-                            <div>Total Price</div>
+                            <div>Total Amount</div>
                         </div>
                         <div class="contentParent" id="contentParent">
                             <div class="content">
@@ -284,7 +284,7 @@ function AddRequisition(){
                         </div>
                         <div class="discount_content">
                             
-                            <div class="discountDiv"><input type="number" min="0" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
+                            <div class="discountDiv"><label>Discount</label><input type="number" min="0" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
                         </div>
                         <div class="discount_content">
                             
@@ -315,7 +315,7 @@ function AddRequisition(){
 
                         
                         <div class="submitBtnParent">
-                            <button class="btn btn-bg uploadRequisition">Upload Requisition For Approval</button>
+                            <button class="btn btn-bg uploadRequisition">Save Requisition For Approval</button>
                         </div>
                     </div>
                 
@@ -415,10 +415,11 @@ function saveRequisitionModule(){
         fetch('/procurement/app/customroute/getAllorder')
     .then(res=>res.json())
     .then(data=>{
-        console.log("data",data)
+        console.log("datahghghghg",data)
         if(data['status']){
             let dataset ="<option>SELECT ORDER</option>"
             document.getElementById('ordertype').innerHTML=""
+
             data['data'].forEach((d,index)=>{
                 dataset += 
                             `
