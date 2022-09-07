@@ -341,3 +341,13 @@ small{
     height: 0;
     padding-bottom: 56.25%;
 }
+
+
+.header-form{
+    display: flex;
+    width: 100%;
+   
+    justify-content: space-between;
+    
+    
+}

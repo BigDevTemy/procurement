@@ -1,4 +1,5 @@
 function PO(search){
+
     let content = ` 
                 <div class="supplierDiv">
                     
@@ -8,7 +9,7 @@ function PO(search){
                     </div>
                     <div class="modalClass"></div>
                     <div id="toprint" style="display:none">
-                        bvbvbnvbnv
+                      
                     
                     </div>
                     
@@ -316,7 +317,7 @@ function POClickfetchapproved(){
                     render:function(data,type,row){
                         return  `
                                     <div style="cursor:pointer;width:100%">
-                                            <button class="btn btn-sm btn-primary" onclick="printpart()">Print</button>
+                                            <button class="btn btn-sm btn-primary" onclick="PrintElem()">Print</button>
                                     </div>
                                 `
                     }
@@ -328,6 +329,86 @@ function POClickfetchapproved(){
      });
 
 
+}
+
+function display(){
+    let content = `
+                   
+             <div style="display: flex;flex-direction: column; justify-content: center;">
+                <div style="display:flex;justify-content:space-between;padding-left:5%;padding-right:5%;align-items:center">
+                    <div><img src='../assets/images/companylogo2.png' id="company_logo" style="width:20%"/></div>
+                    <div style="font-weight:bold;font-size:12px">MOTHERCAT LIMITED</div>
+                </div>
+
+                <div><hr style="border:1px solid #ff0000"/></div>
+
+                <div style="width:100%;display:flex; padding-left:5%;padding-right:5%;">
+                    <div style="flex:1 1 50%; display:flex;flex-direction: column;">
+                        
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>From:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
+                        </div>
+                    </div>
+                    <div style="flex:1 1 50%;">
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Our Ref:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Date:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Total Pages:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">2</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
+                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">hademylola@gmail.com</div>
+                        </div>
+                    </div>
+
+                <div> 
+
+
+                                
+</div>
+    
+                    `
+
+    document.getElementById('toprint').innerHTML = content
+}
+
+function PrintElem()
+{
+    display()
+    console.log(document.getElementById('toprint').innerHTML)
+    var mywindow = window.open('', 'PRINT PO');
+
+    mywindow.document.write('<html><head><title></title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write(document.getElementById('toprint').innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+   
+
+    return true;
 }
 
 function printpart () {
