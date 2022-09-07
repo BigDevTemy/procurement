@@ -85,12 +85,8 @@ $router->post('/createorder',function(array $params){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $result = $connection->query("SELECT * FROM orders WHERE order_title ='".$data['order_title']."'") or die(mysqli_error($connection));
-  if($result){
-    if(mysqli_num_rows($result) > 0){
-      echo json_encode(["data"=>"Order title has to be Unique","status"=>false]);
-    }
-    else{
+  //$result = $connection->query("SELECT * FROM orders WHERE order_title ='".$data['order_title']."'") or die(mysqli_error($connection));
+ 
           $res = $connection->query("SELECT id FROM orders ORDER BY id desc LIMIT 1") or die(mysqli_error($connection));
           $year = date('y');
         
@@ -117,14 +113,7 @@ $router->post('/createorder',function(array $params){
           else{
             echo json_encode(["data"=>"Internal Server Error A","status"=>false]);
           }
-    }
-
-  }
-  else{
-    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
-  }
-
-
+    
   $connection->close();
 });
 

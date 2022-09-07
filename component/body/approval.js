@@ -42,6 +42,7 @@ function PendingApproval(){
                         <tr>
                             <th>SN</th>
                             <th>ORDER TYPE</th>
+                            <th>ORDER REF</th>
                             <th>NUMBER OF SUPPLIERS</th>
                             <th>STATUS</th>
                             <th>DATE</th>   
@@ -73,13 +74,16 @@ function approvalfetchx(){
                     
                             {data:"id"},
                             {
-                            data:"order_title",
-                            render:function(data,type,row){
-                                
-                                return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.order_id})">${data}</div>`
-                            }  
+                                data:"order_title",
+                                render:function(data,type,row){
+                                    
+                                    return `<div style="text-color:#000080;font-weight:bold;text-decoration:underline;cursor:pointer" onclick="openDetails(${row.order_id})">${data}</div>`
+                                }
+                           
                                 
                             },
+                            {data:'order_ref'},
+                           
                             {
                                 data:'',
                                 render:function(data,type,row){
@@ -113,6 +117,7 @@ function TreatedApproval(){
                         <tr>
                             <th>SN</th>
                             <th>ORDER TYPE</th>
+                            <th>ORDER REF</th>
                             <th>SUPPLIER ASSIGNED</th>
                             <th>STATUS</th>
                             <th>DATE</th>
@@ -153,6 +158,7 @@ function allapprovedx(){
                    
                    },
                     {data:"order_title"},
+                    {data:'order_ref'},
                     {data:"supplier_name"},
                     {data:"level_1_approval"},
                     {data:"created_at"},

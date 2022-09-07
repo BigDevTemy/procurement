@@ -35,6 +35,7 @@ function POHTML(){
                     <tr>
                         <th>SN</th>
                         <th>ORDER TYPE</th>
+                        <th>ORDER REF</th>
                         <th>SUPPLIER NAME</th>
                         <th>STATUS</th>
                         <th>DATE</th>
@@ -57,6 +58,7 @@ function POPendingClicked(){
                     <tr>
                         <th>SN</th>
                         <th>ORDER TYPE</th>
+                        <th>ORDER REF</th>
                         <th>SUPPLIER NAME</th>
                         <th>STATUS</th>
                         <th>DATE</th>
@@ -92,6 +94,7 @@ function POfetch(){
                 
                         {data:"id"},
                         {data:"order_title"},
+                        {data:"order_ref"},
                         {data:"supplier_name"},
                         {data:"level_1_approval"},
                         {data:"created_at"},
@@ -168,92 +171,6 @@ function reviewPO(orderid){
     })
 
 
-    // document.querySelector('.POcontentmodal').addEventListener('click',function(e){
-    //             let totalprice = document.getElementById('totalprice').value;
-          
-    //             let assigned_supplier_id = document.getElementById('assigned_supplier_id').value
-               
-    //     if(e.target.classList.contains('btn-success')){
-                
-    //             fetch('/procurement/app/customroute/POapproval',{
-    //                 method:"POST",
-    //                 headers: { "Content-type": "application/x-www-form-urlencoded"},
-    //                 body:JSON.stringify({
-    //                     orderid:orderid,
-    //                     totalprice:totalprice,
-    //                     assigned_supplier_id:assigned_supplier_id
-    //                 })
-    //             })
-    //             .then(result=>result.json())
-    //             .then(res=>{
-    //                     if(res.status){
-    //                         Swal.fire(res.data,'','success');
-    //                         document.querySelector('.POmodal').classList.remove('overlayApproval')
-    //                         document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
-    //                         document.querySelector('.POcontentmodal').innerHTML=""
-    //                         POfetch();
-    //                     }
-    //                     else{
-    //                         Swal.fire('An Error Occurred','','errpr');
-    //                     }
-    //             })
-    //             .catch(err=>{
-    //                 console.log(err)
-    //             })
-    //     }
-    //     if(e.target.classList.contains('btn-danger')){
-    //         Swal.fire({
-    //             title: 'Are you sure?',
-    //             text: "You won't be able to revert this!",
-    //             icon: 'warning',
-    //             showCancelButton: true,
-    //             confirmButtonColor: '#3085d6',
-    //             cancelButtonColor: '#d33',
-    //             confirmButtonText: 'Yes, delete it!'
-    //           }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 fetch('/procurement/app/customroute/delete_approval_po',{
-    //                     method:'POST',
-    //                     headers: { "Content-type": "application/x-www-form-urlencoded"},
-    //                     body:JSON.stringify({
-    //                         orderid:orderid,
-    //                         assigned_supplier_id:assigned_supplier_id
-                            
-    //                     })
-    //                 })
-                        
-    //                     .then(result=>result.json())
-    //                     .then(res=>{
-    //                         if(res.status){
-    //                             Swal.fire(
-    //                                 'Deleted!',
-    //                                 'Your Approval has been deleted.',
-    //                                 'success'
-    //                               )
-    //                               document.querySelector('.POmodal').classList.remove('overlayApproval')
-    //                             document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
-    //                             document.querySelector('.POcontentmodal').innerHTML=""
-    //                               POfetch();
-    //                         }
-    //                         else{
-    //                             Swal.fire(
-    //                                 'Internal Server Error',
-    //                                 '',
-    //                                 'error'
-    //                               )
-    //                         }
-    //                     })
-                    
-    //             }
-    //           })
-    //     }
-    //     if(e.target.classList.contains('btn-secondary')){
-    //         document.querySelector('.POmodal').classList.remove('overlayApproval')
-    //         document.querySelector('.POcontentmodal').classList.remove('Addapprovalmodalcard')
-    //         document.querySelector('.POcontentmodal').innerHTML=""
-    //     }
-    // })
-
 }
 
 function PendingPOApproval(){
@@ -280,46 +197,54 @@ function PendingPOApproval(){
 }
 function POClickfetch(){
     $(document).ready(function () {
-        let count =0;
-       let table = $('#poclick').DataTable({
-        
-           "processing":true,
-            "destroy":true,
-           "serverSide":true,
-           "bFilter": true,
-           dom: "Bfrtip",
-           "ajax":{
-                url:'/procurement/app/customroute/getPO',
-                type:"GET",
+
+
+        fetch('/procurement/app/customroute/getPO')
+        .then(result=>result.json())
+        .then(res=>{
+           
+           let dataset="";
+           if(res.status){
+    
+                let table = $('#poclick').DataTable({
+                    data:res.data,
+                    destroy:true,
+                    columns:[
                 
-               
-           },
-           "columns":[
-                
-                    {
+                        {
+                            
+                            data:"",
+                            render:function(){
+                                return count = count+ 1;
+                            }
                         
-                        data:"",
-                        render:function(){
-                            return count = count+ 1;
+                        },
+                        {data:"order_title"},
+                        {data:"order_ref"},
+                        {data:"supplier_name"},
+                        {data:"level_1_approval"},
+                        {data:"created_at"},
+                        {
+                            data:"",
+                            render:function(data,type,row){
+                                
+                                return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id},${row.id})">Review</div>`
+                              } 
                         }
                     
-                    },
-                    {data:"order_title"},
-                    {data:"supplier_name"},
-                    {data:"level_1_approval"},
-                    {data:"created_at"},
-                    {
-                        data:"",
-                        render:function(data,type,row){
-                            console.log('yytyu',row)
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="reviewPO(${row.order_id},${row.id})">Review</div>`
-                          } 
-                    }
-                
-           ]   
-
-        });
-
+               ] 
+    
+                    
+                })
+            
+           
+                CloseButton();
+               
+           }
+            
+        })
+        .catch(err=>console.log(err))
+    
 
     });
     
@@ -332,6 +257,7 @@ function POApproved(){
                             <tr>
                                 <th>SN</th>
                                 <th>ORDER TYPE</th>
+                                <th>ORDER REF</th>
                                 <th>SUPPLIER NAME</th>
                                 <th>STATUS</th>
                                 <th>PO APPROVAL STATUS</th>
