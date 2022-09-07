@@ -1680,6 +1680,36 @@ $router->post('/save_edit_requisition',function(){
 });
 
 
+$router->get('/getAgent',function(){
+
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  $result = $connection->query("SELECT * FROM agent");
+  $output = [];
+  if($result){
+    if(mysqli_num_rows($result) > 0){
+        while($row= mysqli_fetch_assoc($result)){
+          
+          array_push($output,array ("agent_name"=> $row['agent_name'],"id"=>$row['id']));
+        }
+
+        echo json_encode(["data"=>$output,"status"=>true]); 
+    }
+    else{
+      echo json_encode(["data"=>"No Agent","status"=>false]); 
+        
+    }
+
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
+
+
+  $connection->close();
+
+});
+
 
 $router->addNotFoundHandler(function(){
 

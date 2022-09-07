@@ -148,7 +148,7 @@ function back(){
 }
 
 function ShippmentDetails(additional){
-   
+    getaboardagent();
     let content = ` 
                     <div class="supplierDiv">
                         <div onClick="back()" style="cursor:pointer"> << Back</div> 
@@ -184,7 +184,10 @@ function ShippmentDetails(additional){
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Receive by Abroad Forwarder</label>
-                                   <input type="text" class="form-control" placeholder="Receive by Abroad Forwarder" id="abroadforwarder" />
+                                    <select class="form-control" id="abroadforwarder">
+
+                                    </select>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -267,6 +270,28 @@ function ShippmentDetails(additional){
 
                  `
         return content;
+}
+
+function getaboardagent(){
+   
+    fetch('/procurement/app/customroute/getAgent')
+    .then(res=>res.json())
+    .then(result=>{
+        let dataset="";
+        if(result.status){
+
+            result.data.forEach((d,index)=>{
+                dataset +=  `
+                            <option id=${d.id}>${d.agent_name}</option>
+                            `
+            })
+
+            document.getElementById('abroadforwarder').innerHTML = dataset
+            
+        }
+
+    })
+    .catch(err=>console.log(err))
 }
 
 

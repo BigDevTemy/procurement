@@ -299,6 +299,7 @@ function POClickfetchapproved(){
                 
                 },
                  {data:"order_title"},
+                 {data:'order_ref'},
                  {data:"supplier_name"},
                  {data:"level_1_approval"},
                  {data:"po_approval"},
