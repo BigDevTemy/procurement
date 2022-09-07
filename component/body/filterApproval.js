@@ -467,13 +467,13 @@ function SearchShippment(){
     // console.log(orderid);
     // console.log(supplerid);
     // console.log(status);
-    // console.log(from_date);
-    // console.log(to_date);
+    console.log(from_date);
+    console.log(to_date);
 
     fetch('/procurement/app/customroute/filterShippment',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
-        body:JSON.stringify({orderid,supplierid,status,from_date,to_date})
+        body:JSON.stringify({orderid,supplierid,status,from_date,to_date,mode})
     })
     .then(result=>result.json())
     .then(res=>{
@@ -487,6 +487,7 @@ function SearchShippment(){
                 columns:[
                     {data:"id"},
                     {data:"order_title"},
+                    {data:"order_ref"},
                     {data:"supplier_name"},
                     {data:"mode_shippment"},
                     {data:"payment_mode"},
@@ -566,8 +567,13 @@ function SearchShippment(){
                     {
                         data:'',
                         render:function(data,type,row){
-                            console.log('xxxwwewew',row.status)
-                            if(row.status === "dispatched"){
+                            if(row.status === "pending with the supplier"){
+
+                                return 'null';
+                            }
+
+                           
+                            else if(row.status === "dispatched"){
                                 let split = row.dispatched_docs.split("_");
                                 if(split){
                                     let dataset="";

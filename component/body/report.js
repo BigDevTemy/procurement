@@ -58,6 +58,7 @@ function ApprovedReportClick(){
                     <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
+                        <th>Order Ref</th>
                         <th>Supplier Assigned</th>
                         <th>Status</th>
                         <th>Date</th>
@@ -137,6 +138,7 @@ function POReportClick(){
                     <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
+                        <th>Order Ref</th>
                         <th>Supplier Assigned</th>
                         <th>PO Approval Status</th>
                         <th>Quantity</th>
@@ -188,6 +190,7 @@ function POFetch(){
                     }
                 },
                 {data:"order_title"},
+                {data:"order_ref"},
                 {data:"supplier_name"},
                 {data:"po_approval"},
                 {
@@ -240,6 +243,7 @@ function ShippmentReportClick(){
                     <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
+                        <th>Order Ref</th>
                         <th>Supplier Name</th>
                         <th>Mode of Shippment</th>
                         <th>Payment Mode</th>
@@ -288,6 +292,7 @@ function ShippmentFetch(){
             columns:[
                 {data:"id"},
                 {data:"order_title"},
+                {data:"order_ref"},
                 {data:"supplier_name"},
                 {data:"mode_shippment"},
                 {data:"payment_mode"},
@@ -445,6 +450,7 @@ function RequisitionReportClick(){
                     <tr class="shippmentTR">
                         <th>SN</th>
                         <th>Order Type</th>
+                        <th>Order Ref</th>
                         <th>Supplier Name</th>
                         <th>Description</th>
                         <th>Quality</th>
@@ -494,6 +500,7 @@ console.log(currentDate)
             columns:[
                 {data:"id"},
                 {data:"order_title"},
+                {data:"order_ref"},
                 {data:"supplier_name"},
                 {data:"description"},
                 {data:"quantity"},

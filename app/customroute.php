@@ -1547,7 +1547,7 @@ $router->post('/filterShippment',function(){
     $conditionedQuery .= " status = '".$data['status']."' AND";
     $count += 1;
   }
-  if($data['mode']!="" && $data['mode'] !="Mode Of Shippment"){
+  if($data['mode']!="" && $data['mode'] !="Mode of Shippment"){
     $conditionedQuery .= " mode_shippment = '".$data['mode']."' AND";
     $count += 1;
   }

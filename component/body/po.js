@@ -333,61 +333,199 @@ function POClickfetchapproved(){
 
 function display(){
     let content = `
-                   
-             <div style="display: flex;flex-direction: column; justify-content: center;">
-                <div style="display:flex;justify-content:space-between;padding-left:5%;padding-right:5%;align-items:center">
-                    <div><img src='../assets/images/companylogo2.png' id="company_logo" style="width:20%"/></div>
-                    <div style="font-weight:bold;font-size:12px">MOTHERCAT LIMITED</div>
-                </div>
+                    <div style="width:100%;display: flex;justify-content: center;">
 
-                <div><hr style="border:1px solid #ff0000"/></div>
+                    <div style="display: flex;flex-direction: column; justify-content: center; width: 100%;">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <div><img src='../assets/images/companylogo2.png' id="company_logo" style="width:50%"/></div>
+                            <div style="font-weight:bold">MOTHERCAT LIMITED</div>
+                        </div>
 
-                <div style="width:100%;display:flex; padding-left:5%;padding-right:5%;">
-                    <div style="flex:1 1 50%; display:flex;flex-direction: column;">
-                        
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>From:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
-                        </div>
-                    </div>
-                    <div style="flex:1 1 50%;">
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Our Ref:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Date:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Total Pages:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">2</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
-                            <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">hademylola@gmail.com</div>
-                        </div>
-                    </div>
+                        <div><hr style="border:1px solid #ff0000"/></div>
 
-                <div> 
-
-
+                        <div style="width:100%;display:flex; ">
+                            <div style="flex:1 1 50%; display:flex;flex-direction: column;">
                                 
-</div>
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>To:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>From:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
+                                </div>
+                            </div>
+                            <div style="flex:1 1 50%;">
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Our Ref:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Date:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Total Pages:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">2</div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">hademylola@gmail.com</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div style="margin-top:10px"><hr style="border:2px solid #858585"/></div>
+                        <div style="width:100%;margin-top:20px">
+                            <div style="font-weight: bold;font-size: 18px;"><u>PARTS FOR GROVE RT530VR-T</u></div>
+                            <div style="font-size:20px;margin-top: 10px;">We are pleased to confirm the order for the following items as per your offer ref. SQ0008729 dated 08/06/22, copy attached.</div>
+                            <div>
+                                <table  border="1" style="width:100%;border-collapse: collapse;margin-top: 20px;">
+                                    <tr>
+                                        <th style="font-size:18px">Item</th>
+                                        <th style="font-size:18px">Description</th>
+                                        <th style="font-size:18px">Part No</th>
+                                        <th style="font-size:18px">Qty</th>
+                                        <th style="font-size:18px">U/Price</th>
+                                        <th style="font-size:18px">Total</th>
+                                    </tr>
+                                    <tbody>
+                                        <tr style="width:100%;">
+                                            <td style="text-align: center;">
+                                                1
+                                            </td>
+                                            <td style="text-align: center;">
+                                                Purchase of Laptop
+                                            </td>
+                                            <td style="text-align: center;">
+                                                098765
+                                            </td>
+                                            <td style="text-align: center;">
+                                                50
+                                            </td>
+                                            <td style="text-align: center;">
+                                                800
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <b>7500</b>
+                                            </td>
+                                        </tr>
+                                        <tr style="width:100%;">
+                                            <td style="text-align: center;">
+                                                2
+                                            </td>
+                                            <td style="text-align: center;">
+                                                Purchase of Laptop
+                                            </td>
+                                            <td style="text-align: center;">
+                                                098765
+                                            </td>
+                                            <td style="text-align: center;">
+                                                50
+                                            </td>
+                                            <td style="text-align: center;">
+                                                800
+                                            </td>
+                                            <td style="text-align: center;">
+                                            <b>7500</b> 
+                                            </td>
+                                        </tr>
+                                        <tr style="width:100%;">
+                                            <td style="text-align: center;font-weight: bold;" colspan="5">
+                                                
+                                                <div style="width:200px;text-align:left;margin-left:50%">Total  </div>
+                                            </td>
+                                            
+                                            <td style="text-align: center;">
+                                                7500
+                                            </td>
+                                        </tr>
+                                        <tr style="width:100%;">
+                                            <td style="text-align: center;font-weight: bold;" colspan="5">
+                                                <div style="width:200px;text-align:left;margin-left:50%">Discount 10%  </div>
+                                            </td>
+                                            
+                                            <td style="text-align: center;">
+                                                7500
+                                            </td>
+                                        </tr>
+                                        <tr style="width:100%;">
+                                            <td style="text-align: center;font-weight: bold;" colspan="5">
+                                                <div style="width:200px;text-align:left;margin-left:50%">Discount & Packaging</div>
+                                            </td>
+                                            
+                                            <td style="text-align: center;">
+                                                7500
+                                            </td>
+                                        </tr>
+
+                                        <tr style="width:100%;">
+                                            <td style="text-align: center;font-weight: bold;" colspan="5">
+                                                
+                                                <div style="width:200px;text-align:left;margin-left:50%">Total Delivered – UK Pound</div>
+                                            </td>
+                                            
+                                            <td style="text-align: center;">
+                                                7500
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <div style="font-weight: bold;font-size:18px;">Price</div>
+                                <div>The total Price delivered will be £ 1,630.98.</div>
+
+                            </div>
+                            <div style="margin-top:10px">
+                                <div style="font-weight: bold;font-size:18px;">Delivery</div>
+                                <div style="display:flex;margin-top:10px;width:50%;">
+                                    <div>Delivery time is</div>
+                                    <div style="margin-left:10px">5days</div>
+                                </div>
+                                <div style="display:flex;margin-top:10px">
+                                    <div>Delivery Address:</div>
+                                    <div style="margin-left:20px;width:50%;">
+                                        Mothercat Limited
+                                        C/o EV Cargo
+                                        Unit 2, The Faraday Centre, Faraday Road
+                                        Manor Royal, Crawley, West Sussex
+                                        RH10 9PX
+                                    
+                                    </div>
+                                </div>
+
+                                <div style="display:flex;margin-top:10px">
+                                    <div>Notes:</div>
+                                    <div style="margin-left:20px;width:70%;">
+                                        <li>Partial deliveries are not acceptable</li>
+                                        <li>Please include delivery note on the outer packaging.</li>
+                                        <li>Please mark outer carton with our order reference number.</li>
+                                        <li>Please acknowledge receipt of order by email.</li>
+                                    
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div style="margin-top:20px">Thanks and regards.</div>   
+                        <div style="margin-top:40px"> <b>Abdelbaset Shehadeh</b></div>                       
+                    </div>
+
+                </div>
+     
     
-                    `
+                `
 
     document.getElementById('toprint').innerHTML = content
 }
@@ -395,7 +533,7 @@ function display(){
 function PrintElem()
 {
     display()
-    console.log(document.getElementById('toprint').innerHTML)
+   
     var mywindow = window.open('', 'PRINT PO');
 
     mywindow.document.write('<html><head><title></title>');
@@ -405,7 +543,8 @@ function PrintElem()
 
     mywindow.document.close(); // necessary for IE >= 10
     mywindow.focus(); // necessary for IE >= 10*/
-
+    mywindow.print();
+    mywindow.close();
    
 
     return true;
