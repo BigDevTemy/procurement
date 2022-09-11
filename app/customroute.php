@@ -18,13 +18,13 @@ $router->get('/',function(){
   echo 'Welcome To Prolifier';
 });
 
-$router->get('/about',function(){
+$router->get('about',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = array("data"=>"Array","status"=>true,"mysqli"=>$connection);
  echo json_encode($data);
 });
 
-$router->post('/login',function(array $params){
+$router->post('login',function(array $params){
  // 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -48,7 +48,7 @@ $router->post('/login',function(array $params){
   // $connection->close();
 });
 
-$router->post('/create',function(array $params){
+$router->post('create',function(array $params){
  
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -80,7 +80,7 @@ $router->post('/create',function(array $params){
 });
 
 
-$router->post('/createorder',function(array $params){
+$router->post('createorder',function(array $params){
  
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -135,7 +135,7 @@ function last_insert($last,$id){
   
 }
 
-$router->post('/addsupplier',function(array $params){
+$router->post('addsupplier',function(array $params){
   
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -168,7 +168,7 @@ $router->post('/addsupplier',function(array $params){
 
 
 
-$router->post('/addagent',function(array $params){
+$router->post('addagent',function(array $params){
   
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -199,7 +199,7 @@ $router->post('/addagent',function(array $params){
   $connection->close();
 });
 
-$router->post('/addproject',function(array $params){
+$router->post('addproject',function(array $params){
   
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -231,7 +231,7 @@ $router->post('/addproject',function(array $params){
 });
 
 
-$router->get('/getAllSupplier',function(){
+$router->get('getAllSupplier',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -263,7 +263,7 @@ $router->get('/getAllSupplier',function(){
 
 
 
-$router->get('/getOrders',function(){
+$router->get('getOrders',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -294,7 +294,7 @@ $router->get('/getOrders',function(){
 });
 
 
-$router->get('/getAllProject',function(){
+$router->get('getAllProject',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -324,7 +324,7 @@ $router->get('/getAllProject',function(){
 });
 
 
-$router->get('/getAllorder',function(){
+$router->get('getAllorder',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
@@ -353,7 +353,7 @@ $router->get('/getAllorder',function(){
 
 });
 
-$router->post('/upoadrequisition',function($request){
+$router->post('upoadrequisition',function($request){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
@@ -394,7 +394,7 @@ $router->post('/upoadrequisition',function($request){
 
 });
 
-$router->get('/getpendingApproval',function(){
+$router->get('getpendingApproval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -423,7 +423,7 @@ $router->get('/getpendingApproval',function(){
 
 });
 
-$router->get('/allrequisition',function(){
+$router->get('allrequisition',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -455,7 +455,7 @@ $router->get('/allrequisition',function(){
 
 //alldataorder
 
-$router->get('/allapproved',function(){
+$router->get('allapproved',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -484,7 +484,7 @@ $router->get('/allapproved',function(){
 
 });
 
-$router->get('/alldataorder',function(){
+$router->get('alldataorder',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -515,7 +515,7 @@ $router->get('/alldataorder',function(){
 
 
 
-$router->get('/alldatasupplier',function(){
+$router->get('alldatasupplier',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -545,7 +545,7 @@ $router->get('/alldatasupplier',function(){
 });
 
 
-$router->get('/alldataAgent',function(){
+$router->get('alldataAgent',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -574,7 +574,7 @@ $router->get('/alldataAgent',function(){
 
 });
 
-$router->post('/fetchapprovaldetails',function(){
+$router->post('fetchapprovaldetails',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
@@ -597,7 +597,7 @@ $router->post('/fetchapprovaldetails',function(){
 
 });
 
-$router->post('/approve',function(){
+$router->post('approve',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   
@@ -615,7 +615,7 @@ $router->post('/approve',function(){
     $connection->close();
 });
 
-$router->post('/delete_approval',function(){
+$router->post('delete_approval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
@@ -637,7 +637,7 @@ $router->post('/delete_approval',function(){
 });
 
 
-$router->get('/getPO',function(){
+$router->get('getPO',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -669,7 +669,7 @@ $router->get('/getPO',function(){
 
 
 
-$router->post('/adjustPO',function(){
+$router->post('adjustPO',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -691,7 +691,7 @@ $router->post('/adjustPO',function(){
     $connection->close();
 });
 
-$router->post('/POapproval',function(){
+$router->post('POapproval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
@@ -713,7 +713,7 @@ $router->post('/POapproval',function(){
 });
 
 
-$router->post('/delete_approval_po',function(){
+$router->post('delete_approval_po',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
@@ -734,7 +734,7 @@ $router->post('/delete_approval_po',function(){
 
 });
 
-$router->get('/getShippment',function(){
+$router->get('getShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -764,7 +764,7 @@ $router->get('/getShippment',function(){
 });
 
 
-$router->get('/getShippmentDispatched',function(){
+$router->get('getShippmentDispatched',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -793,7 +793,7 @@ $router->get('/getShippmentDispatched',function(){
 
 });
 
-$router->get('/getShippmentPackage',function(){
+$router->get('getShippmentPackage',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -823,7 +823,7 @@ $router->get('/getShippmentPackage',function(){
 });
 
 
-$router->get('/getShippmentShipped',function(){
+$router->get('getShippmentShipped',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -852,7 +852,7 @@ $router->get('/getShippmentShipped',function(){
 
 });
 
-$router->get('/getShippmentDelivery',function(){
+$router->get('getShippmentDelivery',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -881,7 +881,7 @@ $router->get('/getShippmentDelivery',function(){
 
 });
 
-$router->get('/deliveredShippment',function(){
+$router->get('deliveredShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -910,7 +910,7 @@ $router->get('/deliveredShippment',function(){
 
 });
 
-$router->get('/getShippment_in_processing',function(){
+$router->get('getShippment_in_processing',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -939,7 +939,7 @@ $router->get('/getShippment_in_processing',function(){
 
 });
 
-$router->post('/getdata',function(){
+$router->post('getdata',function(){
 
   $connection = new mysqli("localhost","root","BiL@18","procurement");
     
@@ -963,7 +963,7 @@ $router->post('/getdata',function(){
 
 });
 
-$router->post('/editdata',function(){
+$router->post('editdata',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   if($data['affectedColumn'] == 'order_title'){
@@ -998,7 +998,7 @@ $router->post('/editdata',function(){
 });
 
 //deletedatarequisition
-$router->post('/deletedata',function(){
+$router->post('deletedata',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
@@ -1020,7 +1020,7 @@ $router->post('/deletedata',function(){
 });
 
 
-$router->post('/deletedatarequisition',function(){
+$router->post('deletedatarequisition',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   $check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
@@ -1052,7 +1052,7 @@ $router->post('/deletedatarequisition',function(){
     $connection->close();
 });
 
-$router->get('/getPOapproved',function(){
+$router->get('getPOapproved',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   // $data = json_decode(file_get_contents('php://input'), true);
@@ -1082,7 +1082,7 @@ $router->get('/getPOapproved',function(){
 });
 
 
-$router->post('/deletePOapproval',function(){
+$router->post('deletePOapproval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   //$check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
@@ -1106,7 +1106,7 @@ $router->post('/deletePOapproval',function(){
 });
 
 
-$router->post('/getsupplierquotation',function(){
+$router->post('getsupplierquotation',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   //$check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
@@ -1141,7 +1141,7 @@ $router->post('/getsupplierquotation',function(){
 
 
 
-$router->post('/uploadShippment',function(){
+$router->post('uploadShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   $new_name="";
@@ -1225,7 +1225,7 @@ $router->post('/uploadShippment',function(){
   $connection->close();
 });
 
-$router->post('/uploadShippmentUpdate',function(){
+$router->post('uploadShippmentUpdate',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $new_name="";
   $upload_url="";
@@ -1383,7 +1383,7 @@ $router->post('/uploadShippmentUpdate',function(){
 
 });
 
-$router->get('/reportShippment',function(){
+$router->get('reportShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
 
@@ -1403,7 +1403,7 @@ $router->get('/reportShippment',function(){
 
 });
 
-$router->post('/getquotation',function(){
+$router->post('getquotation',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
@@ -1429,7 +1429,7 @@ $router->post('/getquotation',function(){
 
 });
 
-$router->post('/filterApproval',function(){
+$router->post('filterApproval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   
@@ -1477,7 +1477,7 @@ $router->post('/filterApproval',function(){
 });
 
 
-$router->post('/filterPO',function(){
+$router->post('filterPO',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   
@@ -1525,7 +1525,7 @@ $router->post('/filterPO',function(){
 });
 
 
-$router->post('/filterShippment',function(){
+$router->post('filterShippment',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   
@@ -1577,7 +1577,7 @@ $router->post('/filterShippment',function(){
 });
 
 
-$router->post('/filterRequisition',function(){
+$router->post('filterRequisition',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   
   
@@ -1638,7 +1638,7 @@ $router->post('/filterRequisition',function(){
 });
 
 
-$router->get('/fetchallproject',function(){
+$router->get('fetchallproject',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   
@@ -1658,7 +1658,7 @@ $router->get('/fetchallproject',function(){
     $connection->close();
 });
 
-$router->post('/save_edit_requisition',function(){
+$router->post('save_edit_requisition',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
