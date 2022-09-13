@@ -22,6 +22,8 @@ session_start();
         <script src="../assets/js/sweetalert2@11.js"></script>
         <script src="../assets/js/jquery-3.5.1.js"></script>
         <script src="../assets/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/js/dataTables.buttons.min.js"></script>
+        <script src="../assets/js/buttons.print.min.js"></script>
         <script src="../assets/js/select2.min.js"></script>
         
         <style>

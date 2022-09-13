@@ -275,58 +275,68 @@ function POApproved(){
 }
 
 function POClickfetchapproved(){
-    let count = 0;
-    let table = $('#poapproved').DataTable({
-        
-        "processing":true,
-         "destroy":true,
-        "serverSide":true,
-        "bFilter": true,
-        dom: "Bfrtip",
-        "ajax":{
-             url:'/procurement/app/customroute/getPOapproved',
-             type:"GET",
-             
-            
-        },
-        "columns":[
-             
-                 {
-                    
-                    data:"",
-                    render:function(){
-                        return count = count+ 1;
-                    }
-                
-                },
-                 {data:"order_title"},
-                 {data:'order_ref'},
-                 {data:"supplier_name"},
-                 {data:"level_1_approval"},
-                 {data:"po_approval"},
-                 {data:"created_at"},
-                 {
-                     data:"",
-                     render:function(data,type,row){
-                         
-                         return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id},${row.id})">Delete Approval</div>`
-                       } 
-                 },
-                 {
-                    data:"",
-                    render:function(data,type,row){
-                        return  `
-                                    <div style="cursor:pointer;width:100%">
-                                            <button class="btn btn-sm btn-primary" onclick="PrintElem()">Print</button>
-                                    </div>
-                                `
-                    }
-                 }
-    
-             
-        ]   
+alert('notice')
 
-     });
+    fetch('/procurement/app/customroute/getPOapproved',{
+        method:'GET'
+       
+    })
+    .then(result=>result.json())
+    .then(res=>{
+        console.log(res)
+        let count = 0;
+       let dataset="";
+       if(res.status){
+
+            let table = $('#poapproved').DataTable({
+                data:res.data,
+                destroy:true,
+                columns:[
+             
+                    {
+                       
+                       data:"",
+                       render:function(){
+                           return count = count+ 1;
+                       }
+                   
+                   },
+                    {data:"order_title"},
+                    {data:'order_ref'},
+                    {data:"supplier_name"},
+                    {data:"level_1_approval"},
+                    {data:"po_approval"},
+                    {data:"created_at"},
+                    {
+                        data:"",
+                        render:function(data,type,row){
+                            
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id},${row.id})">Delete Approval</div>`
+                          } 
+                    },
+                    {
+                       data:"",
+                       render:function(data,type,row){
+                           return  `
+                                       <div style="cursor:pointer;width:100%">
+                                               <button class="btn btn-sm btn-primary" onclick="PrintElem()">Print</button>
+                                       </div>
+                                   `
+                       }
+                    }
+       
+                
+                ]             
+            })
+        }
+        
+
+        
+    })
+    .catch(err=>console.log(err))
+    
+    
+    
 
 
 }

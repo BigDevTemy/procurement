@@ -98,6 +98,10 @@ function ApprovedFetch(){
         let table = $('#approvedReport').DataTable({
             data:res.data,
             destroy:true,
+            dom: 'Bfrtip',
+            buttons: [
+                'print'
+            ],
 
             columns:[
                 {

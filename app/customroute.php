@@ -1071,7 +1071,7 @@ $router->get('getPOapproved',function(){
       // $subarray[]=$row['created_at'];
       $data[] = $row;
     }
-    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     echo json_encode($json_data);
   // }
   // else{
