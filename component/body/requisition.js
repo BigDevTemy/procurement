@@ -73,35 +73,20 @@ function loadRequisitionDefault(){
                         
                     </div>
                     <div class="div-2-element">
+                       
                         <div>
-                            <label>Select Order</label>
-                            <select class="form-control ordertype" id="ordertype">
-                                <option value="">SELECT ORDER TYPE</option>
-                                
-                            
-                            </select>
+                            <label>Order</label>
+                            <input type="text" id="ordertype" class="form-control selector" placeholder="Input Order"  />
                         </div>
                         <div>
-                            <label>Select Supplier</label>
-                            <select class="form-control allsupplier" id="allsupplier">
-                                <option value="">SELECT SUPPLIER</option>
-                                
-                            </select>
-                        </div>
-
-                        <div class=" d-flex align-items-center mt-4">
-                            <input type="checkbox" id="received" style="margin-right:10px"/><span>Received</span>
-
+                            <label>Number of Suppliers</label>
+                            <input type="number" min="1" id="allsupplier" class="form-control selector" placeholder="Number of Suppliers"  />
                         </div>
                         
-                    </div>
 
-                </div>
-
-                <div class="tab-body-more">
-                    <div class="currencyDiv">
-                        
-                        <select class="form-control" id="currency">
+                        <div class="">
+                        <label>Select Currency</label>
+                        <select class="form-control selector" id="currency">
                             <option value="">SELECT CURRENCY</option>
                             <option value="NGN">NGN</option>
                             <option value="USD">USD</option>
@@ -109,60 +94,22 @@ function loadRequisitionDefault(){
                             <option value="EURO">EURO</option>
                             <option value="YEN">YEN</option>
                         </select>
-                    </div>
-                    <div class="contentHeader">
-                        <div>SN</div>
-                        <div> Item Description/Part No</div>
-                        <div>Quantity</div>
-                        <div>Unit Price</div>
-                        <div>Total Amount</div>
-                        <div>Action</div>
-                    </div>
-                    <div class="contentParent" id="contentParent">
-                        <div class="content">
-                            <div><input type="number" min="0" value=1 class="form-control" disabled /></div>
-                            <div><input type="text" placeholder="description" class="form-control "/></div>
-                            <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
-                            <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
-                            <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                            <div class="closerAction"><img src='../assets/images/close.svg' class="closeImg"  /></div>
-                            
                         </div>
-                    </div>
-                    <div class="discount_content">
                         
-                        <div class="discountDiv"><label style="font-size:13px;margin-right:10px;margin-top:5px">Discount:</label><input type="number" min="0" placeholder="discount in %"  id="discount" class="form-control discountClass"/></div>
                     </div>
-                    <div class="discount_content">
-                            
-                        <div class="discountDiv"><div>Total:</div><div id="myTotal">0</div></div>
-                    </div>
-                    <div class="addrow">
-                         <button class="btn btn-secondary rowplus">+ Add row(s)</button>
-                    </div>
-                    
+
+                </div>
+
+                <div class="tab-body-more">
+                   
                     <div class="uploadattachment">Add/Upload Attachment</div>
-                    <div class="fileuploadDiv"> 
-                        <input type="file" id="fileInput" name="file" class="fileUploadInput" accept="application/pdf,image/jpeg" multiple />
-                        <button class="btn btn-bg">Choose File</button>
-                        <div class="number_files">No File Selected</div>
-                    </div>
-                    <div class="selectedFiles">
-                        
-                        
-                    </div>
+                    <div id="uploadDiv">
 
-                    <div class="mt-4">
-                        <label for="note">Note:</label>
-
-                        <textarea class="form-control" id="note" rows="4" cols="50">
-                        
-                        </textarea>
                     </div>
 
                     
                     <div class="submitBtnParent">
-                        <button class="btn btn-bg uploadRequisition">Save Requisition For Approval</button>
+                        <button class="btn btn-bg uploadRequisition" disabled>Save Requisition For Approval</button>
                     </div>
                 </div>
             
@@ -244,10 +191,7 @@ function AddRequisition(){
                                 </select>
                             </div>
 
-                            <div class=" d-flex align-items-center mt-4">
-                                <input type="checkbox" id="received" style="margin-right:10px"/><span>Received</span>
-
-                            </div>
+                           
                             
                         </div>
 
@@ -362,7 +306,15 @@ function allrequisition(){
         "destroy":true,
         "serverSide":true,
         
-        'dom': "Bfrtip",
+        "dom": 'Blfrtip',
+        "buttons": [
+                {
+                "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4 mt-4'
+                },
+                {
+                "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4 mt-4'
+                }
+        ],
         "ajax":{
              url:'/procurement/app/customroute/allrequisition',
              type:"GET"
@@ -494,6 +446,28 @@ function saveRequisitionModule(){
         
     })
 
+    
+    document.getElementById('allsupplier').addEventListener('change',function(e){
+
+      if(e.target.value > 0){
+            let dataset = "";
+            for(let i=0;i<e.target.value;i++){
+                dataset+=`<div class="fileuploadDiv"> 
+                            <input type="file" id="fileInput" name="file" class="fileUploadInput" accept="application/pdf,image/jpeg" multiple />
+                            <button class="btn btn-bg">Upload Supplier Quotation</button>
+                            <div class="number_files">No File Selected</div>
+                        </div>
+                        <div class="selectedFiles"></div>`
+        }
+        document.getElementById('uploadDiv').innerHTML = dataset
+      }
+      else{
+        alert('Invalid Input')
+      }
+      
+        
+    })
+
     document.getElementById('currency').addEventListener('change',function(e){
         
         let getcurrency = currencySelect(e.target.value);
@@ -515,102 +489,88 @@ function saveRequisitionModule(){
     
 
 
-    document.querySelector('.contentParent').addEventListener('click',function(e){
-        let frod = document.querySelector('.contentParent').children;
+    // document.querySelector('.contentParent').addEventListener('click',function(e){
+    //     let frod = document.querySelector('.contentParent').children;
        
-        // for(let i=0;i<frod.length;i++){
-        //     sum += parseFloat(frod[i].children[4].children[0].value)
-        // }
-       if(e.target.classList.contains('closeImg')){
+    //     // for(let i=0;i<frod.length;i++){
+    //     //     sum += parseFloat(frod[i].children[4].children[0].value)
+    //     // }
+    //    if(e.target.classList.contains('closeImg')){
         
-            let parent = e.target.parentElement;
-            let grandParent = parent.parentElement
-            let greatGrandparent = grandParent.parentElement
+    //         let parent = e.target.parentElement;
+    //         let grandParent = parent.parentElement
+    //         let greatGrandparent = grandParent.parentElement
            
             
-            if(greatGrandparent.children.length > 1){
+    //         if(greatGrandparent.children.length > 1){
 
-                greatGrandparent.removeChild(grandParent)
+    //             greatGrandparent.removeChild(grandParent)
 
-                let sum = 0;
+    //             let sum = 0;
 
-                for(let x=0;x<greatGrandparent.children.length;x++){
+    //             for(let x=0;x<greatGrandparent.children.length;x++){
                    
-                    sum += parseFloat(greatGrandparent.children[x].children[4].children[0].value)
-                }
-                let currency = document.getElementById('currency').value
-                document.getElementById('discount').value = 0;
-                document.getElementById('myTotal').innerHTML = currencySelect(currency)+' '+ numberWithCommas(sum);
+    //                 sum += parseFloat(greatGrandparent.children[x].children[4].children[0].value)
+    //             }
+    //             let currency = document.getElementById('currency').value
+    //             document.getElementById('discount').value = 0;
+    //             document.getElementById('myTotal').innerHTML = currencySelect(currency)+' '+ numberWithCommas(sum);
 
 
-            }
-            else{
-                alert('A quotation is required')
-            }
-                // grandParent.remove(grandParent);
-       }
+    //         }
+    //         else{
+    //             alert('A quotation is required')
+    //         }
+    //             // grandParent.remove(grandParent);
+    //    }
        
-        let Grandparent = e.target.parentElement.parentElement;
+    //     let Grandparent = e.target.parentElement.parentElement;
         
-        let unitx  = Grandparent.children[2].children[0];
-        let quantityx  = Grandparent.children[3].children[0];
-        let totalx  = Grandparent.children[4].children[0];
-        let mytotal = document.getElementById('myTotal')
-        let currency =  document.getElementById('currency').value
-        quantityx.addEventListener('change',function(e){
-            let sum = 0
-            let x = e.target.value;
-            let y = unitx.value
-            let z = parseFloat(x) * parseFloat(y)
-            totalx.value = z;
-            for(let i=0;i<frod.length;i++){
-                sum += parseFloat(frod[i].children[4].children[0].value)
-            }
-            //myDiscount();
+    //     let unitx  = Grandparent.children[2].children[0];
+    //     let quantityx  = Grandparent.children[3].children[0];
+    //     let totalx  = Grandparent.children[4].children[0];
+    //     let mytotal = document.getElementById('myTotal')
+    //     let currency =  document.getElementById('currency').value
+    //     quantityx.addEventListener('change',function(e){
+    //         let sum = 0
+    //         let x = e.target.value;
+    //         let y = unitx.value
+    //         let z = parseFloat(x) * parseFloat(y)
+    //         totalx.value = z;
+    //         for(let i=0;i<frod.length;i++){
+    //             sum += parseFloat(frod[i].children[4].children[0].value)
+    //         }
+    //         //myDiscount();
            
-            mytotal.innerHTML= currencySelect(currency) +' '+ numberWithCommas(sum)
-            document.getElementById('discount').value=0
+    //         mytotal.innerHTML= currencySelect(currency) +' '+ numberWithCommas(sum)
+    //         document.getElementById('discount').value=0
            
-            // mytotal = "200"
+    //         // mytotal = "200"
             
-        })
-        unitx.addEventListener('change',function(e){
-            let sum = 0
-            let x = e.target.value;
-            let y = quantityx.value;
-            let z = parseFloat(x) * parseFloat(y);
-            totalx.value = z;
-            for(let i=0;i<frod.length;i++){
-                sum += parseFloat(frod[i].children[4].children[0].value)
-            }
+    //     })
+    //     unitx.addEventListener('change',function(e){
+    //         let sum = 0
+    //         let x = e.target.value;
+    //         let y = quantityx.value;
+    //         let z = parseFloat(x) * parseFloat(y);
+    //         totalx.value = z;
+    //         for(let i=0;i<frod.length;i++){
+    //             sum += parseFloat(frod[i].children[4].children[0].value)
+    //         }
 
             
-            mytotal.innerHTML= currencySelect(currency) +' '+ numberWithCommas(sum)
-            document.getElementById('discount').value=0
-            //myDiscount();
-            //mytotal = "200"
+    //         mytotal.innerHTML= currencySelect(currency) +' '+ numberWithCommas(sum)
+    //         document.getElementById('discount').value=0
+    //         //myDiscount();
+    //         //mytotal = "200"
             
             
-        })
+    //     })
         
         
-    })
-    myDiscountChange()
-    // document.querySelector('.discount_content').addEventListener('click',function(e){
-    //     console.log(e.target)
-    //     if(e.target.classList.contains('discountClass')){
-    //         let x = e.target.parentElement.parentElement
-    //         let y = x.children[0].children[0];
-    //         y.addEventListener('change',function(e){
-    //             let total = document.getElementById('myTotal').innerHTML;
-    //             console.log(total)
-    //             let dis = parseFloat(e.target.value) / 100
-    //             let discount = parseFloat(total) * parseFloat(dis);
-    //             console.log(discount)
-    //             total = discount;
-    //         })
-    //     }
     // })
+    // myDiscountChange()
+   
     function myDiscount(){
      
             if(parseFloat(document.getElementById('myTotal').innerHTML) > 0){
@@ -705,41 +665,41 @@ let handleInput  = document.querySelector('.fileUploadInput');
             });
     })
 
-    document.querySelector('.selectedFiles').addEventListener('click',function(e){
+    // document.querySelector('.selectedFiles').addEventListener('click',function(e){
         
-        if(e.target.classList.contains("preview")){
-            let fileURL =  e.target.parentElement.children[1].value
-            document.querySelector('.modalClass').classList.add('modalClassCustom');
-            let content = `
-                            <div class="customModal modalApproval">
-                            <div class="closeModal mb-4" >X</div>
-                          <div class="container">
-                            <iframe 
-                            src=${fileURL}
-                            frameborder="0" allowfullscreen  
-                            scrolling="auto" class="video">
-                            </iframe>
-                          </div>
+    //     if(e.target.classList.contains("preview")){
+    //         let fileURL =  e.target.parentElement.children[1].value
+    //         document.querySelector('.modalClass').classList.add('modalClassCustom');
+    //         let content = `
+    //                         <div class="customModal modalApproval">
+    //                         <div class="closeModal mb-4" >X</div>
+    //                       <div class="container">
+    //                         <iframe 
+    //                         src=${fileURL}
+    //                         frameborder="0" allowfullscreen  
+    //                         scrolling="auto" class="video">
+    //                         </iframe>
+    //                       </div>
                                 
 
-                            </div>
+    //                         </div>
                             
                 
-                         `
-                         document.querySelector('.modalClass').innerHTML=content
-                         forceClosePreview();
-                         window.scroll(0,0)
-        }
+    //                      `
+    //                      document.querySelector('.modalClass').innerHTML=content
+    //                      forceClosePreview();
+    //                      window.scroll(0,0)
+    //     }
 
-        if(e.target.classList.contains("removeImageUpload")){
+    //     if(e.target.classList.contains("removeImageUpload")){
             
-            let parent = e.target.parentElement
-            parent.remove(e.target)
-            let x = parent.children.length
+    //         let parent = e.target.parentElement
+    //         parent.remove(e.target)
+    //         let x = parent.children.length
            
-            //document.querySelector('.number_files').innerHTML = x  > 1 ? x +' Files Selected' : x +' File Selected';
-        }
-    })
+    //         //document.querySelector('.number_files').innerHTML = x  > 1 ? x +' Files Selected' : x +' File Selected';
+    //     }
+    // })
 
     function forceClosePreview(){
         document.querySelector('.closeModal').addEventListener('click',function(e){
@@ -756,34 +716,25 @@ let handleInput  = document.querySelector('.fileUploadInput');
     document.getElementById('dateofsending').value = currentDate
    
 
-    document.querySelector('.rowplus').addEventListener('click',function(e){
-        let index  = document.querySelector('.contentParent').children.length
-        let parent  = document.querySelector('.contentParent')
-        let x = document.getElementById('contentParent')
-        let incremeent = 1
+    // document.querySelector('.rowplus').addEventListener('click',function(e){
+    //     let index  = document.querySelector('.contentParent').children.length
+    //     let parent  = document.querySelector('.contentParent')
+    //     let x = document.getElementById('contentParent')
+    //     let incremeent = 1
        
-        let row = `<div class="content additionalcontent">
-                        <div class="sn"><input type="text" disabled value=${index + 1} class="form-control"/></div>
-                        <div><input type="text"  placeholder="description" class="form-control"/></div>
-                        <div><input type="number" min="0" placeholder="quantity" value="0" class="form-control"/></div>
+    //     let row = `<div class="content additionalcontent">
+    //                     <div class="sn"><input type="text" disabled value=${index + 1} class="form-control"/></div>
+    //                     <div><input type="text"  placeholder="description" class="form-control"/></div>
+    //                     <div><input type="number" min="0" placeholder="quantity" value="0" class="form-control"/></div>
                         
-                        <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
-                        <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                        <div class="closerAction"><img src='../assets/images/close.svg' class="closeImg"  /></div>
-                    </div>`
+    //                     <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
+    //                     <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
+    //                     <div class="closerAction"><img src='../assets/images/close.svg' class="closeImg"  /></div>
+    //                 </div>`
 
-                    parent.insertAdjacentHTML('beforeend',row)
+    //                 parent.insertAdjacentHTML('beforeend',row)
                     
-        // if(document.querySelector('.currencyDiv')){
-        //     let x = document.querySelector('.contentParent').children
-        //     if(x.length == 1){
-        //         document.querySelector('.btn-danger').classList.add('hideDelete');
-        //     }
-        //     else if(x.length >0){
-        //         document.querySelector('.btn-danger').classList.remove('hideDelete');
-        //     }
-        // }
-    })
+    // })
 
     function currencySelect (currency){
         switch(currency){

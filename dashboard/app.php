@@ -23,6 +23,10 @@ session_start();
         <script src="../assets/js/jquery-3.5.1.js"></script>
         <script src="../assets/js/jquery.dataTables.min.js"></script>
         <script src="../assets/js/dataTables.buttons.min.js"></script>
+        <script src="../assets/js/jszip.min.js"></script>
+        <script src="../assets/js/pdfmake.min.js"></script>
+        <script src="../assets/js/vfs_fonts.js"></script>
+        <script src="../assets/js/buttons.html5.min.js"></script>
         <script src="../assets/js/buttons.print.min.js"></script>
         <script src="../assets/js/select2.min.js"></script>
         
@@ -96,22 +100,22 @@ session_start();
                             <div><img src="../assets/images/sidebar-icons/dashboard.svg" /></div>
                             <div>Dashboard</div>
                         </div>
-                        <div class="navNon">
+                        <!-- <div class="navNon">
                           
                                 <div><img src="../assets/images/sidebar-icons/supplier.svg" /></div>
                                 <div>Supplier</div>
                             
                             
-                        </div>
+                        </div> -->
                         <div class="navNon">
                           
                                 <div><img src="../assets/images/sidebar-icons/project.svg" /></div>
                                 <div>Project</div>
                         </div>
-                        <div class="navNon">
+                        <!-- <div class="navNon">
                             <div><img src="../assets/images/sidebar-icons/item.svg" /></div>
                             <div>Order</div>
-                        </div>
+                        </div> -->
                         <div class="navNon">
                             <div><img src="../assets/images/sidebar-icons/requisition.svg" /></div>
                             <div>Requisition</div>

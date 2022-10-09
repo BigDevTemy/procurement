@@ -149,6 +149,15 @@ function Shippmentfetch(){
             let table = $('#example').DataTable({
                     data:res.data,
                     destroy:true,
+                    dom: 'Blfrtip',
+                    buttons: [
+                        {
+                            "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                        },
+                        {
+                            "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                        }
+                    ],
                     columns:[
                 
                         {
@@ -197,7 +206,16 @@ function Shippmentfetch(){
            "destroy":true,
            "serverSide":true,
            "bFilter": true,
-           "dom": "Bfrtip",
+         
+           "dom": 'Blfrtip',
+            "buttons": [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
            "ajax":{
                 url:'/procurement/app/customroute/getShippment',
                 type:"GET",
@@ -275,6 +293,15 @@ function ShippmentfetchDispached(){
            "serverSide":true,
            "bFilter": true,
            "dom": "Bfrtip",
+         
+            "buttons": [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
            "ajax":{
                 url:'/procurement/app/customroute/getShippmentDispatched',
                 type:"GET",
@@ -353,6 +380,15 @@ function ShippmentfetchPackage(){
            "serverSide":true,
            "bFilter": true,
            "dom": "Bfrtip",
+           
+            "buttons": [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
            "ajax":{
                 url:'/procurement/app/customroute/getShippmentPackage',
                 type:"GET",
@@ -429,6 +465,15 @@ function ShippmentfetchShipped(){
            "serverSide":true,
            "bFilter": true,
            "dom": "Bfrtip",
+          
+            "buttons": [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
            "ajax":{
                 url:'/procurement/app/customroute/getShippmentShipped',
                 type:"GET",
@@ -505,6 +550,15 @@ function ShippmentfetchDelivered(){
            "serverSide":true,
            "bFilter": true,
            "dom": "Bfrtip",
+           
+            "buttons": [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
            "ajax":{
                 url:'/procurement/app/customroute/getShippmentDelivery',
                 type:"GET",

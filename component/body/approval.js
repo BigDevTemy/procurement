@@ -147,6 +147,15 @@ function allapprovedx(){
             let table = $('#treated').DataTable({
                 data:res.data,
                 destroy:true,
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                    },
+                    {
+                        "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                    }
+                ],
                 columns:[
              
                     {

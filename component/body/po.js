@@ -1,3 +1,4 @@
+const printdata=[]
 function PO(search){
 
     let content = ` 
@@ -275,7 +276,7 @@ function POApproved(){
 }
 
 function POClickfetchapproved(){
-alert('notice')
+
 
     fetch('/procurement/app/customroute/getPOapproved',{
         method:'GET'
@@ -283,7 +284,7 @@ alert('notice')
     })
     .then(result=>result.json())
     .then(res=>{
-        console.log(res)
+        console.log("res",res)
         let count = 0;
        let dataset="";
        if(res.status){
@@ -291,6 +292,15 @@ alert('notice')
             let table = $('#poapproved').DataTable({
                 data:res.data,
                 destroy:true,
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                    },
+                    {
+                        "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                    }
+                ],
                 columns:[
              
                     {
@@ -317,9 +327,10 @@ alert('notice')
                     {
                        data:"",
                        render:function(data,type,row){
+                            printdata.push(row);
                            return  `
                                        <div style="cursor:pointer;width:100%">
-                                               <button class="btn btn-sm btn-primary" onclick="PrintElem()">Print</button>
+                                               <button class="btn btn-sm btn-primary" onclick="PrintElem(${row.id})">Print</button>
                                        </div>
                                    `
                        }
@@ -341,14 +352,151 @@ alert('notice')
 
 }
 
-function display(){
+
+async function getprintdata(id){
+
+    fetch('/procurement/app/customroute/printPO',{
+        method:'POST',
+        body:JSON.stringify({
+            id    
+        }),
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                            
+    })
+    .then(res=>res.json())
+    .then(result=>{
+        
+       if(result.status){
+        
+        display(result.data)
+       }
+        
+    })
+    .catch(err=> {
+        
+        console.log(err)
+        
+       
+    })
+
+}
+
+function currencySelect (currency){
+    switch(currency){
+        case 'NGN':
+            return '&#8358;'
+        case 'USD':
+            return '&#36;' 
+        case 'EURO':
+            return '&#x20AC;'
+        case 'GBP':
+            return '&#163;'
+        case 'YEN':
+        return '&#165;'
+        default:
+            return ''
+    }
+}
+function numberWithCommas(x) {
+    console.log(x)
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function display(params){
+    let supplier_name,order_type,supplier_email,created_at,currency,discount
+    let dataset="";
+    let moredataset = "";
+    let sum = 0;
+    let calculateddiscount=0
+
+    params.forEach((d,index)=>{
+        supplier_email = d.email;
+        supplier_phonenumber = d.contact;
+        order_type = d.order_type;
+        supplier_name = d.supplier_name;
+        order_ref = d.order_ref
+        created_at = d.created_at
+        currency = d.currency
+        discount = d.discount
+        sum += parseFloat(d.total)
+        dataset +=`
+                    <tr style="width:100%;">
+                        <td style="text-align: center;">
+                            ${index+1}
+                        </td>
+                        <td style="text-align: center;">
+                            ${d.description}
+                        </td>
+                        <td style="text-align: center;">
+                            098765
+                        </td>
+                        <td style="text-align: center;">
+                            ${d.quantity}
+                        </td>
+                        <td style="text-align: center;">
+                            ${d.price}
+                        </td>
+                        <td style="text-align: center;">
+                        <b>${numberWithCommas(d.total)}</b> 
+                        </td>
+                    </tr>
+        
+                    `
+
+
+    })
+
+    calculateddiscount = parseFloat(discount)/100 * sum
+
+    moredataset = `
+                    <tr style="width:100%;">
+                        <td style="text-align: center;font-weight: bold;" colspan="5">
+                            
+                            <div style="width:200px;text-align:left;margin-left:50%">Total  </div>
+                        </td>
+                        
+                        <td style="text-align: center;">
+                            ${numberWithCommas(sum)}
+                        </td>
+                    </tr>
+                    <tr style="width:100%;">
+                        <td style="text-align: center;font-weight: bold;" colspan="5">
+                            <div style="width:200px;text-align:left;margin-left:50%">Discount ${discount}%  </div>
+                        </td>
+                        
+                        <td style="text-align: center;">
+                            ${numberWithCommas(calculateddiscount)}
+                        </td>
+                    </tr>
+                    <tr style="width:100%;">
+                        <td style="text-align: center;font-weight: bold;" colspan="5">
+                            <div style="width:200px;text-align:left;margin-left:50%">Discount & Packaging</div>
+                        </td>
+                        
+                        <td style="text-align: center;">
+                            0
+                        </td>
+                    </tr>
+
+                    <tr style="width:100%;">
+                        <td style="text-align: center;font-weight: bold;" colspan="5">
+                            
+                            <div style="width:200px;text-align:left;margin-left:50%">Total Delivered – ${currency} (${currencySelect(currency)})</div>
+                        </td>
+                        
+                        <td style="text-align: center;">
+                            ${numberWithCommas(parseFloat(sum - calculateddiscount))}
+                        </td>
+                    </tr>
+                    `
+
+    
     let content = `
                     <div style="width:100%;display: flex;justify-content: center;">
 
                     <div style="display: flex;flex-direction: column; justify-content: center; width: 100%;">
                         <div style="display:flex;justify-content:space-between;align-items:center">
-                            <div><img src='../assets/images/companylogo2.png' id="company_logo" style="width:50%"/></div>
-                            <div style="font-weight:bold">MOTHERCAT LIMITED</div>
+                            <div><img src='../assets/images/company.png' id="company_logo" style="width:100%" /></div>
+                            <div style="font-weight:bold" id="supplier_name">${supplier_name.toUpperCase()}</div>
                         </div>
 
                         <div><hr style="border:1px solid #ff0000"/></div>
@@ -358,29 +506,29 @@ function display(){
                                 
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>To:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">${supplier_name}</div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">${supplier_name}</div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">${supplier_email}</div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>From:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">hademylola@gmail.com</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Pocify Limited</div>
                                 </div>
                             </div>
                             <div style="flex:1 1 50%;">
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Our Ref:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Adeladin</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">${order_ref}</div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Date:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">Adeladin</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">${created_at}</div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Total Pages:</i></div>
@@ -388,7 +536,7 @@ function display(){
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">hademylola@gmail.com</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">contact@procify.com</div>
                                 </div>
                             </div>
 
@@ -396,8 +544,8 @@ function display(){
                         
                         <div style="margin-top:10px"><hr style="border:2px solid #858585"/></div>
                         <div style="width:100%;margin-top:20px">
-                            <div style="font-weight: bold;font-size: 18px;"><u>PARTS FOR GROVE RT530VR-T</u></div>
-                            <div style="font-size:20px;margin-top: 10px;">We are pleased to confirm the order for the following items as per your offer ref. SQ0008729 dated 08/06/22, copy attached.</div>
+                            <div style="font-weight: bold;font-size: 18px;" id="order_type"></div>
+                            <div style="font-size:20px;margin-top: 10px;">We are pleased to confirm the order for the following items as per your offer ref. ${order_ref} dated ${created_at} copy attached.</div>
                             <div>
                                 <table  border="1" style="width:100%;border-collapse: collapse;margin-top: 20px;">
                                     <tr>
@@ -408,92 +556,16 @@ function display(){
                                         <th style="font-size:18px">U/Price</th>
                                         <th style="font-size:18px">Total</th>
                                     </tr>
-                                    <tbody>
-                                        <tr style="width:100%;">
-                                            <td style="text-align: center;">
-                                                1
-                                            </td>
-                                            <td style="text-align: center;">
-                                                Purchase of Laptop
-                                            </td>
-                                            <td style="text-align: center;">
-                                                098765
-                                            </td>
-                                            <td style="text-align: center;">
-                                                50
-                                            </td>
-                                            <td style="text-align: center;">
-                                                800
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <b>7500</b>
-                                            </td>
-                                        </tr>
-                                        <tr style="width:100%;">
-                                            <td style="text-align: center;">
-                                                2
-                                            </td>
-                                            <td style="text-align: center;">
-                                                Purchase of Laptop
-                                            </td>
-                                            <td style="text-align: center;">
-                                                098765
-                                            </td>
-                                            <td style="text-align: center;">
-                                                50
-                                            </td>
-                                            <td style="text-align: center;">
-                                                800
-                                            </td>
-                                            <td style="text-align: center;">
-                                            <b>7500</b> 
-                                            </td>
-                                        </tr>
-                                        <tr style="width:100%;">
-                                            <td style="text-align: center;font-weight: bold;" colspan="5">
-                                                
-                                                <div style="width:200px;text-align:left;margin-left:50%">Total  </div>
-                                            </td>
-                                            
-                                            <td style="text-align: center;">
-                                                7500
-                                            </td>
-                                        </tr>
-                                        <tr style="width:100%;">
-                                            <td style="text-align: center;font-weight: bold;" colspan="5">
-                                                <div style="width:200px;text-align:left;margin-left:50%">Discount 10%  </div>
-                                            </td>
-                                            
-                                            <td style="text-align: center;">
-                                                7500
-                                            </td>
-                                        </tr>
-                                        <tr style="width:100%;">
-                                            <td style="text-align: center;font-weight: bold;" colspan="5">
-                                                <div style="width:200px;text-align:left;margin-left:50%">Discount & Packaging</div>
-                                            </td>
-                                            
-                                            <td style="text-align: center;">
-                                                7500
-                                            </td>
-                                        </tr>
-
-                                        <tr style="width:100%;">
-                                            <td style="text-align: center;font-weight: bold;" colspan="5">
-                                                
-                                                <div style="width:200px;text-align:left;margin-left:50%">Total Delivered – UK Pound</div>
-                                            </td>
-                                            
-                                            <td style="text-align: center;">
-                                                7500
-                                            </td>
-                                        </tr>
+                                    <tbody id="classTbody">
+                                        
+                                       
+                                        
                                     </tbody>
                                 </table>
                             </div>
                             <div style="margin-top: 10px;">
                                 <div style="font-weight: bold;font-size:18px;">Price</div>
-                                <div>The total Price delivered will be £ 1,630.98.</div>
+                                <div>The total Price delivered will be ${currencySelect(currency)}  ${numberWithCommas(parseFloat(sum - calculateddiscount))}</div>
 
                             </div>
                             <div style="margin-top:10px">
@@ -537,17 +609,16 @@ function display(){
     
                 `
 
+                dataset += moredataset;
+                
+
     document.getElementById('toprint').innerHTML = content
-}
-
-function PrintElem()
-{
-    display()
-   
+    
+    document.getElementById('classTbody').innerHTML = dataset
+    
     var mywindow = window.open('', 'PRINT PO');
-
     mywindow.document.write('<html><head><title></title>');
-    mywindow.document.write('</head><body >');
+    mywindow.document.write('</head><body>');
     mywindow.document.write(document.getElementById('toprint').innerHTML);
     mywindow.document.write('</body></html>');
 
@@ -558,6 +629,16 @@ function PrintElem()
    
 
     return true;
+   
+
+   
+}
+
+async function  PrintElem(id)
+{
+   await getprintdata(id);
+   
+    
 }
 
 function printpart () {

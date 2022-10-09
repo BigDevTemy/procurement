@@ -84,7 +84,15 @@ function getAllProject(){
         let table = $('#project').DataTable({
             data:res.data,
             destroy:true,
-            dom:'Blfrtp',
+            dom: 'Blfrtip',
+            buttons: [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
             columns:[
                     {
                     data:"",

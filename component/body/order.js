@@ -190,8 +190,15 @@ function allprocessedorders(){
         "processing":true,
         "destroy":true,
         "serverSide":true,
-        
-        'dom': "Bfrtip",
+        "dom": 'Blfrtip',
+            "buttons": [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
         "ajax":{
              url:'/procurement/app/customroute/alldataorder',
              type:"GET"

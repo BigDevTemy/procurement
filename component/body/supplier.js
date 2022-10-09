@@ -155,11 +155,20 @@ function getAllSupplier(){
         .then(res=>{
             console.log(res)
             let tableSupplier= $('#supplier').DataTable({
-                dom: 'Blfrtp',
+                
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                    },
+                    {
+                        "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                    }
+                ],
                 
                 data:res.data,
                 destroy:true,
-                buttons: ['excel', 'pdf' ],
+                
                 columns:[
                  
                                 {
@@ -209,11 +218,20 @@ function getAllAgent(){
         .then(res=>{
             console.log(res)
             let tableSupplier= $('#supplier').DataTable({
-                dom: 'Blfrtp',
+                
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                    },
+                    {
+                        "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                    }
+                ],
                 
                 data:res.data,
                 destroy:true,
-                buttons: ['excel', 'pdf' ],
+                
                 columns:[
                  
                                 {

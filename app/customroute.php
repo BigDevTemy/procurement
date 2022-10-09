@@ -1081,6 +1081,26 @@ $router->get('getPOapproved',function(){
 
 });
 
+$router->post('printPO',function(){
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `requisition` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id`=`supplier`.`id` WHERE po_approval = 'approved' AND `approval_process`.`id` = '".$data['id']."'";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
+    echo json_encode($json_data);
+  
+    $connection->close();
+
+});
+
 
 $router->post('deletePOapproval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");

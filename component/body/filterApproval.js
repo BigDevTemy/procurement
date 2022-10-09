@@ -271,7 +271,15 @@ function Search(){
         let table = $('#approvedReport').DataTable({
             data:res.data,
             destroy:true,
-
+            dom: 'Blfrtip',
+            buttons: [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
             columns:[
                 {
                     data:"",
@@ -324,7 +332,15 @@ function SearchPO(){
         let table = $('#POReport').DataTable({
             data:res.data,
             destroy:true,
-
+            dom: 'Blfrtip',
+            buttons: [
+                 {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                 },
+                 {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                 }
+            ],
             columns:[
                 {data:"id"},
                 {data:"order_title"},
@@ -483,6 +499,15 @@ function SearchShippment(){
             let table = $('#ShippmentReport').DataTable({
                 data:res.data,
                 destroy:true,
+                dom: 'Blfrtip',
+                buttons: [
+                     {
+                        "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                     },
+                     {
+                        "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                     }
+                ],
 
                 columns:[
                     {data:"id"},
@@ -778,7 +803,15 @@ function SearchRequisition(){
             let table = $('#RequisitionReport').DataTable({
                 data:res.data,
                 destroy:true,
-
+                dom: 'Blfrtip',
+                buttons: [
+                     {
+                        "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4'
+                     },
+                     {
+                        "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4'
+                     }
+                ],
                 columns:[
                     {data:"id"},
                     {data:"order_title"},
