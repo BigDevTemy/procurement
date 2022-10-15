@@ -103,13 +103,13 @@ function loadRequisitionDefault(){
                 <div class="tab-body-more">
                    
                     <div class="uploadattachment">Add/Upload Attachment</div>
-                    <div id="uploadDiv">
+                    <div id="uploadDiv" >
 
                     </div>
 
                     
                     <div class="submitBtnParent">
-                        <button class="btn btn-bg uploadRequisition" disabled>Save Requisition For Approval</button>
+                        <button class="btn btn-bg uploadRequisition">Save Requisition For Approval</button>
                     </div>
                 </div>
             
@@ -452,12 +452,13 @@ function saveRequisitionModule(){
       if(e.target.value > 0){
             let dataset = "";
             for(let i=0;i<e.target.value;i++){
-                dataset+=`<div class="fileuploadDiv"> 
-                            <input type="file" id="fileInput" name="file" class="fileUploadInput" accept="application/pdf,image/jpeg" multiple />
-                            <button class="btn btn-bg">Upload Supplier Quotation</button>
-                            <div class="number_files">No File Selected</div>
+                dataset+=`<div class="fileuploadDiv" style="width:100%"> 
+                            <input type="file" id="fileInput${i}" name="file" class="fileUploadInput${i}" accept="application/pdf,image/jpeg" multiple />
+                            <button class="btn btn-bg" id="btn${i}">Upload Supplier Quotation</button>
+                            <div class="number_files" id="num_files${i}">No File Selected</div>
+                            <div class="selectedFiles" id="selectedFiles${i}" style="margin-left:20px"></div>
                         </div>
-                        <div class="selectedFiles"></div>`
+                        `
         }
         document.getElementById('uploadDiv').innerHTML = dataset
       }
@@ -638,68 +639,74 @@ function saveRequisitionModule(){
 let handleInput  = document.querySelector('.fileUploadInput');
 
 
-    document.querySelector('.btn-bg').addEventListener('click',function(e){
+    document.querySelector('#uploadDiv').addEventListener('click',function(e){
+        let parent = e.target.parentNode;
+        let childInputId = parent.children[0].id;
+        let childNumFiles = parent.children[2].id;
+        let childSelectedFiles = parent.children[3].id;
+        let handleInput  = document.querySelector(`#${childInputId}`);
         handleInput.click();
-            // const image_input = document.querySelector("#image-input");
-            handleInput.addEventListener("change", function() {
+        
+        handleInput.addEventListener("change", function() {
                
-                let dataset = "";
-                let src=""
-                for(let i=0; i<handleInput.files.length; i++){
-                    src = URL.createObjectURL(handleInput.files[i])
-                    dataset += `
-                                <div class="d-image">
-                                        
-                                     <div style="cursor:pointer" class="preview">Preview</div>
-                                     <input type="hidden" value=${src} />
-                                    <div id=${handleInput.files[i].name}>${handleInput.files[i].name}</div>
-                                    <span style="cursor:pointer" class="removeImageUpload">X</span>
-                                </div>
-                    
-                                `
-                    
-                }
-                document.querySelector('.selectedFiles').innerHTML=dataset
+            let dataset = "";
+            let src=""
+            for(let i=0; i<handleInput.files.length; i++){
+                src = URL.createObjectURL(handleInput.files[i])
+                dataset += `
+                            <div class="d-image" style="width:200%">
+                                    
+                                 <div style="cursor:pointer" class="preview">Preview</div>
+                                 <input type="hidden" value=${src} />
+                                <div id=${handleInput.files[i].name}>${handleInput.files[i].name}</div>
+                                <span style="cursor:pointer" class="removeImageUpload">X</span>
+                            </div>
+                
+                            `
+                
+            }
+            document.querySelector(`#${childSelectedFiles}`).innerHTML=dataset
 
-                document.querySelector('.number_files').innerHTML = handleInput.files.length  > 1 ? handleInput.files.length +' Files Selected' : handleInput.files.length +' File Selected';
-            });
+            document.querySelector(`#${childNumFiles}`).innerHTML = handleInput.files.length  > 1 ? handleInput.files.length +' Files Selected' : handleInput.files.length +' File Selected';
+        });
+       
     })
 
-    // document.querySelector('.selectedFiles').addEventListener('click',function(e){
+    document.querySelector('#uploadDiv').addEventListener('click',function(e){
         
-    //     if(e.target.classList.contains("preview")){
-    //         let fileURL =  e.target.parentElement.children[1].value
-    //         document.querySelector('.modalClass').classList.add('modalClassCustom');
-    //         let content = `
-    //                         <div class="customModal modalApproval">
-    //                         <div class="closeModal mb-4" >X</div>
-    //                       <div class="container">
-    //                         <iframe 
-    //                         src=${fileURL}
-    //                         frameborder="0" allowfullscreen  
-    //                         scrolling="auto" class="video">
-    //                         </iframe>
-    //                       </div>
+        if(e.target.classList.contains("preview")){
+            let fileURL =  e.target.parentElement.children[1].value
+            document.querySelector('.modalClass').classList.add('modalClassCustom');
+            let content = `
+                           <div class="customModal modalApproval">
+                            <div class="closeModal mb-4" >X</div>
+                          <div class="container">
+                            <iframe 
+                            src=${fileURL}
+                            frameborder="0" allowfullscreen  
+                            scrolling="auto" class="video">
+                            </iframe>
+                          </div>
                                 
 
-    //                         </div>
+                            </div>
                             
                 
-    //                      `
-    //                      document.querySelector('.modalClass').innerHTML=content
-    //                      forceClosePreview();
-    //                      window.scroll(0,0)
-    //     }
+                         `
+                         document.querySelector('.modalClass').innerHTML=content
+                         forceClosePreview();
+                         window.scroll(0,0)
+        }
 
-    //     if(e.target.classList.contains("removeImageUpload")){
+        if(e.target.classList.contains("removeImageUpload")){
             
-    //         let parent = e.target.parentElement
-    //         parent.remove(e.target)
-    //         let x = parent.children.length
+            let parent = e.target.parentElement
+            parent.remove(e.target)
+            let x = parent.children.length
            
-    //         //document.querySelector('.number_files').innerHTML = x  > 1 ? x +' Files Selected' : x +' File Selected';
-    //     }
-    // })
+            //document.querySelector('.number_files').innerHTML = x  > 1 ? x +' Files Selected' : x +' File Selected';
+        }
+    })
 
     function forceClosePreview(){
         document.querySelector('.closeModal').addEventListener('click',function(e){
@@ -753,13 +760,12 @@ let handleInput  = document.querySelector('.fileUploadInput');
         }
     }
 
-   
-
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
         e.preventDefault();
+       
        let Quotation=[];
        let row=[];
-        let totalfiles = document.getElementById('fileInput').files.length;
+        //let totalfiles = document.getElementById('fileInput').files.length;
         let allsupplier = document.getElementById('allsupplier').value;
         let order = document.getElementById('ordertype').value;
         let username = document.getElementById('username').value;
@@ -768,49 +774,49 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let dateofcreation = document.getElementById('dateofcreation').value;
         let serial_number = document.getElementById('serial_number').value;
         let fileref = document.getElementById('file_ref').value;
-        let projectname = document.getElementById('project_name').value;
+        let projectname = "MCN-DHN-N-004"
         let refnumber = document.getElementById('refnumber').value;
         let dateofsending = document.getElementById('dateofsending').value;
-        let note = document.getElementById('note').value;
-        let discount = document.getElementById('discount').value;
-        let description = document.querySelectorAll('.content');
-        let received = document.querySelector('#received')
+       // let note = document.getElementById('note').value;
+       // let discount = document.getElementById('discount').value;
+        // let description = document.querySelectorAll('.content');
+        // let received = document.querySelector('#received')
         
         
-        for(let i=0;i<description.length;i++){
-            let child = description[i].children;
+    //     for(let i=0;i<description.length;i++){
+    //         let child = description[i].children;
             
-            for(let x=0;x<child.length;x++){
+    //         for(let x=0;x<child.length;x++){
                
                 
-                if(child[x].children[0].value !="" && child[x].children[0].value != 0 && child[x].children[0].value !="undefined" ){
-                    row.push(child[x].children[0].value);
-                }
-                else{
-                    row=[];
-                    Swal.fire('All Quotation Fields are Required','','error')
-                }
+    //             if(child[x].children[0].value !="" && child[x].children[0].value != 0 && child[x].children[0].value !="undefined" ){
+    //                 row.push(child[x].children[0].value);
+    //             }
+    //             else{
+    //                 row=[];
+    //                 Swal.fire('All Quotation Fields are Required','','error')
+    //             }
                 
                  
-            }
+    //         }
 
-            Quotation.push(row)
-            row=[];
+    //         Quotation.push(row)
+    //         row=[];
 
-     }
+    //  }
 
      
      
 
-        if(totalfiles === 0){
-            Swal.fire('Upload Supplier Quotation','','error')
-            return false;
-        }
-        if(allsupplier == "SELECT SUPPLIER"){
+        // if(totalfiles === 0){
+        //     Swal.fire('Upload Supplier Quotation','','error')
+        //     return false;
+        // }
+        if(allsupplier == "INPUT SUPPLIERS"){
             Swal.fire('Select Supplier','','error')
             return false;
         }
-        if(order == "SELECT ORDER"){
+        if(order == "INPUT ORDER"){
             Swal.fire('Select Order','','error')
             return false;
         }
@@ -828,18 +834,32 @@ let handleInput  = document.querySelector('.fileUploadInput');
             return false;
         }
 
-        
+       
 
 
-        if(totalfiles >0 && allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && currency != "" && fileref !="" &&  projectname != "" && dateofsending!="" && totalfiles!="" ){
+        if(allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && currency != "" && fileref !="" &&  projectname != "" && dateofsending!="" ){
             
             const formdata = new FormData();
 
-            for (var i = 0; i < Quotation.length; i++) {
-                formdata.append('quotation[]', Quotation[i]);
+            // for (var i = 0; i < Quotation.length; i++) {
+            //     formdata.append('quotation[]', Quotation[i]);
+            // }
+            let uploadFiles = document.querySelector('#uploadDiv');
+            
+            if(uploadFiles.children.length > 0){
+                for(let i=0;i<uploadFiles.children.length;i++){
+                    console.log(uploadFiles.children[i].children[0].files[0])
+                    if(uploadFiles.children[i].children[0].files[0] != undefined){
+                        formdata.append('quotation[]',uploadFiles.children[i].children[0].files[0])
+                    }
+                    else{
+                        Swal.fire('All Quotation Uploads are Required','','error') 
+                    }
+                }
             }
+            console.log(uploadFiles)
            
-            formdata.append("sample_image",document.getElementById('fileInput').files[0])
+            //formdata.append("sample_image",document.getElementById('fileInput').files[0])
             formdata.append('ordertype',order);
             formdata.append('allsupplier',allsupplier);
             formdata.append('username',username);
@@ -850,11 +870,11 @@ let handleInput  = document.querySelector('.fileUploadInput');
             formdata.append('dateofsending',dateofsending);
             formdata.append('projectname',projectname);
             formdata.append('currency',currency);
-            formdata.append('note',note);
-            formdata.append('discount',discount);
-            formdata.append('received',received.checked);
+           
+           
+            
 
-            fetch('/procurement/app/customroute/upoadrequisition',{
+            fetch('/procurement/app/customroute/upoadquotation_new',{
                 method:'POST',
                 // headers: { "Content-type": "application/x-www-form-urlencoded"},
                 body:formdata
@@ -866,47 +886,27 @@ let handleInput  = document.querySelector('.fileUploadInput');
                     Swal.fire(res.data,'','success');
                     Quotation=[];
                     row=[];
-                    document.getElementById('myTotal').innerHTML = 0;
+                    //document.getElementById('myTotal').innerHTML = 0;
                     // document.getElementById("myform").reset();
-                    var inputElements = document.querySelector('input') 
-                    var inputElementSelect = document.getElementsByTagName('select');
+                    //var inputElements = document.querySelector('input') 
+                    //var inputElementSelect = document.getElementsByTagName('select');
 
-                    for (var i=0; i < inputElements.length; i++) {
-                        if (inputElements[i].type == 'text' || inputElements[i].type == 'file' || inputElements[i].type == 'number'  ) {
-                            inputElements[i].value = '';
-                        }
-                    }
+                    // for (var i=0; i < inputElements.length; i++) {
+                    //     if (inputElements[i].type == 'text' || inputElements[i].type == 'file' || inputElements[i].type == 'number'  ) {
+                    //         inputElements[i].value = '';
+                    //     }
+                    // }
 
                    document.getElementById('allsupplier').value="";
                    document.getElementById('ordertype').value="";
-                   document.getElementById('discount').value="";
                    currency.value=""
-    
-                   document.querySelector('.selectedFiles').innerHTML=""
-                   document.querySelector('.number_files').innerHTML="No File Selected"
+                   document.querySelector('#uploadDiv').innerHTML=""
+                   //document.querySelector('.number_files').innerHTML="No File Selected"
                    
-                   document.getElementById('received').checked = false
-                   
+                   //document.getElementById('received').checked = false
                    
                    
-
-                   for(let i=0;i<description.length;i++){
-                    let child = description[i].children;
-                    
-                    for(let x=0;x<child.length;x++){
-                       
-                        child[x].children[0].value=""
-                       
-
-                        
-                        
-                         
-                    }
-        
-        
-             }
-
-                    
+                     
                 }
                 else{
                     
@@ -920,16 +920,16 @@ let handleInput  = document.querySelector('.fileUploadInput');
         
     })
 
-    document.querySelector('.contentParent').addEventListener('click',function(e){
-        if(e.target.parentElement.classList.contains('close')){
-            let x = e.target.parentElement;
-            let y = x.parentElement;
+    // document.querySelector('.contentParent').addEventListener('click',function(e){
+    //     if(e.target.parentElement.classList.contains('close')){
+    //         let x = e.target.parentElement;
+    //         let y = x.parentElement;
 
            
-            document.querySelector('.contentParent').removeChild(y)
+    //         document.querySelector('.contentParent').removeChild(y)
             
-        }
-    })
+    //     }
+    // })
     
 }
 

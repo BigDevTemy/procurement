@@ -394,6 +394,36 @@ $router->post('upoadrequisition',function($request){
 
 });
 
+
+
+$router->post('upoadquotation_new',function($request){
+
+  $connection = new mysqli("localhost","root","BiL@18","procurement");
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  $join_name = "";
+
+ 
+  echo json_encode(["data"=>$_FILES['quotation'],"status"=>true]);
+  if(isset($_FILES['quotation'])){
+    for($i=0;$i<count($_FILES['quotation']);$i++){
+      //echo json_encode(["data"=>$_FILES['quotation']['name'][$i],"status"=>true]);
+      
+          $extension = pathinfo($_FILES['quotation']['name'][$i],PATHINFO_EXTENSION);
+          $new_name = time().'.'.$extension;
+          move_uploaded_file($_FILES['quotation']['tmp_name'][$i],'../quotation/'.$new_name);
+          $join_name .= $new_name;
+   
+    }
+  }
+  
+ echo json_encode(["data"=>$join_name,"status"=>true]);
+  
+  $connection->close();
+
+});
+
 $router->get('getpendingApproval',function(){
   $connection = new mysqli("localhost","root","BiL@18","procurement");
   

@@ -676,3 +676,9 @@ h4{
     
     
 }
+
+.d-image{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
