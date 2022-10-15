@@ -405,20 +405,29 @@ $router->post('upoadquotation_new',function($request){
   $join_name = "";
 
  
-  echo json_encode(["data"=>$_FILES['quotation'],"status"=>true]);
+  // echo json_encode(["data"=>count($_FILES['quotation']['name']),"status"=>false]);
+  // die();
   if(isset($_FILES['quotation'])){
-    for($i=0;$i<count($_FILES['quotation']);$i++){
+    for($i=0;$i<count($_FILES['quotation']['name']);$i++){
       //echo json_encode(["data"=>$_FILES['quotation']['name'][$i],"status"=>true]);
       
           $extension = pathinfo($_FILES['quotation']['name'][$i],PATHINFO_EXTENSION);
           $new_name = time().'.'.$extension;
           move_uploaded_file($_FILES['quotation']['tmp_name'][$i],'../quotation/'.$new_name);
-          $join_name .= $new_name;
+          $join_name .= $new_name.'_';
    
     }
   }
+  $query = "INSERT INTO requisition_new (order,username,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,ref_number)VALUES('".$_POST['ordertype']."','".$_POST['username']."','".$join_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['fileref']."')";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  if($result){
+    echo json_encode(["data"=>'Requisition Successfully Uploaded',"status"=>true]);
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
   
- echo json_encode(["data"=>$join_name,"status"=>true]);
+  
   
   $connection->close();
 
