@@ -79,6 +79,24 @@ $router->post('create',function(array $params){
   $connection->close();
 });
 
+$route->get('project_number',function(array $params){
+  $res = $connection->query("SELECT id FROM requisition_new ORDER BY id desc LIMIT 1") or die(mysqli_error($connection));
+  $year = date('y');
+
+ 
+ if(mysqli_num_rows($res) > 0){
+  $sid = mysqli_fetch_assoc($res);
+  $autocreate = last_insert(strlen($sid['id']),$sid['id']+1);
+  $order_ref = 'MCN-ENQ-'.$autocreate.'-'.$year;
+  echo json_encode(["data"=>$order_ref,"status"=>true]);
+ }
+ else{
+  $order_ref = 'MCN-ENQ-001-'.$year;
+  echo json_encode(["data"=>$order_ref,"status"=>true]);
+  
+ }
+});
+
 
 $router->post('createorder',function(array $params){
  
