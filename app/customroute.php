@@ -79,10 +79,10 @@ $router->post('create',function(array $params){
   $connection->close();
 });
 
-$route->get('project_number',function(array $params){
+$router->get('project_number',function(array $params){
+  $connection = new mysqli("localhost","root","BiL@18","procurement"); 
   $res = $connection->query("SELECT id FROM requisition_new ORDER BY id desc LIMIT 1") or die(mysqli_error($connection));
   $year = date('y');
-
  
  if(mysqli_num_rows($res) > 0){
   $sid = mysqli_fetch_assoc($res);

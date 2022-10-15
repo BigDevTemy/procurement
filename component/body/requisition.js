@@ -364,34 +364,12 @@ function saveRequisitionModule(){
     let count = true;
     if(count){
         count=false
-        fetch('/procurement/app/customroute/getAllorder')
-    .then(res=>res.json())
-    .then(data=>{
-        console.log("datahghghghg",data)
-        if(data['status']){
-            let dataset ="<option>SELECT ORDER</option>"
-            document.getElementById('ordertype').innerHTML=""
-
-            data['data'].forEach((d,index)=>{
-                dataset += 
-                            `
-                                <option value=${d.id}>${d.ordertype}</option>
-                            `
-                            let item ={
-                                id:d.id,
-                                value:d.order_ref
-                            }
-                            let xitem = {
-                                id:d.id,
-                                value:d.project_name
-                            }
-                dataOrderref.push(item);
-                dataProjectref.push(xitem);
-            })
-            document.getElementById('ordertype').insertAdjacentHTML('beforeend',dataset);
-           
-        }
-        
+        fetch('/procurement/app/customroute/project_number')
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+            document.getElementById('project_name').value = data.data
+  
     })
     .catch(err=> {
         
