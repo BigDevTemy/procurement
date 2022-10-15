@@ -418,7 +418,7 @@ $router->post('upoadquotation_new',function($request){
    
     }
   }
-  $query = "INSERT INTO requisition_new (order,username,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,ref_number)VALUES('".$_POST['ordertype']."','".$_POST['username']."','".$join_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['fileref']."')";
+  $query = "INSERT INTO requisition_new (order_description,allsuppliers,username,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,ref_number)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$join_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['fileref']."')";
   $result = $connection->query($query)or die(mysqli_error($connection));
   if($result){
     echo json_encode(["data"=>'Requisition Successfully Uploaded',"status"=>true]);

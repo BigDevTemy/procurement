@@ -886,25 +886,14 @@ let handleInput  = document.querySelector('.fileUploadInput');
                     Swal.fire(res.data,'','success');
                     Quotation=[];
                     row=[];
-                    //document.getElementById('myTotal').innerHTML = 0;
-                    // document.getElementById("myform").reset();
-                    //var inputElements = document.querySelector('input') 
-                    //var inputElementSelect = document.getElementsByTagName('select');
-
-                    // for (var i=0; i < inputElements.length; i++) {
-                    //     if (inputElements[i].type == 'text' || inputElements[i].type == 'file' || inputElements[i].type == 'number'  ) {
-                    //         inputElements[i].value = '';
-                    //     }
-                    // }
-
-                   document.getElementById('allsupplier').value="";
-                   document.getElementById('ordertype').value="";
-                   currency.value=""
-                   document.querySelector('#uploadDiv').innerHTML=""
-                   //document.querySelector('.number_files').innerHTML="No File Selected"
-                   
-                   //document.getElementById('received').checked = false
-                   
+                    // document.getElementById('project').value="";
+                    document.getElementById('refnumber').value="";
+                    document.getElementById('file_ref').value="";
+                    document.getElementById('allsupplier').value="";
+                    document.getElementById('ordertype').value="";
+                    currency.value=""
+                    document.getElementById('serial_number').value=""
+                    document.querySelector('#uploadDiv').innerHTML=""
                    
                      
                 }
