@@ -103,9 +103,9 @@ function logoActive(logoNavname){
         case 'Dashboard':
             return "../assets/images/sidebar-icons/dashboardActive.svg";
             break;
-        // case 'Supplier':
-        //     return "../assets/images/sidebar-icons/supplierActive.svg";
-        //     break
+        case 'Supplier':
+            return "../assets/images/sidebar-icons/supplierActive.svg";
+            break
         case 'Project':
             return "../assets/images/sidebar-icons/projectActive.svg";
             break

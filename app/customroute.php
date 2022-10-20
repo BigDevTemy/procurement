@@ -281,6 +281,37 @@ $router->get('getAllSupplier',function(){
 });
 
 
+$router->get('getAllProject',function(){
+
+  $connection = new mysqli("localhost","root","","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+  $result = $connection->query("SELECT * FROM project");
+  $output = [];
+  if($result){
+    if(mysqli_num_rows($result) > 0){
+        while($row= mysqli_fetch_assoc($result)){
+          
+          array_push($output,array ("project_name"=> $row['project_name'],"id"=>$row['id']));
+        }
+
+        echo json_encode(["data"=>$output,"status"=>true]); 
+    }
+    else{
+      echo json_encode(["data"=>"No Project","status"=>false]); 
+        
+    }
+
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
+
+
+  $connection->close();
+
+});
+
+
 
 $router->get('getOrders',function(){
 
@@ -313,34 +344,34 @@ $router->get('getOrders',function(){
 });
 
 
-$router->get('getAllProject',function(){
+// $router->get('getAllProject',function(){
 
-  $connection = new mysqli("localhost","root","","procurement");
-  $data = json_decode(file_get_contents('php://input'), true);
-  $result = $connection->query("SELECT * FROM project");
-  $output = [];
-  if($result){
-    $totalData = mysqli_num_rows($result);
-    $totalFilter=$totalData;
-    $data = [];
-    while($row = mysqli_fetch_assoc($result)){
+//   $connection = new mysqli("localhost","root","","procurement");
+//   $data = json_decode(file_get_contents('php://input'), true);
+//   $result = $connection->query("SELECT * FROM project");
+//   $output = [];
+//   if($result){
+//     $totalData = mysqli_num_rows($result);
+//     $totalFilter=$totalData;
+//     $data = [];
+//     while($row = mysqli_fetch_assoc($result)){
    
-      $data[] = $row;
-    }
-    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
-    echo json_encode($json_data);
+//       $data[] = $row;
+//     }
+//     $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
+//     echo json_encode($json_data);
 
    
 
-  }
-  else{
-    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
-  }
+//   }
+//   else{
+//     echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+//   }
 
 
-  $connection->close();
+//   $connection->close();
 
-});
+// });
 
 
 $router->get('getAllorder',function(){

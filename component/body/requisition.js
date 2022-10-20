@@ -45,19 +45,22 @@ function loadRequisitionDefault(){
                             <input type="date" class="form-control selector" id="dateofcreation" />
                         </div>
                         <div>
-                            <label>Serial Quotation Number</label>
-                            <input type="text" id="serial_number" class="form-control selector"  placeholder="Serial Quotation Number" />
+                            <label>Quotation Reference</label>
+                            <input type="text" id="serial_number" class="form-control selector"  placeholder="Quotation Reference" />
                         </div>
                         
                     </div>
                     <div class="div-2-element">
                         <div>
-                            <label>File Ref</label>
-                            <input type="text" id="file_ref" class="form-control selector" placeholder="File Ref"/>
+                            <label>File Number</label>
+                            <input type="text" id="file_ref" class="form-control selector" placeholder="File Number"/>
                         </div>
                         <div>
                             <label>Project Name</label>
-                            <input type="text" id="project_name" disabled class="form-control selector"  placeholder="Project name" />
+                            <select id="project_name" class="form-control selector">
+
+                            </select>
+                            
                         </div>
                         
                     </div>
@@ -75,8 +78,8 @@ function loadRequisitionDefault(){
                     <div class="div-2-element">
                        
                         <div>
-                            <label>Order</label>
-                            <input type="text" id="ordertype" class="form-control selector" placeholder="Input Order"  />
+                            <label>Order Description</label>
+                            <input type="text" id="ordertype" class="form-control selector" placeholder="Input Order Description"  />
                         </div>
                         <div>
                             <label>Number of Suppliers</label>
@@ -368,7 +371,7 @@ function saveRequisitionModule(){
         .then(res=>res.json())
         .then(data=>{
             console.log(data)
-            document.getElementById('project_name').value = data.data
+            document.getElementById('order_ref').value = data.data
   
     })
     .catch(err=> {
@@ -379,19 +382,22 @@ function saveRequisitionModule(){
 
     }
     
-    fetch('/procurement/app/customroute/getAllSupplier')
+
+    
+    fetch('/procurement/app/customroute/getAllProject')
     .then(res=>res.json())
     .then(data=>{
-        
+       
+       
         if(data['status']){
-            let dataset ="<option>SELECT SUPPLIER</option>"
-            document.getElementById('allsupplier').innerHTML=""
+            let dataset ="<option>SELECT PROJECT</option>"
+            document.getElementById('project_name').innerHTML=""
             data['data'].forEach((d,index)=>{
                 dataset += `
-                            <option value=${d.id}>${d.supplername}</option>
+                            <option value=${d.id}>${d.project_name}</option>
                             `
                 })
-                document.getElementById('allsupplier').insertAdjacentHTML('beforeend',dataset);
+                document.getElementById('project_name').insertAdjacentHTML('beforeend',dataset);
         }
         
     })
@@ -427,10 +433,14 @@ function saveRequisitionModule(){
     
     document.getElementById('allsupplier').addEventListener('change',function(e){
 
+        
+   
+
       if(e.target.value > 0){
             let dataset = "";
             for(let i=0;i<e.target.value;i++){
-                dataset+=`<div class="fileuploadDiv" style="width:100%"> 
+                dataset+=`<div class="fileuploadDiv" style="width:100%">
+                            <select id="created_suppliers ></select> 
                             <input type="file" id="fileInput${i}" name="file" class="fileUploadInput${i}" accept="application/pdf,image/jpeg" multiple />
                             <button class="btn btn-bg" id="btn${i}">Upload Supplier Quotation</button>
                             <div class="number_files" id="num_files${i}">No File Selected</div>
@@ -439,6 +449,7 @@ function saveRequisitionModule(){
                         `
         }
         document.getElementById('uploadDiv').innerHTML = dataset
+        createSupplierDropdown();
       }
       else{
         alert('Invalid Input')
@@ -446,6 +457,31 @@ function saveRequisitionModule(){
       
         
     })
+
+
+function createSupplierDropdown(){
+    fetch('/procurement/app/customroute/getAllSupplier')
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data)
+        if(data['status']){
+            let dataset ="<option>SELECT SUPPLIER</option>"
+            document.getElementById('created_suppliers').innerHTML=""
+            data['data'].forEach((d,index)=>{
+                dataset += `
+                            <option value=${d.id}>${d.supplername}</option>
+                            `
+                })
+                document.getElementById('created_suppliers').insertAdjacentHTML('beforeend',dataset);
+        }
+        
+    })
+    .catch(err=> {
+        
+        console.log(err)
+       
+    })
+}
 
     document.getElementById('currency').addEventListener('change',function(e){
         
