@@ -439,8 +439,8 @@ function saveRequisitionModule(){
       if(e.target.value > 0){
             let dataset = "";
             for(let i=0;i<e.target.value;i++){
-                dataset+=`<div class="fileuploadDiv" style="width:100%">
-                            <select id="created_suppliers ></select> 
+                dataset+=`<div class="fileuploadDiv" style="width:100%;display:flex; justify-content:space-between">
+                            
                             <input type="file" id="fileInput${i}" name="file" class="fileUploadInput${i}" accept="application/pdf,image/jpeg" multiple />
                             <button class="btn btn-bg" id="btn${i}">Upload Supplier Quotation</button>
                             <div class="number_files" id="num_files${i}">No File Selected</div>
@@ -449,7 +449,7 @@ function saveRequisitionModule(){
                         `
         }
         document.getElementById('uploadDiv').innerHTML = dataset
-        createSupplierDropdown();
+   
       }
       else{
         alert('Invalid Input')
@@ -466,13 +466,13 @@ function createSupplierDropdown(){
         console.log(data)
         if(data['status']){
             let dataset ="<option>SELECT SUPPLIER</option>"
-            document.getElementById('created_suppliers').innerHTML=""
+            document.querySelector('.created_suppliers').innerHTML=""
             data['data'].forEach((d,index)=>{
                 dataset += `
                             <option value=${d.id}>${d.supplername}</option>
                             `
                 })
-                document.getElementById('created_suppliers').insertAdjacentHTML('beforeend',dataset);
+                document.querySelector('.created_suppliers').innerHTML=dataset
         }
         
     })
