@@ -283,11 +283,8 @@ function AllRequisition(){
                                     <th>SN</th>
                                     <th>ORDER TITLE</th>
                                     <th>ORDER REF</th>
-                                    <th>SUPPLIER NAME</th>
+                                    <th>NUMBER OF SUPPLIERS</th>
                                     <th>QUOTATION RECEIPT</th>
-                                    <th>QUANTITY</th>
-                                    <th>UNIT PRICE</th>
-                                    <th>TOTAL PRICE</th>
                                     <th>DATE</th>
                                     <th>ACTION</th>
                                 </tr>
@@ -326,21 +323,28 @@ function allrequisition(){
         "columns":[
              
                  {data:"id"},
-                 {data:"order_title"},
-                 {data:"order_ref"},
-                 {data:"supplier_name"},
+                 {data:"order_description"},
+                 {data:"file_ref"},
+                 {data:"allsuppliers"},
 
                  {
                     data:"",
                     render:function(data,type,row){
-                     
-                        return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
+                            
+                       let x =  row.quotation_receipt.split('_')
+                   
+                        let dataset = ''
+                       x.forEach((d)=>{
+                            if(d != ''){
+                                dataset += `<a href="/procurement/quotation/${d}">quotation_receipt</a><br/>`
+                            }
+                            
+                       })
+                           return dataset;
+                        
                       } 
                     
                 },
-                 {data:"quantity"},
-                 {data:"price"},
-                 {data:"total"},
                  {data:"created_at"},
                  {
                      data:"",

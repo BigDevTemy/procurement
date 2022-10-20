@@ -291,7 +291,7 @@ $router->get('getAllProject',function(){
     if(mysqli_num_rows($result) > 0){
         while($row= mysqli_fetch_assoc($result)){
           
-          array_push($output,array ("project_name"=> $row['project_name'],"id"=>$row['id']));
+          array_push($output,array ("project_name"=> $row['project_name'],"id"=>$row['id'],"created_at"=> $row['created_at']));
         }
 
         echo json_encode(["data"=>$output,"status"=>true]); 
@@ -517,7 +517,7 @@ $router->get('allrequisition',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM requisition LEFT JOIN orders ON `requisition`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id`  GROUP BY `requisition`.supplier_id";
+  $query="SELECT * FROM requisition_new ORDER BY created_at desc";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
