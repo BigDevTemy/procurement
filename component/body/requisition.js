@@ -289,75 +289,83 @@ function AllRequisition(){
 
 
 function allrequisition(){
-    
-    let table = $('#requisition').DataTable({
-         
-        "processing":true,
-        "destroy":true,
-        "serverSide":true,
+
+
+    fetch('/procurement/app/customroute/allrequisition',{
+        method:'GET',
         
-        "dom": 'Blfrtip',
-        "buttons": [
-                {
-                "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4 mt-4'
-                },
-                {
-                "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4 mt-4'
-                }
-        ],
-        "ajax":{
-             url:'/procurement/app/customroute/allrequisition',
-             type:"GET"
-             
-        },
-        "columns":[
-             
-                 {data:"id"},
-                 {data:"ref_number"},
-                 {data:"project_name"},
-                 {data:"file_ref"},
-                 {data:"created_at"},
-                 {data:"order_description"},
-                 {data:"supplier_name"},
-                 {
-                    data:"",
-                    render:function(data,type,row){
-                       return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
-                      } 
-                    
-                },
-                 {
-                    data:"",
-                    render:function(data,type,row){
-                     
-                        if(row.received == "1"){
-                            return true;
-                        }
-                        else{
-                            return false
-                        }
+    })
+    .then(result=>result.json())
+    .then(res=>{
+
+        $table = $('#requisition').DataTable({
+            data:res.data,
+            processing:true,
+            destroy:true,
+            dom: 'Blfrtip',
+            buttons: [
+                    {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4 mt-4'
+                    },
+                    {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4 mt-4'
+                    }
+            ],
+            columns:[
+                 
+                     {data:"id"},
+                     {data:"ref_number"},
+                     {data:"project_name"},
+                     {data:"file_ref"},
+                     {data:"created_at"},
+                     {data:"order_description"},
+                     {data:"supplier_name"},
+                     {
+                        data:"",
+                        render:function(data,type,row){
+                           return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
+                          } 
                         
-                      } 
+                    },
+                     {
+                        data:"",
+                        render:function(data,type,row){
+                         
+                            if(row.received == "1"){
+                                return true;
+                            }
+                            else{
+                                return false
+                            }
+                            
+                          } 
+                        
+                    },
                     
-                },
-                
-                
-                 {
-                     data:"",
-                     render:function(data,type,row){
-                   
-                         return `<div>
-                                    <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.id})">Delete</button>
-                                    <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.supplier_id},${row.id})">Edit</button>
-                                </div>`
-                       } 
-                 }
+                    
+                     {
+                         data:"",
+                         render:function(data,type,row){
+                       
+                             return `<div>
+                                        <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.id})">Delete</button>
+                                        <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.supplier_id},${row.id})">Edit</button>
+                                    </div>`
+                           } 
+                     }
+                 
+            ]   
+    
              
-        ]   
+    
+         });
 
-         
+    })
+    .catch(err=>console.log(err))
 
-     });
+
+    
+  
 }
 
 
