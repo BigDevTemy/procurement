@@ -80,7 +80,7 @@ function logoNonActive(logoNavname){
         case 'Project':
             return "../assets/images/sidebar-icons/project.svg";
             break
-        case 'Requisition':
+        case 'Quotation':
             return "../assets/images/sidebar-icons/requisition.svg";
             break
         case 'Approval':
@@ -103,16 +103,16 @@ function logoActive(logoNavname){
         case 'Dashboard':
             return "../assets/images/sidebar-icons/dashboardActive.svg";
             break;
-        // case 'Supplier':
-        //     return "../assets/images/sidebar-icons/supplierActive.svg";
-        //     break
+        case 'Supplier':
+            return "../assets/images/sidebar-icons/supplierActive.svg";
+            break
         case 'Project':
             return "../assets/images/sidebar-icons/projectActive.svg";
             break
         // case 'Order':
         //     return "../assets/images/sidebar-icons/itemActive.svg";
         //     break
-        case 'Requisition':
+        case 'Quotation':
             return "../assets/images/sidebar-icons/requisitionActive.svg";
             break
         case 'Approval':

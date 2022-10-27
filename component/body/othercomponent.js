@@ -60,7 +60,7 @@ function Switcher(search,additional){
         case 'Approval':
             return Approval(search);
             break;
-        case 'Requisition':
+        case 'Quotation':
             return Requisition(search);
             break;
         case 'Report':
@@ -94,7 +94,7 @@ function SwitcherContent(search){
             return saveOrderModule();
             break;
        
-        case 'Requisition':
+        case 'Quotation':
             return saveRequisitionModule();
             break;
         case 'Project':
