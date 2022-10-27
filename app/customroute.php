@@ -458,33 +458,35 @@ $router->post('upoadquotation_new',function($request){
   // echo json_encode(["data"=>count($_FILES['quotation']['name']),"status"=>false]);
   // die();
 
-  echo json_encode(["data"=>$_POST['quotation'][0],"status"=>false]);
+ 
 
-  return false;
-  if(isset($_FILES['quotation'])){
-    echo json_encode(["data"=>$_FILES['quotation'],"status"=>true]);
-    
-    for($i=0;$i<count($_FILES['quotation']['name']);$i++){
+  $new_name="";
+ 
+  
+  if(isset($_FILES['filequotation'])){
+    $decode = json_decode($_POST['quotation']);
+    for($i=0;$i<count($_FILES['filequotation']['name']);$i++){
       
-     
-          $extension = pathinfo($_FILES['quotation']['name'][$i],PATHINFO_EXTENSION);
-          $new_name = time().'.'.$extension;
-          move_uploaded_file($_FILES['quotation']['tmp_name'][$i],'../quotation/'.$new_name);
-          $join_name .= $new_name.'_';
-   
+        //echo json_encode(["supplierid"=>$decode[$i]->supplier,"filename"=>$_FILES['filequotation']['name'][$i],"status"=>false]);
+        $extension = pathinfo($_FILES['filequotation']['name'][$i],PATHINFO_EXTENSION);
+        $new_name = $_FILES['filequotation']['name'][$i].time().'.'.$extension;
+        move_uploaded_file($_FILES['filequotation']['tmp_name'][$i],'../quotation/'.$new_name);
+        $query = "INSERT INTO requisition_new (order_description,allsuppliers,username,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,ref_number,supplier_id,received)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['fileref']."','".$decode[$i]->supplier."','".$decode[$i]->received."')";
+        $result = $connection->query($query)or die(mysqli_error($connection));
+        if($result){
+          
+        }
+        else{
+          echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+        }
     }
-  }
-  $query = "INSERT INTO requisition_new (order_description,allsuppliers,username,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,currency,ref_number)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$join_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['currency']."','".$_POST['fileref']."')";
-  $result = $connection->query($query)or die(mysqli_error($connection));
-  if($result){
     echo json_encode(["data"=>'Requisition Successfully Uploaded',"status"=>true]);
   }
   else{
-    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+    echo json_encode(["data"=>'File Input not Set',"status"=>false]);
   }
-  
-  
-  
+
+
   $connection->close();
 
 });

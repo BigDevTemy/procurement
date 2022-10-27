@@ -875,14 +875,16 @@ let handleInput  = document.querySelector('.fileUploadInput');
     
                 const item ={
                     "supplier":x[i].children[0].children[0].value,
-                    "quotation_file":x[i].children[1].children[0].files[0],
                     "received":receivedChecker
                 }
-    
-                Quotation.push(item);
+                   
                 
+                Quotation.push(item);
+               
+                formdata.append('filequotation[]',x[i].children[1].children[0].files[0]);
             }
-            formdata.append('quotation[]',Quotation)
+            formdata.append('quotation',JSON.stringify(Quotation))
+            
     
             
     
