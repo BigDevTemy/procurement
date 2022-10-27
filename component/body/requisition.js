@@ -63,7 +63,7 @@ function loadRequisitionDefault(){
                     </div>
                     <div class="div-2-element">
                         <div>
-                            <label>Ref Number</label>
+                            <label>Index Number</label>
                             <input type="text" id="refnumber" class="form-control selector" placeholder="Ref Number"/>
                         </div>
                         <div>
@@ -84,17 +84,7 @@ function loadRequisitionDefault(){
                         </div>
                         
 
-                        <div class="">
-                        <label>Select Currency</label>
-                        <select class="form-control selector" id="currency">
-                            <option value="">SELECT CURRENCY</option>
-                            <option value="NGN">NGN</option>
-                            <option value="USD">USD</option>
-                            <option value="GBP">GBP</option>
-                            <option value="EURO">EURO</option>
-                            <option value="YEN">YEN</option>
-                        </select>
-                        </div>
+                       
                         
                     </div>
 
@@ -379,27 +369,31 @@ function saveRequisitionModule(){
 
     }
     
-    fetch('/procurement/app/customroute/getAllSupplier')
-    .then(res=>res.json())
-    .then(data=>{
-        
-        if(data['status']){
-            let dataset ="<option>SELECT SUPPLIER</option>"
-            document.getElementById('allsupplier').innerHTML=""
-            data['data'].forEach((d,index)=>{
-                dataset += `
-                            <option value=${d.id}>${d.supplername}</option>
-                            `
-                })
-                document.getElementById('allsupplier').insertAdjacentHTML('beforeend',dataset);
-        }
-        
-    })
-    .catch(err=> {
-        
-        console.log(err)
-       
-    })
+   
+
+    function fetchSuppliers(id){
+        console.log('id',id)
+        fetch('/procurement/app/customroute/getAllSupplier')
+        .then(res=>res.json())
+        .then(data=>{
+            
+            if(data['status']){
+                let dataset ="<option>SELECT SUPPLIER</option>"
+                
+                data['data'].forEach((d,index)=>{
+                    dataset += `
+                                <option value=${d.id}>${d.supplername}</option>
+                                `
+                    })
+                    document.getElementById(`selectSuppliers${id}`).innerHTML=dataset;
+            }
+            
+        })
+        .catch(err=> {
+            
+            console.log(err)
+                   })
+    }
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -430,15 +424,33 @@ function saveRequisitionModule(){
       if(e.target.value > 0){
             let dataset = "";
             for(let i=0;i<e.target.value;i++){
-                dataset+=`<div class="fileuploadDiv" style="width:100%"> 
+                dataset=`
+                <div style="width:100%; display:flex;flex-direction:row;align-items:center;justify-content:space-ssssbetween">
+
+                        <div style="display:flex; width:50%;padding:10px">
+                            <select class="form-control selector"  id="selectSuppliers${i}" >
+
+                            <select>
+                        
+                        </div>
+                
+                        <div class="fileuploadDiv" style="width:100%;padding:10px;"> 
                             <input type="file" id="fileInput${i}" name="file" class="fileUploadInput${i}" accept="application/pdf,image/jpeg" multiple />
                             <button class="btn btn-bg" id="btn${i}">Upload Supplier Quotation</button>
                             <div class="number_files" id="num_files${i}">No File Selected</div>
                             <div class="selectedFiles" id="selectedFiles${i}" style="margin-left:20px"></div>
-                        </div>
+                          </div>
+                          <div style="width:50%;padding:10px">
+                                <input type="checkbox" id="received${i}"/><span style="margin-left:5px">Received</span>
+                               
+                          </div>
+                </div>
                         `
+                        $('#uploadDiv').append(dataset);
+                        fetchSuppliers(i);
+
         }
-        document.getElementById('uploadDiv').innerHTML = dataset
+        // document.getElementById('uploadDiv').innerHTML = dataset
       }
       else{
         alert('Invalid Input')
@@ -632,12 +644,12 @@ let handleInput  = document.querySelector('.fileUploadInput');
             for(let i=0; i<handleInput.files.length; i++){
                 src = URL.createObjectURL(handleInput.files[i])
                 dataset += `
-                            <div class="d-image" style="width:200%">
+                            <div class="d-image">
                                     
-                                 <div style="cursor:pointer" class="preview">Preview</div>
+                                 <div style="cursor:pointer" class="preview" style="font-weight:bold">Preview</div>
                                  <input type="hidden" value=${src} />
-                                <div id=${handleInput.files[i].name}>${handleInput.files[i].name}</div>
-                                <span style="cursor:pointer" class="removeImageUpload">X</span>
+                                <div id=${handleInput.files[i].name} style="margin-left:10px">${handleInput.files[i].name}</div>
+                                <span style="cursor:pointer" class="removeImageUpload" style="font-weight:bold;color:#ff0000;font-weight:bold">X</span>
                             </div>
                 
                             `
