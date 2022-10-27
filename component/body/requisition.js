@@ -75,8 +75,8 @@ function loadRequisitionDefault(){
                     <div class="div-2-element">
                        
                         <div>
-                            <label>Order</label>
-                            <input type="text" id="ordertype" class="form-control selector" placeholder="Input Order"  />
+                            <label>Quotation Description</label>
+                            <input type="text" id="ordertype" class="form-control selector" placeholder="Quotation Description"  />
                         </div>
                         <div>
                             <label>Number of Suppliers</label>
@@ -427,7 +427,7 @@ function saveRequisitionModule(){
                 dataset=`
                 <div style="width:100%; display:flex;flex-direction:row;align-items:center;justify-content:space-ssssbetween">
 
-                        <div style="display:flex; width:50%;padding:10px">
+                        <div style="display:flex; width:50%;padding:10px" id="selectId">
                             <select class="form-control selector"  id="selectSuppliers${i}" >
 
                             <select>
@@ -459,24 +459,24 @@ function saveRequisitionModule(){
         
     })
 
-    document.getElementById('currency').addEventListener('change',function(e){
+    // document.getElementById('currency').addEventListener('change',function(e){
         
-        let getcurrency = currencySelect(e.target.value);
-        let grandtotal = document.getElementById('myTotal').innerHTML;
-        let spliter = grandtotal.split(' ');
-        if(spliter.length > 1){
-            document.getElementById('myTotal').innerHTML = ""
-            document.getElementById('myTotal').innerHTML = getcurrency +' '+ spliter[1];
-        }
-        else{
-            document.getElementById('myTotal').innerHTML = ""
-            document.getElementById('myTotal').innerHTML = getcurrency +' '+ grandtotal;
-        }
+    //     let getcurrency = currencySelect(e.target.value);
+    //     let grandtotal = document.getElementById('myTotal').innerHTML;
+    //     let spliter = grandtotal.split(' ');
+    //     if(spliter.length > 1){
+    //         document.getElementById('myTotal').innerHTML = ""
+    //         document.getElementById('myTotal').innerHTML = getcurrency +' '+ spliter[1];
+    //     }
+    //     else{
+    //         document.getElementById('myTotal').innerHTML = ""
+    //         document.getElementById('myTotal').innerHTML = getcurrency +' '+ grandtotal;
+    //     }
       
         
         
         
-    })
+    // })
     
 
 
@@ -631,7 +631,9 @@ let handleInput  = document.querySelector('.fileUploadInput');
 
     document.querySelector('#uploadDiv').addEventListener('click',function(e){
         let parent = e.target.parentNode;
+        
         let childInputId = parent.children[0].id;
+        
         let childNumFiles = parent.children[2].id;
         let childSelectedFiles = parent.children[3].id;
         let handleInput  = document.querySelector(`#${childInputId}`);
@@ -750,8 +752,20 @@ let handleInput  = document.querySelector('.fileUploadInput');
         }
     }
 
+    function checkReceived(id){
+        if(document.getElementById(id).checked){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+
     document.querySelector('.uploadRequisition').addEventListener('click',function(e){
         e.preventDefault();
+
+        
        
        let Quotation=[];
        let row=[];
@@ -760,7 +774,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let order = document.getElementById('ordertype').value;
         let username = document.getElementById('username').value;
 
-        let currency = document.getElementById('currency').value;
+        // let currency = document.getElementById('currency').value;
         let dateofcreation = document.getElementById('dateofcreation').value;
         let serial_number = document.getElementById('serial_number').value;
         let fileref = document.getElementById('file_ref').value;
@@ -802,19 +816,19 @@ let handleInput  = document.querySelector('.fileUploadInput');
         //     Swal.fire('Upload Supplier Quotation','','error')
         //     return false;
         // }
-        if(allsupplier == "INPUT SUPPLIERS"){
-            Swal.fire('Select Supplier','','error')
+        if(allsupplier == ""){
+            Swal.fire('Input Number of Suppliers','','error')
             return false;
         }
-        if(order == "INPUT ORDER"){
-            Swal.fire('Select Order','','error')
+        if(order == ""){
+            Swal.fire('Select Quotation Description','','error')
             return false;
         }
 
-        if(currency == "SELECT CURRENCY"){
-            Swal.fire('Select Currency','','error')
-            return false;
-        }
+        // if(currency == "SELECT CURRENCY"){
+        //     Swal.fire('Select Currency','','error')
+        //     return false;
+        // }
         if(serial_number == ""){
             Swal.fire('Serial Number is Required','','error')
             return false;
@@ -823,31 +837,67 @@ let handleInput  = document.querySelector('.fileUploadInput');
             Swal.fire('File Ref is Required','','error')
             return false;
         }
+        if(refnumber == ""){
+            Swal.fire('Index Number is Required','','error')
+            return false;
+        }
+
 
        
 
 
-        if(allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && currency != "" && fileref !="" &&  projectname != "" && dateofsending!="" ){
+        if(allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && fileref !="" &&  projectname != "" && dateofsending!="" && refnumber!="" ){
             
             const formdata = new FormData();
 
             // for (var i = 0; i < Quotation.length; i++) {
             //     formdata.append('quotation[]', Quotation[i]);
             // }
-            let uploadFiles = document.querySelector('#uploadDiv');
             
-            if(uploadFiles.children.length > 0){
-                for(let i=0;i<uploadFiles.children.length;i++){
-                    console.log(uploadFiles.children[i].children[0].files[0])
-                    if(uploadFiles.children[i].children[0].files[0] != undefined){
-                        formdata.append('quotation[]',uploadFiles.children[i].children[0].files[0])
-                    }
-                    else{
-                        Swal.fire('All Quotation Uploads are Required','','error') 
-                    }
+
+            let uploadFiles = document.querySelector('#uploadDiv');
+            let x = uploadFiles.children
+           const Quote = [];
+    
+            for(let i=0 ;i<x.length;i++){
+           
+               if(x[i].children[0].children[0].value == "SELECT SUPPLIER"){
+                    Swal.fire('Select Supplier','','error')
+                    return false;
+               }
+
+               if(x[i].children[1].children[0].files[0] == undefined){
+                    Swal.fire('Select Quotation file To Upload','','error')
+                    return false;
+               }
+            
+                let receivedChecker = checkReceived(x[i].children[2].children[0].id);
+    
+                const item ={
+                    "supplier":x[i].children[0].children[0].value,
+                    "quotation_file":x[i].children[1].children[0].files[0],
+                    "received":receivedChecker
                 }
+    
+                Quotation.push(item);
+                
             }
-            console.log(uploadFiles)
+            formdata.append('quotation[]',Quotation)
+    
+            
+    
+            // if(uploadFiles.children.length > 0){
+            //     for(let i=0;i<uploadFiles.children.length;i++){
+            //         console.log(uploadFiles.children[i].children[0].files[0])
+            //         if(uploadFiles.children[i].children[0].files[0] != undefined){
+            //             formdata.append('quotation[]',uploadFiles.children[i].children[0].files[0])
+            //         }
+            //         else{
+            //             Swal.fire('All Quotation Uploads are Required','','error') 
+            //         }
+            //     }
+            // }
+            // console.log(uploadFiles)
            
             //formdata.append("sample_image",document.getElementById('fileInput').files[0])
             formdata.append('ordertype',order);
@@ -859,7 +909,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
             formdata.append('refnumber',refnumber);
             formdata.append('dateofsending',dateofsending);
             formdata.append('projectname',projectname);
-            formdata.append('currency',currency);
+            
            
            
             
@@ -881,7 +931,6 @@ let handleInput  = document.querySelector('.fileUploadInput');
                     document.getElementById('file_ref').value="";
                     document.getElementById('allsupplier').value="";
                     document.getElementById('ordertype').value="";
-                    currency.value=""
                     document.getElementById('serial_number').value=""
                     document.querySelector('#uploadDiv').innerHTML=""
                    

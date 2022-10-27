@@ -457,10 +457,16 @@ $router->post('upoadquotation_new',function($request){
  
   // echo json_encode(["data"=>count($_FILES['quotation']['name']),"status"=>false]);
   // die();
+
+  echo json_encode(["data"=>$_POST['quotation'][0],"status"=>false]);
+
+  return false;
   if(isset($_FILES['quotation'])){
+    echo json_encode(["data"=>$_FILES['quotation'],"status"=>true]);
+    
     for($i=0;$i<count($_FILES['quotation']['name']);$i++){
-      //echo json_encode(["data"=>$_FILES['quotation']['name'][$i],"status"=>true]);
       
+     
           $extension = pathinfo($_FILES['quotation']['name'][$i],PATHINFO_EXTENSION);
           $new_name = time().'.'.$extension;
           move_uploaded_file($_FILES['quotation']['tmp_name'][$i],'../quotation/'.$new_name);
