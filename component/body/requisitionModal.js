@@ -3,7 +3,7 @@ const loadEdit = [];
 let Quotation = [];
 let row=[];
 let currencyFetch
-function requisitionModal(supplierid,orderid,rowid){
+function requisitionModal(supplierid,rowid){
    
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
@@ -25,11 +25,11 @@ function requisitionModal(supplierid,orderid,rowid){
 
                                     <div class="col-md-4">
                                         <label> Order Ref</label>
-                                        <input type="text" class="form-control" id="orderRef" disabled  />
+                                        <input type="text" class="form-control" id="orderRef"   />
                                     </div>
                                     <div class="col-md-4">
                                         <label> File Ref</label>
-                                        <input type="text" class="form-control" id="fileRef" disabled />
+                                        <input type="text" class="form-control" id="fileRef"  />
                                     </div>
                                     <div class="col-md-4">
                                         <label> Ref Number</label>
@@ -39,71 +39,34 @@ function requisitionModal(supplierid,orderid,rowid){
 
                                 <div class="row mt-4">
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <label>Date</label>
                                         <input type="date" class="form-control" id="date"  />
                                     </div>
-                                    <div class="col-md-4">
-                                        <label> Date of Sending</label>
-                                        <input type="date" class="form-control" id="dateofsending" />
-                                    </div>
-                                    <div class="col-md-4">
+                                    
+                                    <div class="col-md-6">
                                         <label> Project Name</label>
-                                        <input type="text" class="form-control" id="projectname" />
+                                        <input type="text" class="form-control" id="projectname"  disabled/>
                                     </div>
                                 </div>
                                 <div class="row mt-4 mb-4">
 
-                                    <div class="col-md-4">
-                                        <label>Order Title</label>
+                                    <div class="col-md-6">
+                                        <label>Quotation Description</label>
                                         
-                                        <select class="form-control" id="ordertitle">
-                                        
-                                        </select>
+                                        <input type="text" id="ordertitle" class="form-control"/>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <label>Supplier Name</label>
                                         
                                         <select class="form-control" id="suppliername_2">
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label> Currency</label>
-                                        <select class="form-control" id="currency_modal">
-                                            <option value="">SELECT CURRENCY</option>
-                                            <option value="NGN">NGN</option>
-                                            <option value="USD">USD</option>
-                                            <option value="GBP">GBP</option>
-                                            <option value="EURO">EURO</option>
-                                            <option value="YEN">YEN</option>
-                                        </select>
-                                    </div>
+                                   
                                 </div>
 
-                               <table class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <td>SN</td>
-                                            <td>Quotation ID</td>
-                                            <td>Description</td>
-                                            <td>Quantity</td>
-                                            <td>Price</td>
-                                            <td>Total</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbody">
-
-                                    </tbody>
-
-                               </table>
-                               <div class="discountTotal">
-                                    <div>Discount(%) :- </div> 
-                                    <div id=""><input type="number" id="discount" min="0" class="form-control discountWidth" value="0%"/></div>
-                                </div>
-                                <div class="discountTotal">
-                                    <div>Grand Total</div> 
-                                    <div id="grandtotal">0</div>
-                                </div>
+                              
+                              
                             </div>
 
                             <div class="modalFooter">
@@ -119,12 +82,10 @@ function requisitionModal(supplierid,orderid,rowid){
         document.querySelector('.modalClass').innerHTML=content
         close();
     
-        
         getAllSupplierx();
-        getAllorderx();
-        fetchEditx(supplierid,orderid,rowid);
-        modifyPrice();
-        modifyDiscount()
+        fetchEditx(supplierid,rowid);
+        // modifyPrice();
+        // modifyDiscount();
         save(rowid);
 
         
@@ -144,12 +105,12 @@ function numberWithCommas(x) {
 
 
 
-function fetchEditx(supplierid,orderid,id){
-
+function fetchEditx(supplierid,id){
+    allrequisition();
     fetch('/procurement/app/customroute/getquotation',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
-        body:JSON.stringify({supplierid,orderid,id})
+        body:JSON.stringify({supplierid,id})
     })
     .then(result=>result.json())
     .then(res=>{
@@ -159,7 +120,7 @@ function fetchEditx(supplierid,orderid,id){
         let phonenumber
         let dataset = ''
         let sum=0
-        let currency,mydate,dateofsending,projectname,orderid,fileRef,orderRef,supplier_name
+        let currency,mydate,dateofsending,projectname,orderid,fileRef,orderRef,supplier_name,ordertitle
         let discount = 0;
         let refNumber;
         
@@ -168,57 +129,33 @@ function fetchEditx(supplierid,orderid,id){
                 console.log("d",d)
                 supplier_name = d.supplier_name
                 supplier_id = d.supplierID;
-                address = d.address;
+                ordertitle = d.order_description
                 phonenumber = d.contact
                 currency= d.currency
-                mydate=d.dateofcreation
-                dateofsending=d.dateofsending
+                address=d.address
+                document.getElementById('date').value = d.created_at
+                dateofsending=d.created_at
                 projectname = d.project_name
                 orderid = d.orderID
                 fileRef=d.file_ref
-                orderRef=d.order_ref
+                orderRef=d.id
                 refNumber = d.ref_number
                 discount= d.discount
                 sum += parseFloat(d.total)
-                dataset +=`
-                            <tr>
-                                <td><input type="text" class="form-control" value=${index + 1} disabled /></td>
-                                <td><input type="text" class="form-control" disabled value=${d.id} /></td>
-                                <td><input type="text" class="form-control" value=${d.description}  /></td>
-                                <td><input type="number" min="0" value= ${d.quantity} class="form-control quantity"/></td>
-                                <td><input type="number" min="0" value=${d.price} class="form-control price"  /></td>
-                                <td><input type="number" disabled value= ${d.total} class="form-control " /></td>
-                            </tr>
-                            `
+                
             })
             document.querySelector('tbody').innerHTML=dataset;
             document.getElementById('addr').innerHTML = address;
-            document.getElementById('suppliername').innerHTML = supplier_name;
-            // document.getElementById('suppliername_2').value = supplier_name;
-            // document.getElementById("suppliername_2").selectedIndex = supplier_name;
-            // document.querySelector('option[value=" + supplier_name +"]').selected = true
-            console.log('idddd',fileRef)
-            $(`#suppliername_2 option[value=${supplier_id}]`).prop("selected", "selected")
-            $(`#ordertitle option[value=${orderid}]`).prop("selected", "selected")
-            $(`#currency_modal option[value=${currency}]`).prop("selected", "selected")
-            document.getElementById('discount').value = discount;
             document.getElementById('phonenumber').innerHTML = phonenumber;
+            document.getElementById('suppliername').innerHTML = supplier_name;
+            document.getElementById('ordertitle').value = ordertitle;
+           
+            $(`#suppliername_2 option[value=${supplier_id}]`).prop("selected", "selected")
             document.getElementById('projectname').value = projectname;
-            // document.getElementById('currency').value = currency;
-            // document.getElementById("currency").selectedIndex = currency;
-            currencyFetch = currency;
-            document.getElementById('date').value = mydate;
-            document.getElementById('dateofsending').value = dateofsending;
-
-            document.getElementById('ordertitle').value = orderid;
             document.getElementById('orderRef').value = orderRef;
             document.getElementById('fileRef').value = fileRef;
             document.getElementById('refNumber').value = refNumber;
-            let dis = parseFloat(discount) /100;
-            let count = dis * sum;
-            let getcurrency = currencySelect(currency);
-            
-            document.getElementById('grandtotal').innerHTML = ` (${getcurrency}) ` + numberWithCommas(parseFloat(sum - count))  
+           
             
         }
     })
@@ -309,35 +246,21 @@ function currencySelect (currency){
 function save(rowid){
     document.getElementById('saveButton').addEventListener('click',function(){
         let date = document.getElementById('date').value;
-        let dateofsending = document.getElementById('dateofsending').value;
+    
         let projectname = document.getElementById('projectname').value;
         let ordertitle = document.getElementById('ordertitle').value;
         let supplier = document.getElementById('suppliername_2').value;
-        let currency = document.getElementById('currency_modal').value;
+       
         let refnumber= document.getElementById('refNumber').value;
         let orderref = document.getElementById('orderRef').value;
         let fileref = document.getElementById('fileRef').value;
-        let discount = document.getElementById('discount').value
-
-        let x = document.querySelector('tbody').children;
-        let sum = 0;
-        for(let i=0;i<x.length;i++){
-            
-            for(let j=0;j<x[i].children.length;j++){
-                let xxy = x[i].children[j]
-                
-                row.push(xxy.children[0].value)
-            }
-            Quotation.push(row)
-            row=[];
-            console.log(Quotation)
-        }
+    
 
         fetch('/procurement/app/customroute/save_edit_requisition',{
             method:'POST',
             headers: { "Content-type": "application/x-www-form-urlencoded"},
             body:JSON.stringify({
-                date,dateofsending,projectname,ordertitle,supplier,currency,refnumber,orderref,fileref,discount,Quotation,rowid
+                date,projectname,ordertitle,supplier,refnumber,orderref,fileref,rowid
             })
         })
         .then(res=>res.json())

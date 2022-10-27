@@ -525,7 +525,7 @@ $router->get('allrequisition',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM requisition_new ORDER BY created_at desc";
+  $query="SELECT `requisition_new`.*,`supplier`.`supplier_name` FROM requisition_new  LEFT JOIN supplier ON `requisition_new`.`supplier_id` = `supplier`.`id`ORDER BY created_at desc";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -1120,7 +1120,7 @@ $router->post('deletedata',function(){
 $router->post('deletedatarequisition',function(){
   $connection = new mysqli("localhost","root","","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
-  $check = "SELECT * FROM approval_process WHERE order_id='".$data['order_id']."' AND supplier_id='".$data['order_id']."' AND level_1_approval='approved'";
+  $check = "SELECT * FROM approval_process WHERE order_id='".$data['id']."' AND supplier_id='".$data['id']."' AND level_1_approval='approved'";
   $result_check = $connection->query($check)or die(mysqli_error($connection));
   if(mysqli_num_rows($result_check) > 0){
       $json_data = array("data"=>"Sorry..the Quotation has Already Been Approved","status"=>false);
@@ -1129,17 +1129,16 @@ $router->post('deletedatarequisition',function(){
   else{
 
   }
-  $query = "DELETE FROM requisition WHERE order_id ='".$data["order_id"]."' AND supplier_id ='".$data["supplier_id"]."'";
+  $query = "DELETE FROM requisition_new WHERE id ='".$data["id"]."'";
   
   $result = $connection->query($query)or die(mysqli_error($connection));
  
   if($result){
     
-    $queryApproved = "DELETE FROM approval_process WHERE order_id ='".$data["order_id"]."' AND supplier_id ='".$data["supplier_id"]."'";
-    $result = $connection->query($queryApproved)or die(mysqli_error($connection));
-
     $json_data = array("data"=>"Deletion was Successful","status"=>true);
     echo json_encode($json_data);
+
+    
   }
   else{
     $json_data = array("data"=>"Update Failed","status"=>false);
@@ -1524,7 +1523,7 @@ $router->post('getquotation',function(){
   $connection = new mysqli("localhost","root","","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
-  $query="SELECT `requisition`.`id` AS id, `orders`.`order_title`,`supplier`.`supplier_name`,`orders`.`order_ref`,`requisition`.`file_ref`,`requisition`.`ref_number`,`requisition`.`dateofcreation`,`requisition`.`dateofsending`,`supplier`.`id` AS supplierID,`orders`.`id` AS orderID, supplier_name,contact,address,discount, description,quantity,price,total,currency,project_name FROM requisition  LEFT JOIN`orders` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id` WHERE `requisition`.`order_id`='".$data['orderid']."' AND  `requisition`.`supplier_id` = '".$data['supplierid']."'";
+  $query="SELECT `requisition_new`.`id` AS id,`supplier`.`supplier_name`,`requisition_new`.`file_ref`,`requisition_new`.`ref_number`,`requisition_new`.`created_at`,`supplier`.`id` AS supplierID, supplier_name,contact,address,order_description,project_name FROM requisition_new  LEFT JOIN `supplier` ON `requisition_new`.`supplier_id` = `supplier`.`id` WHERE  `requisition_new`.`id` = '".$data['id']."'";
   $result = $connection->query($query)or die(mysqli_error($connection));
     // $totalData = mysqli_num_rows($result);
     // $totalFilter=$totalData;
@@ -1779,21 +1778,16 @@ $router->post('save_edit_requisition',function(){
   $connection = new mysqli("localhost","root","","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
-  
-  for($i=0;$i <count($data['Quotation']);$i++){
-
-      $x = $data['Quotation'][$i];
-  
-    
-   
-   
-    $query = "UPDATE requisition SET dateofcreation='".$data['date']."',dateofsending='".$data['dateofsending']."',project_name='".$data['projectname']."', file_ref='".$data['fileref']."', currency='".$data['currency']."', order_id='".$data['ordertitle']."', supplier_id='".$data['supplier']."', ref_number='".$data['refnumber']."', description='".$x[2]."',quantity='".$x[3]."',price='".$x[4]."',total='".$x[5]."',discount='".$data['discount']."' WHERE id='".$x[1]."'";
+  $query = "UPDATE requisition_new SET created_at='".$data['date']."',project_name='".$data['projectname']."', file_ref='".$data['fileref']."', order_description='".$data['ordertitle']."', supplier_id='".$data['supplier']."', ref_number='".$data['refnumber']."' WHERE id='".$data['rowid']."'";
     $result = $connection->query($query)or die(mysqli_error($connection));
-
-    
+  if($result){
+    echo json_encode(["data"=>'Update was Successful',"status"=>true]);
+  }
+  else{
+    echo json_encode(["data"=>'Update Failed',"status"=>false]);
   }
   
-  echo json_encode(["data"=>'Update was Successful',"status"=>true]);
+  
 });
 
 

@@ -267,15 +267,15 @@ function AllRequisition(){
         let content = `<table id="requisition" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>SN</th>
-                                    <th>ORDER TITLE</th>
-                                    <th>ORDER REF</th>
-                                    <th>SUPPLIER NAME</th>
-                                    <th>QUOTATION RECEIPT</th>
-                                    <th>QUANTITY</th>
-                                    <th>UNIT PRICE</th>
-                                    <th>TOTAL PRICE</th>
-                                    <th>DATE</th>
+                                    <th>FILE NO</th>
+                                    <th>INDEX NO</th>
+                                    <th>QUOTATION NO.</th>
+                                    <th>QUOTATION NO. REF</th>
+                                    <th>QUOTATION DATE</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>SUPPLIER</th>
+                                    <th>QUOTATION SENT</th>
+                                    <th>RECEIVED</th>
                                     <th>ACTION</th>
                                 </tr>
                             </thead>
@@ -313,29 +313,42 @@ function allrequisition(){
         "columns":[
              
                  {data:"id"},
-                 {data:"order_title"},
-                 {data:"order_ref"},
+                 {data:"ref_number"},
+                 {data:"project_name"},
+                 {data:"file_ref"},
+                 {data:"created_at"},
+                 {data:"order_description"},
                  {data:"supplier_name"},
-
+                 {
+                    data:"",
+                    render:function(data,type,row){
+                       return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
+                      } 
+                    
+                },
                  {
                     data:"",
                     render:function(data,type,row){
                      
-                        return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
+                        if(row.received == "1"){
+                            return true;
+                        }
+                        else{
+                            return false
+                        }
+                        
                       } 
                     
                 },
-                 {data:"quantity"},
-                 {data:"price"},
-                 {data:"total"},
-                 {data:"created_at"},
+                
+                
                  {
                      data:"",
                      render:function(data,type,row){
                    
                          return `<div>
-                                    <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.order_id})">Delete</button>
-                                    <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.supplier_id},${row.order_id},${row.id})">Edit</button>
+                                    <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.id})">Delete</button>
+                                    <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.supplier_id},${row.id})">Edit</button>
                                 </div>`
                        } 
                  }

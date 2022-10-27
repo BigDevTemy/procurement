@@ -133,8 +133,8 @@ function DeleteSupplier(tablename,id){
            fetch('/procurement/app/customroute/deletedatarequisition',{
                method:'POST',
                body:JSON.stringify({
-                  order_id:id,
-                  supplier_id:tablename
+                  id:id,
+                  supplier_id:'requisition_new'
                }),
                headers: { "Content-type": "application/x-www-form-urlencoded"},
                                                    
