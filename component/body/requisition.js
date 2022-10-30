@@ -57,8 +57,11 @@ function loadRequisitionDefault(){
                         </div>
                         <div>
                             <label>Project Name</label>
-                            <input type="text" id="project_name" disabled class="form-control selector"  placeholder="Project name" />
-                        </div>
+                            
+                            <select  id="project_name" class="form-control selector">
+
+                            </select>
+                            </div>
                         
                     </div>
                     <div class="div-2-element">
@@ -379,7 +382,7 @@ function saveRequisitionModule(){
         .then(res=>res.json())
         .then(data=>{
             console.log(data)
-            document.getElementById('project_name').value = data.data
+            document.getElementById('order_ref').value = data.data
   
     })
     .catch(err=> {
@@ -388,12 +391,31 @@ function saveRequisitionModule(){
        
     })
 
+    fetch('/procurement/app/customroute/fetchallproject')
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data)
+        let dataset ="<option>Select Project</option>";
+        data.data.forEach((d)=>{
+            dataset += `
+                        <option value="${d.id}">${d.project_name}</option>
+                    `
+        })
+        document.getElementById('project_name').innerHTML = dataset
+
+})
+.catch(err=> {
+    
+    console.log(err)
+   
+})
+
     }
     
    
 
     function fetchSuppliers(id){
-        console.log('id',id)
+        
         fetch('/procurement/app/customroute/getAllSupplier')
         .then(res=>res.json())
         .then(data=>{
