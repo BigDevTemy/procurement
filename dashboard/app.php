@@ -156,7 +156,7 @@ session_start();
     <script src="../component/body/report.js"></script>
     <script src="../component/body/project.js"></script>
     <script src="../component/body/requisitionModal.js"></script>
-    <script src="../component/body/filterApproval.js"></script>
+    
     <script src="../component/body/approvalModal.js"></script>
     <script src="../component/body/poModal.js"></script>
     <script src="../component/body/modal.js"></script>
@@ -166,7 +166,7 @@ session_start();
     <script src="../component/body/previewModal.js"></script>
     <script src="../component/body/requisition.js"></script>
     <script src="../component/body/order.js"></script>
-  
+    <script src="../component/body/filterApproval.js"></script>
     <script src="../component/body/supplier.js"></script>
     <script src="../component/body/commit.js"></script>
     <script src="../component/body/tabcomponent.js"></script>

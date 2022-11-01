@@ -88,11 +88,11 @@ $router->get('project_number',function(array $params){
  if(mysqli_num_rows($res) > 0){
   $sid = mysqli_fetch_assoc($res);
   $autocreate = last_insert(strlen($sid['id']),$sid['id']+1);
-  $order_ref = 'MCN-ENQ-'.$autocreate.'-'.$year;
+  $order_ref = 'MC-ENQ-'.$autocreate.'-'.$year;
   echo json_encode(["data"=>$order_ref,"status"=>true]);
  }
  else{
-  $order_ref = 'MCN-ENQ-001-'.$year;
+  $order_ref = 'MC-ENQ-001-'.$year;
   echo json_encode(["data"=>$order_ref,"status"=>true]);
   
  }
@@ -471,7 +471,14 @@ $router->post('upoadquotation_new',function($request){
         $extension = pathinfo($_FILES['filequotation']['name'][$i],PATHINFO_EXTENSION);
         $new_name = $_FILES['filequotation']['name'][$i].time().'.'.$extension;
         move_uploaded_file($_FILES['filequotation']['tmp_name'][$i],'../quotation/'.$new_name);
-        $query = "INSERT INTO requisition_new (order_description,allsuppliers,username,quotation_receipt,serial_quotation_number,file_ref,project_name,dateofcreation,dateofsending,ref_number,supplier_id,received)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['fileref']."','".$decode[$i]->supplier."','".$decode[$i]->received."')";
+        if($decode[$i]->received){
+          $received_value = 1;
+        }
+        else{
+            $received_value = -1;
+        }
+        
+        $query = "INSERT INTO requisition_new (order_description,allsuppliers,username,quotation_receipt,serial_quotation_number,file_ref,project_id,dateofcreation,dateofsending,ref_number,supplier_id,received,order_ref)VALUES('".$_POST['ordertype']."','".$_POST['allsupplier']."','".$_POST['username']."','".$new_name."','".$_POST['serial_number']."','".$_POST['fileref']."','".$_POST['projectname']."','".$_POST['dateofcreation']."','".$_POST['dateofsending']."','".$_POST['fileref']."','".$decode[$i]->supplier."','".$received_value."','".$_POST['order_ref']."')";
         $result = $connection->query($query)or die(mysqli_error($connection));
         if($result){
           
@@ -522,29 +529,20 @@ $router->get('getpendingApproval',function(){
 
 $router->get('allrequisition',function(){
   $connection = new mysqli("localhost","root","","procurement");
-  
-  // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT `requisition_new`.*,`supplier`.`supplier_name` FROM requisition_new  LEFT JOIN supplier ON `requisition_new`.`supplier_id` = `supplier`.`id`ORDER BY created_at desc";
+  $query="SELECT `requisition_new`.*,`supplier`.`supplier_name`,`project`.`project_name` FROM requisition_new  LEFT JOIN supplier ON `requisition_new`.`supplier_id` = `supplier`.`id` LEFT JOIN `project` ON `requisition_new`.`project_id` = `project`.`id` ORDER BY created_at desc";
   $result = $connection->query($query)or die(mysqli_error($connection));
-  // if(mysqli_num_rows($result) > 0){
+  
     $totalData = mysqli_num_rows($result);
     $totalFilter=$totalData;
     $data = [];
     while($row = mysqli_fetch_assoc($result)){
-      // $subarray=[];
-      // $subarray[]=$row['id'];
-      // $subarray[]=$row['order_title'];
-      // $subarray[]=$row['level_1_approval'];
-      // $subarray[]=$row['created_at'];
+      
       $data[] = $row;
     }
     $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter));
     echo json_encode($json_data);
-  // }
-  // else{
-  //   echo json_encode(array("data"=>'NO PENDING APPROVAL',"status"=>true));
-  // }
+  
   $connection->close();
 
 });
@@ -1523,7 +1521,7 @@ $router->post('getquotation',function(){
   $connection = new mysqli("localhost","root","","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
-  $query="SELECT `requisition_new`.`id` AS id,`supplier`.`supplier_name`,`requisition_new`.`file_ref`,`requisition_new`.`ref_number`,`requisition_new`.`created_at`,`supplier`.`id` AS supplierID, supplier_name,contact,address,order_description,project_name FROM requisition_new  LEFT JOIN `supplier` ON `requisition_new`.`supplier_id` = `supplier`.`id` WHERE  `requisition_new`.`id` = '".$data['id']."'";
+  $query="SELECT `requisition_new`.`id` AS id,`supplier`.`supplier_name`,`requisition_new`.`file_ref`,`requisition_new`.`ref_number`,`requisition_new`.`created_at`,`supplier`.`id` AS supplierID, supplier_name,contact,address,order_description,project_name,order_ref FROM requisition_new  LEFT JOIN `supplier` ON `requisition_new`.`supplier_id` = `supplier`.`id`LEFT JOIN `project` ON `requisition_new`.`project_id` =  `project`.`id` WHERE  `requisition_new`.`id` = '".$data['id']."'";
   $result = $connection->query($query)or die(mysqli_error($connection));
     // $totalData = mysqli_num_rows($result);
     // $totalFilter=$totalData;
@@ -1593,6 +1591,44 @@ $router->post('filterApproval',function(){
 });
 
 
+$router->post('filterQuotation',function(){
+  $connection = new mysqli("localhost","root","","procurement");
+  
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  
+  $conditionedQuery = "WHERE `requisition_new`.`created_at` IS NOT NULL AND";
+  $count = 0;
+  if($data['received']){
+    $conditionedQuery.=" `requisition_new`.`received` ='".$data['received']."' AND";
+    $count += 1;
+  }
+  if($data['from_date'] && $data['to_date']){
+    $conditionedQuery.=" `requisition_new`.`dateofcreation` BETWEEN '".$data['from_date']."' AND '".$data['to_date']."'";
+    $count += 1;
+  }
+
+  // echo json_encode($conditionedQuery);
+  if($count > 0){
+    //$query = "SELECT * FROM requisition_new  LEFT JOIN `orders` ON `approval_process`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id` = `supplier`.`id` LEFt JOIN `requisition` ON `requisition`.`supplier_id` = `approval_process`.`assigned_supplier` ".$conditionedQuery." GROUP BY `requisition`.`supplier_id`";
+    $query="SELECT `requisition_new`.*,`supplier`.`supplier_name`,`project`.`project_name` FROM requisition_new  LEFT JOIN supplier ON `requisition_new`.`supplier_id` = `supplier`.`id` LEFT JOIN `project` ON `requisition_new`.`project_id` = `project`.`id` ".$conditionedQuery." ORDER BY `requisition_new`.`created_at` desc";
+  }
+  else{
+    $query="SELECT `requisition_new`.*,`supplier`.`supplier_name`,`project`.`project_name` FROM requisition_new  LEFT JOIN supplier ON `requisition_new`.`supplier_id` = `supplier`.`id` LEFT JOIN `project` ON `requisition_new`.`project_id` = `project`.`id` ORDER BY created_at desc";
+  }
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
+    echo json_encode($json_data);
+});
+
 $router->post('filterPO',function(){
   $connection = new mysqli("localhost","root","","procurement");
   
@@ -1639,6 +1675,9 @@ $router->post('filterPO',function(){
     $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     echo json_encode($json_data);
 });
+
+
+
 
 
 $router->post('filterShippment',function(){
@@ -1778,7 +1817,7 @@ $router->post('save_edit_requisition',function(){
   $connection = new mysqli("localhost","root","","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $query = "UPDATE requisition_new SET created_at='".$data['date']."',project_name='".$data['projectname']."', file_ref='".$data['fileref']."', order_description='".$data['ordertitle']."', supplier_id='".$data['supplier']."', ref_number='".$data['refnumber']."' WHERE id='".$data['rowid']."'";
+  $query = "UPDATE requisition_new SET created_at='".$data['date']."', file_ref='".$data['fileref']."', order_description='".$data['ordertitle']."', supplier_id='".$data['supplier']."', ref_number='".$data['refnumber']."' WHERE id='".$data['rowid']."'";
     $result = $connection->query($query)or die(mysqli_error($connection));
   if($result){
     echo json_encode(["data"=>'Update was Successful',"status"=>true]);

@@ -114,7 +114,7 @@ function fetchEditx(supplierid,id){
     })
     .then(result=>result.json())
     .then(res=>{
-        console.log(res) 
+         console.log(res)
         let supplier_id
         let address
         let phonenumber
@@ -126,7 +126,7 @@ function fetchEditx(supplierid,id){
         
         if(res.status){
             res.data.forEach((d,index)=>{
-                console.log("d",d)
+                
                 supplier_name = d.supplier_name
                 supplier_id = d.supplierID;
                 ordertitle = d.order_description
@@ -138,7 +138,7 @@ function fetchEditx(supplierid,id){
                 projectname = d.project_name
                 orderid = d.orderID
                 fileRef=d.file_ref
-                orderRef=d.id
+                orderRef=d.order_ref
                 refNumber = d.ref_number
                 discount= d.discount
                 sum += parseFloat(d.total)

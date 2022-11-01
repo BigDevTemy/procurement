@@ -8,10 +8,14 @@ function filterApproval(){
         }
     }
     
+    console.log('activeLink',getActiveLink)
 
     switch(getActiveLink){
         case 'Approval Report':
             ApprovalReportReside();
+            break;
+        case 'All Requisition':
+            quotationReside();
             break;
         case 'PO Report':
             POReportReside();
@@ -75,6 +79,56 @@ function ApprovalReportReside(){
 
                             <div class="d-flex mt-4 justify-content-end">
                                 <button class="btn btn-secondary" onClick="Search()">Search</button>
+                                <button class="btn btn-outline" style="margin-left:10px" onClick="CloseButton()">Close</button>
+                            </div>
+
+                            </div>
+                    </div>
+        `
+
+        document.querySelector('.modalClass').innerHTML=content
+        close();
+        callSelect2()
+
+        
+}
+
+
+
+function quotationReside(){
+    document.querySelector('.modalClass').classList.add('modalClassCustom');
+    let content =  ` 
+                    <div class="customModal modalFilter">
+                            <div class="modalTitle mb-4">
+                                <div style="font-weight:bold"> 
+                                    Quotation Filter
+                                </div> 
+                                <div class="closeModal">X</div>
+                            </div>
+                            
+
+                            <div class="modalBody">
+                            
+                            
+
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" id="from_date" /> 
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" id="to_date" /> 
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="select_received">
+                                        <option value="1">Received</option>
+                                        <option value="-1">Not Received</option>
+                                        <option value="all">All</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4 justify-content-end">
+                                <button class="btn btn-secondary" onClick="searchQuotation()">Search</button>
                                 <button class="btn btn-outline" style="margin-left:10px" onClick="CloseButton()">Close</button>
                             </div>
 
@@ -375,6 +429,99 @@ function SearchPO(){
         })
         
        
+            CloseButton();
+           
+       }
+        
+    })
+    .catch(err=>console.log(err))
+
+
+}
+
+
+function searchQuotation(){
+   
+    let received = document.getElementById('select_received').value;
+    let from_date = document.getElementById('from_date').value;
+    let to_date = document.getElementById('to_date').value;
+
+   
+
+    fetch('/procurement/app/customroute/filterQuotation',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({received,from_date,to_date})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+     
+       let dataset="";
+       
+       if(res.status){
+        $table = $('#requisition').DataTable({
+            data:res.data,
+            processing:true,
+            destroy:true,
+            dom: 'Blfrtip',
+            buttons: [
+                    {
+                    "extend":'excel', "text":'Export  to Excel',"className":'btn  btn-secondary mb-4 mt-4'
+                    },
+                    {
+                    "extend":'print', "text":'Print Report',"className":'btn  btn-success mb-4 mt-4'
+                    }
+            ],
+            columns:[
+                 
+                     {data:"id"},
+                     {data:"ref_number"},
+                     {data:"order_ref"},
+                     {data:"file_ref"},
+                     {data:"project_name"},
+                     {data:"created_at"},
+                     {data:"order_description"},
+                     {data:"supplier_name"},
+                     {
+                        data:"",
+                        render:function(data,type,row){
+                           return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
+                          } 
+                        
+                    },
+                     {
+                        data:"",
+                        render:function(data,type,row){
+                         
+                            if(row.received == "1"){
+                                return 'Received';
+                            }
+                            else if(row.received == "-1"){
+                                return 'Not Received'
+                            }
+                            
+                          } 
+                        
+                    },
+                    
+                    
+                     {
+                         data:"",
+                         render:function(data,type,row){
+                       
+                             return `<div>
+                                        <button  class="btn btn-danger" onclick="deleteItem('requisition',${row.supplier_id},${row.id})">Delete</button>
+                                        <button  class="btn btn-secondary ml-2" onclick="requisitionModal(${row.supplier_id},${row.id})">Edit</button>
+                                    </div>`
+                           } 
+                     }
+                 
+            ]   
+    
+             
+    
+         });
+
             CloseButton();
            
        }

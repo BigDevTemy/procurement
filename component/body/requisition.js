@@ -45,8 +45,8 @@ function loadRequisitionDefault(){
                             <input type="date" class="form-control selector" id="dateofcreation" />
                         </div>
                         <div>
-                            <label>Serial Quotation Number</label>
-                            <input type="text" id="serial_number" class="form-control selector"  placeholder="Serial Quotation Number" />
+                            <label>Quotation Ref</label>
+                            <input type="text" id="serial_number" class="form-control selector"  placeholder="Quotation Ref" />
                         </div>
                         
                     </div>
@@ -102,7 +102,7 @@ function loadRequisitionDefault(){
 
                     
                     <div class="submitBtnParent">
-                        <button class="btn btn-bg uploadRequisition">Save Requisition For Approval</button>
+                        <button class="btn btn-bg uploadRequisition" id="saveRequisition">Save Requisition For Approval</button>
                     </div>
                 </div>
             
@@ -123,6 +123,7 @@ function AddRequisition(){
     let content =  `
                     
                     <div class="tab-body-order-2">
+                      
                         <div class="div-2-element">
                             <div>
                                 <label>User</label>
@@ -267,13 +268,16 @@ function AddRequisition(){
    
 function AllRequisition(){
       
-        let content = `<table id="requisition" class="table table-striped table-bordered" style="width:100%">
+        let content = `
+                        <div style="width:100%;display:flex;justify-content:flex-start"><button class="btn btn-secondary" onclick="filterApproval()">Filter</button></div>
+                        <table id="requisition" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>FILE NO</th>
                                     <th>INDEX NO</th>
                                     <th>QUOTATION NO.</th>
                                     <th>QUOTATION NO. REF</th>
+                                    <th>PROJECT NAME</th>
                                     <th>QUOTATION DATE</th>
                                     <th>DESCRIPTION</th>
                                     <th>SUPPLIER</th>
@@ -288,6 +292,7 @@ function AllRequisition(){
 
         allrequisition();
         
+        
 }
 
 
@@ -300,7 +305,7 @@ function allrequisition(){
     })
     .then(result=>result.json())
     .then(res=>{
-
+        console.log(res.data)
         $table = $('#requisition').DataTable({
             data:res.data,
             processing:true,
@@ -318,8 +323,9 @@ function allrequisition(){
                  
                      {data:"id"},
                      {data:"ref_number"},
-                     {data:"project_name"},
+                     {data:"order_ref"},
                      {data:"file_ref"},
+                     {data:"project_name"},
                      {data:"created_at"},
                      {data:"order_description"},
                      {data:"supplier_name"},
@@ -335,10 +341,10 @@ function allrequisition(){
                         render:function(data,type,row){
                          
                             if(row.received == "1"){
-                                return true;
+                                return 'Received';
                             }
-                            else{
-                                return false
+                            else if(row.received == "-1"){
+                                return 'Not Received'
                             }
                             
                           } 
@@ -821,9 +827,11 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let dateofcreation = document.getElementById('dateofcreation').value;
         let serial_number = document.getElementById('serial_number').value;
         let fileref = document.getElementById('file_ref').value;
-        let projectname = "MCN-DHN-N-004"
+        
         let refnumber = document.getElementById('refnumber').value;
         let dateofsending = document.getElementById('dateofsending').value;
+        let project_name = document.getElementById('project_name').value;
+        let order_ref = document.getElementById('order_ref').value;
        // let note = document.getElementById('note').value;
        // let discount = document.getElementById('discount').value;
         // let description = document.querySelectorAll('.content');
@@ -859,6 +867,11 @@ let handleInput  = document.querySelector('.fileUploadInput');
         //     Swal.fire('Upload Supplier Quotation','','error')
         //     return false;
         // }
+
+        if(project_name === ""){
+            Swal.fire('Select Project','','error')
+            return false;
+        }
         if(allsupplier == ""){
             Swal.fire('Input Number of Suppliers','','error')
             return false;
@@ -889,7 +902,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
        
 
 
-        if(allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && fileref !="" &&  projectname != "" && dateofsending!="" && refnumber!="" ){
+        if(allsupplier!="" && order!="" && dateofcreation !="" && serial_number !="" && fileref !="" &&  project_name != "" && dateofsending!="" && refnumber!="" ){
             
             const formdata = new FormData();
 
@@ -953,11 +966,14 @@ let handleInput  = document.querySelector('.fileUploadInput');
             formdata.append('fileref',fileref);
             formdata.append('refnumber',refnumber);
             formdata.append('dateofsending',dateofsending);
-            formdata.append('projectname',projectname);
+            formdata.append('projectname',project_name);
+            formdata.append('order_ref',order_ref);
+
             
            
            
-            
+            document.getElementById('saveRequisition').disabled = true;
+            document.getElementById('saveRequisition').value ="Please wait.."
 
             fetch('/procurement/app/customroute/upoadquotation_new',{
                 method:'POST',
@@ -966,7 +982,9 @@ let handleInput  = document.querySelector('.fileUploadInput');
             })
             .then(response=>response.json())
             .then(res=>{
-                
+                document.getElementById('saveRequisition').disabled = false;
+                document.getElementById('saveRequisition').value ="Save Requisition For Approval"
+               
                 if(res.status){
                     Swal.fire(res.data,'','success');
                     Quotation=[];
@@ -982,7 +1000,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
                      
                 }
                 else{
-                    
+                    Swal.fire('Internal Server Error','','error');
                 }
             })
             .catch((err)=>{
