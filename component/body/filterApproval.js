@@ -109,20 +109,27 @@ function quotationReside(){
 
                             <div class="modalBody">
                             
-                            
-
                             <div class="row mt-4">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input type="date" class="form-control" id="from_date" /> 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input type="date" class="form-control" id="to_date" /> 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <select class="form-control" id="select_received">
+                                        <option value="">Sort By Received /Non-Received</option>
                                         <option value="1">Received</option>
                                         <option value="-1">Not Received</option>
-                                        <option value="all">All</option>
+                                        
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <select class="form-control" id="project name">
+                                        <option value="">Select Project</option>
+                                        <option value="1">Not Received</option>
+                                        <option value="-1">All</option>
                                     </select>
                                 </div>
                             </div>

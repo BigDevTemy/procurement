@@ -276,7 +276,7 @@ function AllRequisition(){
                                     <th>FILE NO</th>
                                     <th>INDEX NO</th>
                                     <th>QUOTATION NO.</th>
-                                    <th>QUOTATION NO. REF</th>
+                                    <th>QUOTATION REF</th>
                                     <th>PROJECT NAME</th>
                                     <th>QUOTATION DATE</th>
                                     <th>DESCRIPTION</th>
