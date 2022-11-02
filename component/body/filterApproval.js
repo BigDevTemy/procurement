@@ -126,12 +126,25 @@ function quotationReside(){
                                 </div>
 
                                 <div class="col-md-3">
-                                    <select class="form-control" id="project name">
+                                    <select class="form-control" id="project_name">
                                         <option value="">Select Project</option>
-                                        <option value="1">Not Received</option>
-                                        <option value="-1">All</option>
+                                        
                                     </select>
                                 </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="quotation_number" placeholder="Quotation number" /> 
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="quotation_description" placeholder="Quotation description" /> 
+                                </div>
+                                <div class="col-md-4">
+                                <input type="text" class="form-control" id="quotation_reference" placeholder="Quotation reference" /> 
+                                </div>
+
+                               
                             </div>
 
                             <div class="d-flex mt-4 justify-content-end">
@@ -249,25 +262,22 @@ function fetchRequired(){
     let count = true;
     if(count){
         count=false
-        fetch('/procurement/app/customroute/getAllorder')
+        fetch('/procurement/app/customroute/getAllProject')
     .then(res=>res.json())
     .then(data=>{
        
         if(data['status']){
-            let dataset ="<option>All Orders</option>"
-            document.getElementById('select_order').innerHTML=""
+            let dataset ="<option  value=''>Select Project</option>"
+            document.getElementById('project_name').innerHTML=""
             data['data'].forEach((d,index)=>{
                 dataset += 
                             `
-                                <option value=${d.id}>${d.ordertype}</option>
+                                <option value=${d.id}>${d.project_name}</option>
                             `
-                            let item ={
-                                id:d.id,
-                                value:d.order_ref
-                            }
-                dataOrderref.push(item);
+                           
+               
             })
-            document.getElementById('select_order').insertAdjacentHTML('beforeend',dataset);
+            document.getElementById('project_name').insertAdjacentHTML('beforeend',dataset);
            
         }
         
