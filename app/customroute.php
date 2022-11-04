@@ -1529,7 +1529,7 @@ $router->post('getquotation',function(){
   $connection = new mysqli("localhost","root","","procurement");
   
   $data = json_decode(file_get_contents('php://input'), true);
-  $query="SELECT `requisition_new`.`id` AS id,`supplier`.`supplier_name`,`requisition_new`.`file_ref`,`requisition_new`.`ref_number`,`requisition_new`.`created_at`,`supplier`.`id` AS supplierID, supplier_name,contact,address,order_description,project_name,order_ref,received FROM requisition_new  LEFT JOIN `supplier` ON `requisition_new`.`supplier_id` = `supplier`.`id`LEFT JOIN `project` ON `requisition_new`.`project_id` =  `project`.`id` WHERE  `requisition_new`.`id` = '".$data['id']."'";
+  $query="SELECT `requisition_new`.`id` AS id,`supplier`.`supplier_name`,`requisition_new`.`file_ref`,`requisition_new`.`ref_number`,`requisition_new`.`created_at`,`supplier`.`id` AS supplierID, supplier_name,contact,address,order_description,project_name,order_ref,received,dateofcreation FROM requisition_new  LEFT JOIN `supplier` ON `requisition_new`.`supplier_id` = `supplier`.`id`LEFT JOIN `project` ON `requisition_new`.`project_id` =  `project`.`id` WHERE  `requisition_new`.`id` = '".$data['id']."'";
   $result = $connection->query($query)or die(mysqli_error($connection));
     // $totalData = mysqli_num_rows($result);
     // $totalFilter=$totalData;
@@ -1842,8 +1842,17 @@ $router->get('fetchallproject',function(){
 $router->post('save_edit_requisition',function(){
   $connection = new mysqli("localhost","root","","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
+  $new_name="";
+  if(isset($_FILES['uploadedDocument'])){
+    $extension = pathinfo($_FILES['uploadedDocument']['name'],PATHINFO_EXTENSION);
+    $new_name = time().'.'.$extension;
+    move_uploaded_file($_FILES['uploadedDocument']['tmp_name'],'../quotation/'.$new_name);
+   
+  }
+  
 
-  $query = "UPDATE requisition_new SET created_at='".$_POST['date']."', file_ref='".$_POST['fileref']."', order_description='".$_POST['ordertitle']."', supplier_id='".$_POST['supplier']."', ref_number='".$_POST['refnumber']."', received='".$_POST['received']."' WHERE id='".$data['rowid']."'";
+
+  $query = "UPDATE requisition_new SET dateofcreation='".$_POST['date']."', file_ref='".$_POST['fileref']."', order_description='".$_POST['ordertitle']."', supplier_id='".$_POST['supplier']."', ref_number='".$_POST['refnumber']."', received='".$_POST['received']."',quotation_receipt='".$new_name."' WHERE id='".$_POST['rowid']."'";
     $result = $connection->query($query)or die(mysqli_error($connection));
   if($result){
     echo json_encode(["data"=>'Update was Successful',"status"=>true]);

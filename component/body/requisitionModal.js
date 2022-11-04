@@ -140,14 +140,14 @@ function fetchEditx(supplierid,id){
         let received
         if(res.status){
             res.data.forEach((d,index)=>{
-                
+                console.log(d)
                 supplier_name = d.supplier_name
                 supplier_id = d.supplierID;
                 ordertitle = d.order_description
                 phonenumber = d.contact
                 currency= d.currency
                 address=d.address
-                document.getElementById('date').value = d.created_at
+                mydate = d.dateofcreation
                 dateofsending=d.created_at
                 projectname = d.project_name
                 orderid = d.orderID
@@ -159,6 +159,8 @@ function fetchEditx(supplierid,id){
                 received = d.received
                 
             })
+            console.log(mydate)
+            document.getElementById('date').value = mydate
             document.querySelector('tbody').innerHTML=dataset;
             document.getElementById('addr').innerHTML = address;
             document.getElementById('phonenumber').innerHTML = phonenumber;
@@ -264,7 +266,7 @@ function save(rowid){
     document.getElementById('saveButton').addEventListener('click',function(){
         let date = document.getElementById('date').value;
         let uploadedDocument = document.getElementById('uploadeddocument').files[0]
-        console.log('uploadedDocs',uploadedDocument);
+        
         let projectname = document.getElementById('projectname').value;
         let ordertitle = document.getElementById('ordertitle').value;
         let supplier = document.getElementById('suppliername_2').value;
@@ -273,8 +275,9 @@ function save(rowid){
         let orderref = document.getElementById('orderRef').value;
         let fileref = document.getElementById('fileRef').value;
         let received = document.getElementById('received').value;
-        
+
         let formdata = new FormData();
+
         formdata.append('date',date);
         formdata.append('uploadedDocument',uploadedDocument);
         formdata.append('projectname',projectname);
@@ -284,13 +287,13 @@ function save(rowid){
         formdata.append('orderref',orderref);
         formdata.append('fileref',fileref);
         formdata.append('received',received);
-
+        formdata.append('rowid',rowid)
         //JSON.stringify({
             //date,projectname,ordertitle,supplier,refnumber,orderref,fileref,rowid
         //})
         fetch('/procurement/app/customroute/save_edit_requisition',{
             method:'POST',
-            headers: { "Content-type": "application/x-www-form-urlencoded"},
+            // headers: { "Content-type": "application/x-www-form-urlencoded"},
             body:formdata
         })
         .then(res=>res.json())
