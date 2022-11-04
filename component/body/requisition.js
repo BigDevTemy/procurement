@@ -922,10 +922,10 @@ let handleInput  = document.querySelector('.fileUploadInput');
                     return false;
                }
 
-               if(x[i].children[1].children[0].files[0] == undefined){
-                    Swal.fire('Select Quotation file To Upload','','error')
-                    return false;
-               }
+            //    if(x[i].children[1].children[0].files[0] == undefined){
+            //         Swal.fire('Select Quotation file To Upload','','error')
+            //         return false;
+            //    }
             
                 let receivedChecker = checkReceived(x[i].children[2].children[0].id);
     

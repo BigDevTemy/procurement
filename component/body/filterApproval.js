@@ -462,13 +462,15 @@ function searchQuotation(){
     let received = document.getElementById('select_received').value;
     let from_date = document.getElementById('from_date').value;
     let to_date = document.getElementById('to_date').value;
-
-   
+    let quotation_number = document.getElementById('quotation_number').value;
+    let quotation_description = document.getElementById('quotation_description').value;
+    let quotation_reference = document.getElementById('quotation_reference').value;
+    let project_name = document.getElementById('project_name').value;
 
     fetch('/procurement/app/customroute/filterQuotation',{
         method:'POST',
         headers: { "Content-type": "application/x-www-form-urlencoded"},
-        body:JSON.stringify({received,from_date,to_date})
+        body:JSON.stringify({received,from_date,to_date,quotation_number,quotation_description,quotation_reference,project_name})
     })
     .then(result=>result.json())
     .then(res=>{

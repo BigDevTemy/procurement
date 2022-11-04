@@ -69,6 +69,20 @@ function requisitionModal(supplierid,rowid){
                               
                             </div>
 
+                            <div class="col-md-12">
+                                        <label>Update Received</label>
+                                        <select class="form-control" id="received">
+                                            <option value="1">Received</option>
+                                            <option value="-1">Not Received</option>
+                                        </select>
+                            </div>
+
+                            <div class="form-control" style="margin-top:20px">
+                                <input type="file" name="file" id="uploadeddocument"/>
+
+                            </div>
+                        
+
                             <div class="modalFooter">
                                 <div class="mybutton">
                                     <button class="btn btn-primary" id="saveButton" >Save</button>
@@ -123,7 +137,7 @@ function fetchEditx(supplierid,id){
         let currency,mydate,dateofsending,projectname,orderid,fileRef,orderRef,supplier_name,ordertitle
         let discount = 0;
         let refNumber;
-        
+        let received
         if(res.status){
             res.data.forEach((d,index)=>{
                 
@@ -142,6 +156,7 @@ function fetchEditx(supplierid,id){
                 refNumber = d.ref_number
                 discount= d.discount
                 sum += parseFloat(d.total)
+                received = d.received
                 
             })
             document.querySelector('tbody').innerHTML=dataset;
@@ -151,6 +166,8 @@ function fetchEditx(supplierid,id){
             document.getElementById('ordertitle').value = ordertitle;
            
             $(`#suppliername_2 option[value=${supplier_id}]`).prop("selected", "selected")
+            $(`#received option[value=${received}]`).prop("selected", "selected")
+
             document.getElementById('projectname').value = projectname;
             document.getElementById('orderRef').value = orderRef;
             document.getElementById('fileRef').value = fileRef;
@@ -246,7 +263,8 @@ function currencySelect (currency){
 function save(rowid){
     document.getElementById('saveButton').addEventListener('click',function(){
         let date = document.getElementById('date').value;
-    
+        let uploadedDocument = document.getElementById('uploadeddocument').files[0]
+        console.log('uploadedDocs',uploadedDocument);
         let projectname = document.getElementById('projectname').value;
         let ordertitle = document.getElementById('ordertitle').value;
         let supplier = document.getElementById('suppliername_2').value;
@@ -254,14 +272,26 @@ function save(rowid){
         let refnumber= document.getElementById('refNumber').value;
         let orderref = document.getElementById('orderRef').value;
         let fileref = document.getElementById('fileRef').value;
-    
+        let received = document.getElementById('received').value;
+        
+        let formdata = new FormData();
+        formdata.append('date',date);
+        formdata.append('uploadedDocument',uploadedDocument);
+        formdata.append('projectname',projectname);
+        formdata.append('ordertitle',ordertitle);
+        formdata.append('supplier',supplier);
+        formdata.append('refnumber',refnumber);
+        formdata.append('orderref',orderref);
+        formdata.append('fileref',fileref);
+        formdata.append('received',received);
 
+        //JSON.stringify({
+            //date,projectname,ordertitle,supplier,refnumber,orderref,fileref,rowid
+        //})
         fetch('/procurement/app/customroute/save_edit_requisition',{
             method:'POST',
             headers: { "Content-type": "application/x-www-form-urlencoded"},
-            body:JSON.stringify({
-                date,projectname,ordertitle,supplier,refnumber,orderref,fileref,rowid
-            })
+            body:formdata
         })
         .then(res=>res.json())
         .then(result=>{
