@@ -121,9 +121,7 @@ function AddRequisition(){
     let username = document.getElementById('username').value
     
     let content =  `
-                    
                     <div class="tab-body-order-2">
-                      
                         <div class="div-2-element">
                             <div>
                                 <label>User</label>
@@ -141,8 +139,8 @@ function AddRequisition(){
                                 <input type="date" class="form-control selector" id="dateofcreation" />
                             </div>
                             <div>
-                                <label>Serial Quotation Number</label>
-                                <input type="text" id="serial_number" class="form-control selector"  placeholder="Serial Quotation Number" />
+                                <label>Quotation Ref</label>
+                                <input type="text" id="serial_number" class="form-control selector"  placeholder="Quotation Ref" />
                             </div>
                             
                         </div>
@@ -153,112 +151,57 @@ function AddRequisition(){
                             </div>
                             <div>
                                 <label>Project Name</label>
-                                <input type="text" id="project_name" class="form-control selector" disabled  placeholder="Project name" />
-                            </div>
+                                
+                                <select  id="project_name" class="form-control selector">
+
+                                </select>
+                                </div>
                             
                         </div>
                         <div class="div-2-element">
                             <div>
-                                <label>Ref Number</label>
+                                <label>Index Number</label>
                                 <input type="text" id="refnumber" class="form-control selector" placeholder="Ref Number"/>
                             </div>
                             <div>
-                                <label>Date of Sending Name</label>
+                                <label>Date of Sending</label>
                                 <input type="date" id="dateofsending" class="form-control selector"  />
                             </div>
                             
                         </div>
                         <div class="div-2-element">
+                        
                             <div>
-                                <label>Select Order</label>
-                                <select class="form-control ordertype" id="ordertype">
-                                    <option value="">SELECT ORDER TYPE</option>
-                                    
-                                
-                                </select>
+                                <label>Quotation Description</label>
+                                <input type="text" id="ordertype" class="form-control selector" placeholder="Quotation Description"  />
                             </div>
                             <div>
-                                <label>Select Supplier</label>
-                                <select class="form-control allsupplier" id="allsupplier">
-                                    <option value="">SELECT SUPPLIER</option>
-                                    
-                                </select>
+                                <label>Number of Suppliers</label>
+                                <input type="number" min="1" id="allsupplier" class="form-control selector" placeholder="Number of Suppliers"  />
                             </div>
+                            
 
-                           
+                        
                             
                         </div>
 
                     </div>
 
                     <div class="tab-body-more">
-                        <div class="currencyDiv">
-                            
-                            <select class="form-control" id="currency">
-                                <option value="">SELECT CURRENCY</option>
-                                <option value="NGN">NGN</option>
-                                <option value="USD">USD</option>
-                                <option value="GBP">GBP</option>
-                                <option value="EURO">EURO</option>
-                                <option value="YEN">YEN</option>
-                            </select>
-                        </div>
-                        <div class="contentHeader">
-                            <div>SN</div>
-                            <div> Item Description/ Part No.</div>
-                            <div>Quantity</div>
-                            <div>Unit Price</div>
-                            <div>Total Amount</div>
-                        </div>
-                        <div class="contentParent" id="contentParent">
-                            <div class="content">
-                                <div><input type="text" value=1 class="form-control" disabled /></div>
-                                <div><input type="text" placeholder="description" class="form-control "/></div>
-                                <div><input type="number" min="0" placeholder="quantity" value="0"  class="form-control"/></div>
-                                <div><input type="number" min="0" placeholder="unit price" value="0"  class="form-control"/></div>
-                                <div><input type="number" min="0" placeholder="total price" value="0" disabled  class="form-control"/></div>
-                                <div class="closerAction"><img src='../assets/images/close.svg'  class="closeImg" /></div>
-                            </div>
-                        </div>
-                        <div class="discount_content">
-                            
-                            <div class="discountDiv"><label>Discount</label><input type="number" min="0" placeholder="discount in %" id="discount"  class="form-control discountClass"/></div>
-                        </div>
-                        <div class="discount_content">
-                            
-                            <div class="discountDiv">Total:<div id="myTotal">0</div></div>
-                        </div>
-                        <div class="addrow">
-                            <button class="btn btn-secondary rowplus">+ Add row(s)</button>
-                        </div>
-                        
+                    
                         <div class="uploadattachment">Add/Upload Attachment</div>
-                        <div class="fileuploadDiv"> 
-                            <input type="file" id="fileInput" name="file[]" class="fileUploadInput" accept="application/pdf" />
-                            <button class="btn btn-bg">Choose File</button>
-                            <div class="number_files" id="number_files">No File Selected</div>
-                        </div>
-                        <div class="selectedFiles">
-                            
-                            
-                        </div>
+                        <div id="uploadDiv" >
 
-                        <div class="mt-4">
-                            <label for="note">Note:</label>
-
-                            <textarea class="form-control" id="note" rows="4" cols="50">
-                            
-                            </textarea>
                         </div>
 
                         
                         <div class="submitBtnParent">
-                            <button class="btn btn-bg uploadRequisition">Save Requisition For Approval</button>
+                            <button class="btn btn-bg uploadRequisition" id="saveRequisition">Save Requisition For Approval</button>
                         </div>
                     </div>
-                
+                   
     
-            `
+                  `
             document.querySelector('.render_body_content').innerHTML = content
             
             saveRequisitionModule();
@@ -321,7 +264,7 @@ function allrequisition(){
             ],
             columns:[
                  
-                     {data:"id"},
+                     {data:"file_ref"},
                      {data:"ref_number"},
                      {data:"order_ref"},
                      {data:"file_ref"},
@@ -332,7 +275,13 @@ function allrequisition(){
                      {
                         data:"",
                         render:function(data,type,row){
-                           return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`
+                            if(row.quotation_receipt){
+                                return `<a href="/procurement/quotation/${row.quotation_receipt}">quotation_receipt</a>`;
+                            }
+                            else{
+                                return 'NULL';
+                            }
+                           
                           } 
                         
                     },
@@ -996,7 +945,7 @@ let handleInput  = document.querySelector('.fileUploadInput');
                     document.getElementById('ordertype').value="";
                     document.getElementById('serial_number').value=""
                     document.querySelector('#uploadDiv').innerHTML=""
-                   
+                    AddRequisition();
                      
                 }
                 else{

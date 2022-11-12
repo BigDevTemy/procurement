@@ -82,12 +82,16 @@ $router->post('create',function(array $params){
 
 $router->get('project_number',function(array $params){
   $connection = new mysqli("localhost","root","","procurement"); 
-  $res = $connection->query("SELECT id FROM requisition_new ORDER BY id desc LIMIT 1") or die(mysqli_error($connection));
+  $res = $connection->query("SELECT * FROM requisition_new ORDER BY id desc LIMIT 1") or die(mysqli_error($connection));
   $year = date('y');
  
  if(mysqli_num_rows($res) > 0){
   $sid = mysqli_fetch_assoc($res);
-  $autocreate = last_insert(strlen($sid['id']),$sid['id']+1);
+  $getref = explode('-',$sid['order_ref']);
+  // $autocreate = last_insert(strlen($sid['id']),$sid['id']+1);
+  // $autocreate =  last_insert((int)$getref[2],'1');
+  $autocreate = generatezeros((int)$getref[2] + 1);
+ 
   $order_ref = 'MC-ENQ-'.$autocreate.'-'.$year;
   echo json_encode(["data"=>$order_ref,"status"=>true]);
  }
@@ -97,6 +101,7 @@ $router->get('project_number',function(array $params){
   
  }
 });
+
 
 
 $router->post('createorder',function(array $params){
@@ -135,6 +140,18 @@ $router->post('createorder',function(array $params){
     
   $connection->close();
 });
+
+function generatezeros($value){
+  if($value < 10){
+    return "00".$value;
+  }
+  else if($value >= 10){
+    return "0".$value;
+  }
+  else if($value >= 100){
+    return $value;
+  }
+}
 
 function last_insert($last,$id){
 
@@ -1614,7 +1631,7 @@ $router->post('filterQuotation',function(){
   }
 
   if($data['quotation_number']){
-    $conditionedQuery.=" `requisition_new`.`ref_number` ='".$data['quotation_number']."' AND";
+    $conditionedQuery.=" `requisition_new`.`order_ref` ='".$data['quotation_number']."' AND";
     $count += 1;
   }
   if($data['quotation_description']){
@@ -1622,7 +1639,7 @@ $router->post('filterQuotation',function(){
     $count += 1;
   }
   if($data['quotation_reference']){
-    $conditionedQuery.=" `requisition_new`.`order_ref` ='".$data['quotation_reference']."' AND";
+    $conditionedQuery.=" `requisition_new`.`ref_number` ='".$data['quotation_reference']."' AND";
     $count += 1;
   }
   if($data['project_name']){
