@@ -699,7 +699,7 @@ $router->post('fetchapprovaldetails',function(){
   
   $data = json_decode(file_get_contents('php://input'), true);
   $json_data = array("data"=>$data,"status"=>false);
-  $query = "SELECT * FROM requisition LEFT JOIN `orders` ON `requisition`.`order_id` = `orders`.`id` LEFT JOIN `supplier` ON `requisition`.`supplier_id` = `supplier`.`id`  WHERE `requisition`.`order_id` = '".$data['id']."' GROUP BY `requisition`.`supplier_id`";
+  $query = "SELECT * FROM requisition_new  LEFT JOIN `supplier` ON `requisition_new`.`supplier_id` = `supplier`.`id`  WHERE `requisition_new`.`order_ref` = '".$data['id']."'";
   $result = $connection->query($query)or die(mysqli_error($connection));
   $data = [];
   if(mysqli_num_rows($result)){
@@ -762,7 +762,7 @@ $router->get('getPO',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `supplier` ON `approval_process`.`assigned_supplier`=`supplier`.`id` LEFT JOIN `requisition` ON `approval_process`.`order_id` = `requisition`.`order_id` WHERE level_1_approval = 'approved' AND po_approval IS NULL GROUP BY `approval_process`.`supplier_id`";
+  $query="SELECT * FROM requisition_new LEFT JOIN `supplier` ON `requisition_new`.`supplier_id`=`supplier`.`id` GROUP BY `requisition_new`.`order_ref`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -777,6 +777,7 @@ $router->get('getPO',function(){
       $data[] = $row;
     }
     $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
+    
     echo json_encode($json_data);
   // }
   // else{

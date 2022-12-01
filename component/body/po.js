@@ -36,14 +36,11 @@ function POHTML(){
                 <thead>
                     <tr>
                         <th>SN</th>
-                        <th>ORDER TYPE</th>
-                        <th>ORDER REF</th>
-                        <th>SUPPLIER NAME</th>
+                        <th>QUOTATION NUMBER</th>
+                        <th>NUMBER OF SUPPLIERS</th>
                         <th>STATUS</th>
                         <th>DATE</th>
                         <th>REVIEW</th>
-                        
-                        
                     </tr>
                 </thead>
             </table>`
@@ -59,9 +56,8 @@ function POPendingClicked(){
                 <thead>
                     <tr>
                         <th>SN</th>
-                        <th>ORDER TYPE</th>
-                        <th>ORDER REF</th>
-                        <th>SUPPLIER NAME</th>
+                        <th>QUOTATION NUMBER</th>
+                        <th>NUMBER OF SUPPLIERS</th>
                         <th>STATUS</th>
                         <th>DATE</th>
                         <th>REVIEW</th>
@@ -87,25 +83,34 @@ function POfetch(){
         .then(res=>{
 
            let dataset="";
+          
            if(res.status){
-    
+                let count =1;
                 let table = $('#fetchpendingpo').DataTable({
                     data:res.data,
                     destroy:true,
                     "columns":[
                 
-                        {data:"id"},
-                        {data:"order_title"},
+                        {data:"",
+                            render:function(data,type,row){
+                                
+                                return count++;
+                            }
+                        },
                         {data:"order_ref"},
-                        {data:"supplier_name"},
-                        {data:"level_1_approval"},
+                        {data:"allsuppliers"},
+                        {
+                            data:"",
+                            render:function(data,type,row){
+                                return 'unapproved'
+                            }
+                        },
                         {data:"created_at"},
                         {
                             data:"",
                             render:function(data,type,row){
-                               
-                                
-                                return `<div style="cursor:pointer;text-decoration:underline" onclick="poModal(${row.order_id},${row.assigned_supplier},${row.id})">Review</div>`
+                                // return `<div style="cursor:pointer;text-decoration:underline" onclick="_push(PO/details/${url})">Review</div>`
+                                return `<a style="cursor:pointer;text-decoration:underline" href="#PO/details/${row.order_ref}">Review</div>`
                               } 
                         }
                     
@@ -114,18 +119,22 @@ function POfetch(){
                 })
             }
             
- 
-            
+
         })
         .catch(err=>console.log(err))
-
-
-
 
     });
     
     
 }
+
+function openDetails(url){
+    
+    console.log(url)
+    _push(`#PO/details/${url}`)
+    // window.location=`#Approval/details/${url}`
+}
+
 
 function reviewPO(orderid){
     document.querySelector('.POmodal').classList.add('overlayApproval')
@@ -633,6 +642,59 @@ function display(params){
 
    
 }
+
+function makeloader(id){
+    if(document.querySelector('.roundingx')){
+        document.querySelector('.roundingx').classList.add('roundLoader');
+    }
+    
+    
+    fetch('/procurement/app/customroute/fetchapprovaldetails',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({id:id})
+    }).then(response=>response.json())
+        .then(res=>{
+            let title ;
+            let dataset="";
+            console.log('podetails',res.data)
+            if(res.status){
+                if(document.querySelector('.roundingx')){
+                    document.querySelector('.roundingx').classList.remove('roundLoader');
+                }
+                
+                
+                res.data.forEach((d,index)=>{
+                    title = d.order_title;
+                    
+                    dataset +=`
+                                <tr>
+                                    <input type="hidden" value=${d.supplier_id} />
+                                    <input type="hidden" value=${d.order_id} />
+                                    <td>${index + 1}</td>
+                                    <td>${d.supplier_name}</td>
+                                    <td>${d.received == 1 ? 'Received':'Not Received'}</td>
+                                    <td>${d.received == 1 ? `<a href="/procurement/quotation/${d.quotation_receipt}" target="_blank">quotation_receipt</a>` : 'NULL'}</td>
+                                    <td>${d.created_at}</td>
+                                    <td><button class="btn btn-primary" onclick="poModal('${d.supplier_name}','${d.contact}','${d.email}','${d.address}')">Approved<button></td>
+
+                                </tr>
+                            
+                            `
+                });
+                if(document.querySelector('.potbody')){
+                    document.querySelector('.potbody').innerHTML=dataset
+                }
+               
+
+            }
+        })
+        .catch(err=>console.log(err))
+        
+       
+
+}
+
 
 async function  PrintElem(id)
 {

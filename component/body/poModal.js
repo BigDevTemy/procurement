@@ -1,18 +1,34 @@
 const newQuotation = [];
 const load = [];
 let currency;
-function poModal(orderid,supplierid,rowid){
-   
+let datasetAddRow=""
+let countVar = 0;
+function poModal(supplier_name,contact,email,address){
+  
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
                     <div class="customModal modalApproval">
-                            <div class="modalTitle">
-                                <div> 
-                            
+                            <div class="modalTitle" >
+                                <div style="width:100%"> 
+                                    <div>${supplier_name}</div>
+                                    <div style="font-size:14px">${address}</div>
+                                    <div style="display:flex;align-items:center;width:60%;justify-content:space-between">
+                                        <div style="font-size:12px"><em>contact: </em>${contact}</div>
+                                        <div style="font-size:12px"><em>emailaddress: </em>${email}</div>
+                                    </div>
                                 </div> 
-                                <div class="closeModal">X</div>
+                                
                             </div>
-
+                            <div style="width:100%;margin-top:30px;display:flex;justify-content:space-between" >
+                                <button class="btn btn-primary" onclick="addRow()">Add Item</button>
+                                <select id="currency">
+                                    <option value="NGN">NGN</option>
+                                    <option value="USD">USD</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="YEN">YEN</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+                            </div>
                             <div class="modalBody">
                                <div id="suppliername"></div>
                                <div id="addr"></div>
@@ -28,7 +44,7 @@ function poModal(orderid,supplierid,rowid){
                                             <td>Total</td>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbody">
+                                    <tbody id="tbody" style="width:100%">
 
                                     </tbody>
 
@@ -44,18 +60,18 @@ function poModal(orderid,supplierid,rowid){
                             </div>
 
                             <div class="modalFooter">
-                                <div class="mybutton">
-                                    <button class="btn btn-primary" onclick="POshippment(${supplierid},${orderid},${rowid})">Approve</button>
-                                    <button class="btn btn-danger" onclick="POreject(${orderid},${supplierid})">Reject</button>
-                                    
+                                <div class="mybutton ">
+                                    <button class="btn btn-primary closeModal">Close</button>
+                                    <button class="btn btn-primary closeModal" onClick="proceed()">Save</button>
                                 </div>
                             </div>
                     </div>
         `
 
         document.querySelector('.modalClass').innerHTML=content
-        supplier_quotationDetails(orderid,supplierid);
+        // supplier_quotationDetails(orderid,supplierid);
         myDiscountChange();
+
         close();
         document.querySelector('#tbody').addEventListener('click',function(e){
             let y = e.target.parentElement.parentElement.parentElement
@@ -95,6 +111,26 @@ function poModal(orderid,supplierid,rowid){
         
 }
 
+function proceed (){
+    alert('Successfully moved')
+}
+
+function addRow(){
+    countVar++;
+    datasetAddRow += `
+                    <tr style="width:100%">
+                            <td style="width:10%">${countVar}</td>
+                            <td style="width:50%"><input type="text" style="width:100%"  /></td>
+                            <td style="width:10%"><input type="number" min="0" style="width:100%" /></td>
+                            <td style="width:10%"><input type="number" min="0" style="width:100%" /></td>
+                            <td style="width:20%"><input type="number" disabled min="0" style="width:100%" /></td>
+                    </tr>
+
+                 `
+
+                document.querySelector('#tbody').innerHTML= datasetAddRow
+}
+
 function myDiscountChange(){
         
         
@@ -129,13 +165,16 @@ function myDiscountChange(){
 function sumTotal(grandtotal,discount){
     let y = grandtotal.innerHTML;
     let splitter = y.split(' ');
-
+    let currency = document.getElementById('currency').value
     
     let x = document.querySelector('tbody').children;
     let sum =0;
     for(let i=0;i<x.length;i++){
         console.log(x[i].children[4].children[0].value)
-        sum += parseFloat(x[i].children[4].children[0].value)
+        if(x[i].children[4].children[0].value){
+            sum += parseFloat(x[i].children[4].children[0].value)
+        }
+        
     }
     console.log("sum",sum)
 
@@ -155,6 +194,12 @@ function close(){
         document.querySelector('.modalClass').innerHTML=""
     })
 }
+
+document.querySelector('#currency').addEventListener('change',function(x){
+    let currencyValue = document.getElementById('currency').value;
+    currencySelect(currencyValue);
+
+})
 
 
 

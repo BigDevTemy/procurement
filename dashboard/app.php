@@ -120,10 +120,10 @@ session_start();
                             <div><img src="../assets/images/sidebar-icons/requisition.svg" /></div>
                             <div>Quotation</div>
                         </div>
-                        <div class="navNon">
+                        <!-- <div class="navNon">
                             <div><img src="../assets/images/sidebar-icons/approval.svg" /></div>
                             <div>Approval</div>
-                        </div>
+                        </div> -->
 
                         <div class="navNon">
                             <div><img src="../assets/images/sidebar-icons/approval.svg" /></div>

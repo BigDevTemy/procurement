@@ -570,8 +570,17 @@ table th{
     display: flex;
     justify-content: space-between;
 }
-.modalTitle> div:nth-child(2){
-    font-weight: bolder;
+.modalTitle > div:nth-child(1){
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+   
+    align-items: center;
+}
+.modalTitle > div:nth-child(1)>div:nth-child(1){
+    font-size: 20px;
+    font-weight: bold;
 }
 .closeModal{
     cursor: pointer;

@@ -2,31 +2,35 @@ let count =true;
 function otherComponent(name){
     let wrapper =  document.getElementById('component-body');
     var search = location.hash.replace('#','');
+    console.log('Search',search)
     var splitSplash = search.split('/');
-
+    console.log('splitSplash',splitSplash)
     
     if(splitSplash.length > 1){
-       console.log(splitSplash[0]+''+ splitSplash[1])
+       console.log('otherScreens',splitSplash[0]+''+ splitSplash[1])
         let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
         wrapper.innerHTML=getContent
         if(splitSplash[0] === "Approval"){
             makeloader(splitSplash[splitSplash.length - 1]);
         }
-        else if(splitSplash[0] === "PO"){
-            if(newQuotation.length >0){
-                makeloader(splitSplash[splitSplash.length - 1]);
-                fileloader();
-            } 
-            else{
-                _push(`#PO`)
-                loadUrl('#PO');
-            }  
+        else if(splitSplash[0] === "PO" ){
+            makeloader(splitSplash[splitSplash.length - 1]);
+            console.log(splitSplash[splitSplash.length - 1]);
+            // if(newQuotation.length > 0){
+            //     makeloader(splitSplash[splitSplash.length - 1]);
+            //     fileloader();
+            // } 
+            // else{
+            //     _push(`#PO`)
+            //     loadUrl('#PO');
+            // }  
             
         }
         else if(splitSplash[0] === "Shippment"){
             // console.log(splitSplash[2])
             reviewStatus(splitSplash[2]);
         }
+        
         
         
         count=false
@@ -70,6 +74,8 @@ function Switcher(search,additional){
             return ApprovalDetails(additional)
         case 'PO':
             return PO(search);
+        case 'POdetails':
+            return PODetails(additional);
         case 'Shippment':
             return Shippment(search)
         case 'Shippmentreview':
@@ -132,6 +138,43 @@ function ApprovalDetails(xcontent){
                         </thead>
                         <tbody class="approvaltbody">
                             
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+             `
+    return content;
+}
+
+function PODetails(xcontent){
+    let content = ` 
+            <div class="supplierDiv">
+                <div class="loaderx">
+                    <div class="roundingx"></div>
+
+                </div>
+                <div class="modalClass"></div>
+                <div class="title">
+                    ORDER REF :${xcontent}
+                </div>
+
+                <div class="contentList">
+                    <table class="table table-stripe table-bordered">
+                        <thead>   
+                                <tr>
+                                    <th>SN</th>
+                                    <th>SUPPLIER NAME</th>
+                                    <th>RECEIVED STATUS</th>
+                                    <th>QUOTATION RECEIPT</th>
+                                    <th>DATE</th>
+                                    <th>ACTION</th>
+                                </tr>
+                        </thead>
+                        <tbody class="potbody">
+                           
                         </tbody>
 
                     </table>

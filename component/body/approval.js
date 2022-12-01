@@ -256,61 +256,61 @@ function deleteApprove(id,order_id){
 
 
 
-function makeloader(id){
-    if(document.querySelector('.roundingx')){
-        document.querySelector('.roundingx').classList.add('roundLoader');
-    }
+// function makeloader(id){
+//     if(document.querySelector('.roundingx')){
+//         document.querySelector('.roundingx').classList.add('roundLoader');
+//     }
     
     
-    fetch('/procurement/app/customroute/fetchapprovaldetails',{
-        method:'POST',
-        headers: { "Content-type": "application/x-www-form-urlencoded"},
-        body:JSON.stringify({id:id})
-    }).then(response=>response.json())
-        .then(res=>{
-            let title ;
-            let dataset="";
-            if(res.status){
-                if(document.querySelector('.roundingx')){
-                    document.querySelector('.roundingx').classList.remove('roundLoader');
-                }
+//     fetch('/procurement/app/customroute/fetchapprovaldetails',{
+//         method:'POST',
+//         headers: { "Content-type": "application/x-www-form-urlencoded"},
+//         body:JSON.stringify({id:id})
+//     }).then(response=>response.json())
+//         .then(res=>{
+//             let title ;
+//             let dataset="";
+//             if(res.status){
+//                 if(document.querySelector('.roundingx')){
+//                     document.querySelector('.roundingx').classList.remove('roundLoader');
+//                 }
                 
                 
-                res.data.forEach((d,index)=>{
-                    title = d.order_title;
-                    dataset +=`
-                                <tr>
-                                    <input type="hidden" value=${d.supplier_id} />
-                                    <input type="hidden" value=${d.order_id} />
-                                    <td>${index + 1}</td>
-                                    <td>${d.supplier_name}</td>
-                                    <td>${d.created_at}</td>
-                                    <td><div onclick="approvalModal(${d.supplier_id},${d.order_id})"class="view-more">View More</div></td>
+//                 res.data.forEach((d,index)=>{
+//                     title = d.order_title;
+//                     dataset +=`
+//                                 <tr>
+//                                     <input type="hidden" value=${d.supplier_id} />
+//                                     <input type="hidden" value=${d.order_id} />
+//                                     <td>${index + 1}</td>
+//                                     <td>${d.supplier_name}</td>
+//                                     <td>${d.created_at}</td>
+//                                     <td><div onclick="approvalModal(${d.supplier_id},${d.order_id})"class="view-more">View More</div></td>
 
-                                </tr>
+//                                 </tr>
                             
-                            `
+//                             `
                    
-                });
-                if(document.querySelector('.approvaltbody')){
-                    document.querySelector('.approvaltbody').innerHTML=dataset
-                }
-                if(  document.querySelector('.title')){
-                    document.querySelector('.title').innerHTML=`<h4>${title.toUpperCase()}</h4>`
-                }
+//                 });
+//                 if(document.querySelector('.approvaltbody')){
+//                     document.querySelector('.approvaltbody').innerHTML=dataset
+//                 }
+//                 if(  document.querySelector('.title')){
+//                     document.querySelector('.title').innerHTML=`<h4>${title.toUpperCase()}</h4>`
+//                 }
                 
                 
                 
 
                 
   
-            }
-        })
-        .catch(err=>console.log(err))
+//             }
+//         })
+//         .catch(err=>console.log(err))
         
        
 
-}
+// }
 
 
 
