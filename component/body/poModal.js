@@ -102,17 +102,45 @@ function poModal(supplier_name,contact,email,address){
                 
             })
 
-            
-
-        
-
+    
 
         })
         
 }
 
 function proceed (){
-    alert('Successfully moved')
+
+    let items = document.querySelector('#tbody')
+    let arrayAlItems = []
+    let x =items.children
+
+    for(let i=0;i<items.children.length;i++){
+        let y = x[i].children
+        let sn = y[0].innerHTML
+        let description = y[1].children[0].value
+        let quantity = y[2].children[0].value
+        let price = y[3].children[0].value
+        let subtotal = y[4].children[0].value
+        let discount = document.getElementById('discount').value
+        let currency = document.getElementById('currency').value
+        let supplier_name = document.getElementById('suppliername').innerHTML
+        let serve = {
+            sn:sn,
+            description:description,
+            quantity:quantity,
+            price:price,
+            subtotal:subtotal,
+            discount:discount,
+            currency:currency,
+            supplier_name:supplier_name
+        }
+        arrayAlItems.push(serve)
+        // console.log(serve)
+        
+    }
+
+
+    
 }
 
 function addRow(){
