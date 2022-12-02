@@ -644,6 +644,7 @@ function display(params){
 }
 
 function makeloader(id){
+   if(id !== "template"){
     if(document.querySelector('.roundingx')){
         document.querySelector('.roundingx').classList.add('roundLoader');
     }
@@ -690,6 +691,8 @@ function makeloader(id){
             }
         })
         .catch(err=>console.log(err))
+   }
+    
         
        
 

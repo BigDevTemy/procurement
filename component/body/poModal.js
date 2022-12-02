@@ -136,8 +136,11 @@ function proceed (){
         }
         arrayAlItems.push(serve)
         // console.log(serve)
-        
+
+        _push(`#PO/details/conclude/template`)
     }
+
+
 
 
     

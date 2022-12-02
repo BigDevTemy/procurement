@@ -7,7 +7,7 @@ function otherComponent(name){
     console.log('splitSplash',splitSplash)
     
     if(splitSplash.length > 1){
-       console.log('otherScreens',splitSplash[0]+''+ splitSplash[1])
+      
         let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
         wrapper.innerHTML=getContent
         if(splitSplash[0] === "Approval"){
@@ -15,7 +15,7 @@ function otherComponent(name){
         }
         else if(splitSplash[0] === "PO" ){
             makeloader(splitSplash[splitSplash.length - 1]);
-            console.log(splitSplash[splitSplash.length - 1]);
+            
             // if(newQuotation.length > 0){
             //     makeloader(splitSplash[splitSplash.length - 1]);
             //     fileloader();
@@ -150,6 +150,13 @@ function ApprovalDetails(xcontent){
 }
 
 function PODetails(xcontent){
+ if(xcontent == "template"){
+    let content = `
+                        <h1>Welcome To School</h1>
+                    `
+ }
+ else{
+    
     let content = ` 
             <div class="supplierDiv">
                 <div class="loaderx">
@@ -184,6 +191,7 @@ function PODetails(xcontent){
 
              `
     return content;
+ }
 }
 function back(){
     _push('#Shippment');
