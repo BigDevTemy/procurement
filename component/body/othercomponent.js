@@ -154,7 +154,9 @@ function PODetails(xcontent){
 let content 
  if(xcontent == "template"){
     console.log('AllItems',AllItems)
-    tableDescriptionContent(AllItems);
+    let datax = tableDescriptionContent(AllItems);
+    let totalBalx = totalBal(AllItems)
+
     content =    `
                     <div class="supplierDiv">
                        
@@ -217,7 +219,7 @@ let content
                                 <textarea class="form-control" style="padding: 0px !important; margin: 0px !important;text-align: left;">We are pleased to confirm the order for the following items as per your offer ref.${AllItems[0].order_ref}  dated ${AllItems[0].datecreated}  copy attached.</textarea>
                                 </div>
                             <div>
-                                <table  border="1" style="width:100%;border-collapse: collapse;margin-top: 20px;">
+                                <table class="table-striped" style="width:100%;border-collapse: collapse;margin-top: 20px;">
                                     <tr>
                                         <th style="font-size:18px">Item</th>
                                         <th style="font-size:18px">Description</th>
@@ -226,8 +228,8 @@ let content
                                         <th style="font-size:18px">U/Price</th>
                                         <th style="font-size:18px">Total</th>
                                     </tr>
-                                    <tbody id="classTbody">
-                                        
+                                    <tbody id="classTbody" style="width:100%">
+                                        ${datax}
                                        
                                         
                                     </tbody>
@@ -235,7 +237,7 @@ let content
                             </div>
                             <div style="margin-top: 10px;">
                                 <div style="font-weight: bold;font-size:18px;">Price</div>
-                                <div>The total Price delivered will be </div>
+                                <div>The total Price delivered will be ${AllItems[0].currency} ${totalBalx} </div>
 
                             </div>
                             <div style="margin-top:10px">
@@ -326,36 +328,51 @@ let content
  return content;
 }
 
+function totalBal(arrayDescription){
+    let sum = 0;
+    console.log(arrayDescription)
+    arrayDescription.forEach((d,index)=>{
+        sum += parseFloat(d.subtotal)
+
+    })
+
+    return sum;
+
+}
+
 
 function tableDescriptionContent(arrayDescription){
-    console.log('array',arrayDescription)
-    dataset="";
+    // console.log('array',arrayDescription)
+    let dataset="";
+    let sum = 0;
     arrayDescription.forEach((d,index)=>{
         sum += parseFloat(d.total)
         dataset +=`
                     <tr style="width:100%;">
-                        <td style="text-align: center;">
-                            ${index+1}
+                        <td style="text-align: left;font-size:18px;height:50px" >
+                            ${index + 1}
                         </td>
-                        <td style="text-align: center;">
+                        <td style="text-align: left;font-size:18px;height:50px" >
                             ${d.description}
                         </td>
-                        <td style="text-align: center;">
+                        <td style="text-align: left;font-size:18px;height:50px" >
                             098765
                         </td>
-                        <td style="text-align: center;">
+                        <td style="text-align: left;font-size:18px;height:50px" >
                             ${d.quantity}
                         </td>
-                        <td style="text-align: center;">
+                        <td style="text-align: left;font-size:18px;height:50px" >
                             ${d.price}
                         </td>
-                        <td style="text-align: center;">
-                        <b>${numberWithCommas(d.total)}</b> 
+                        <td style="text-align: left;font-size:18px;height:50px" >
+                        <b>${d.quantity * d.price}</b> 
                         </td>
                     </tr>
         
                     `
     })
+
+    return dataset;
 }
 
 function numberWithCommas(x) {
