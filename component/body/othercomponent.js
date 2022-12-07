@@ -153,7 +153,7 @@ function PODetails(xcontent){
    
 let content 
  if(xcontent == "template"){
-    
+    console.log('AllItems',AllItems)
     content =    `
                     <div class="supplierDiv">
                        
@@ -163,7 +163,7 @@ let content
                     <div style="display: flex;flex-direction: column; justify-content: center; width: 100%;">
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <div><img src='../assets/images/company.png' id="company_logo" style="width:100%" /></div>
-                            <div style="font-weight:bold" id="supplier_name">Toni n Son</div>
+                            <div style="font-weight:bold" id="supplier_name">${AllItems[0].supplier_name}</div>
                         </div>
 
                         <div><hr style="border:1px solid #ff0000"/></div>
@@ -173,37 +173,37 @@ let content
                                 
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>To:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"></div>
+                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text" disabled value=${AllItems[0].supplier_name} id="supplier" /></div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"></div>
+                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text" disabled value=${AllItems[0].contact} id="contact" /></div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"></div>
+                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text" disabled id="email" value=${AllItems[0].email} /></div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>From:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">Pocify Limited</div>
+                                    <div style="width:50%;font-size:15px;margin-top: 10px;">Pocify Limited</div>
                                 </div>
                             </div>
                             <div style="flex:1 1 50%;">
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Our Ref:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"></div>
+                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text" disabled value=${AllItems[0].order_ref} id="ref" /></div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Date:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;"></div>
+                                    <div style="width:50%;font-size:15px;;margin-top: 10px;"><input type="text" disabled value=${AllItems[0].datecreated} id="date" /></div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Total Pages:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">2</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">1</div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">contact@procify.com</div>
+                                    <div style="width:50%font-size:15px;;margin-top: 10px;">contact@procify.com</div>
                                 </div>
                             </div>
 
@@ -212,7 +212,9 @@ let content
                         <div style="margin-top:10px"><hr style="border:2px solid #858585"/></div>
                         <div style="width:100%;margin-top:20px">
                             <div style="font-weight: bold;font-size: 18px;" id="order_type"></div>
-                            <div style="font-size:20px;margin-top: 10px;">We are pleased to confirm the order for the following items as per your offer ref.  dated  copy attached.</div>
+                            <div style="font-size:20px;margin-top: 10px;">
+                                <textarea class="form-control" style="padding: 0px !important; margin: 0px !important;text-align: left;">We are pleased to confirm the order for the following items as per your offer ref.${AllItems[0].order_ref}  dated ${AllItems[0].datecreated}  copy attached.</textarea>
+                                </div>
                             <div>
                                 <table  border="1" style="width:100%;border-collapse: collapse;margin-top: 20px;">
                                     <tr>
@@ -239,27 +241,28 @@ let content
                                 <div style="font-weight: bold;font-size:18px;">Delivery</div>
                                 <div style="display:flex;margin-top:10px;width:50%;">
                                     <div>Delivery time is</div>
-                                    <div style="margin-left:10px">5days</div>
+                                    <div style="margin-left:10px"><input  type="text" id="days"  value="5" style="width:30px"/> days</div>
                                 </div>
                                 <div style="display:flex;margin-top:10px">
                                     <div>Delivery Address:</div>
                                     <div style="margin-left:20px;width:50%;">
-                                        Mothercat Limited
-                                        C/o EV Cargo
-                                        Unit 2, The Faraday Centre, Faraday Road
-                                        Manor Royal, Crawley, West Sussex
-                                        RH10 9PX
+                                        <textarea class="form-control" style="text-align:left" row="5" col="25">Mothercat Limited C/o EV Cargo Unit 2, The Faraday Centre, Faraday Road Manor Royal, Crawley, West Sussex RH10 9PX</textarea>
                                     
                                     </div>
                                 </div>
 
                                 <div style="display:flex;margin-top:10px">
-                                    <div>Notes:</div>
-                                    <div style="margin-left:20px;width:70%;">
+                                    
+                                    <div style="display:flex;flex-direction:row width:100%">
+                                        <div style="margin-right:30px">Notes:</div> 
+                                        <button class="btn btn-primary" id="addconditions" style="font-size:12px;height:50px">Add More Conditions</button>
+                                    </div>
+                                    <div style="margin-left:20px;width:70%;" id="conditions">
                                         <li>Partial deliveries are not acceptable</li>
                                         <li>Please include delivery note on the outer packaging.</li>
                                         <li>Please mark outer carton with our order reference number.</li>
                                         <li>Please acknowledge receipt of order by email.</li>
+                                      
                                     
                                     </div>
                                 </div>
@@ -321,6 +324,10 @@ let content
  }
  return content;
 }
+
+
+
+
 function back(){
     _push('#Shippment');
     loadUrl('#Shippment')

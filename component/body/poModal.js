@@ -1,9 +1,10 @@
 const newQuotation = [];
 const load = [];
+const AllItems=[]
 let currency;
 let datasetAddRow=""
 let countVar = 0;
-function poModal(supplier_name,contact,email,address){
+function poModal(supplier_name,contact,email,address,datecreated,order_ref){
   
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
@@ -62,7 +63,7 @@ function poModal(supplier_name,contact,email,address){
                             <div class="modalFooter">
                                 <div class="mybutton ">
                                     <button class="btn btn-primary closeModal">Close</button>
-                                    <button class="btn btn-primary closeModal" onClick="proceed()">Save</button>
+                                    <button class="btn btn-primary closeModal" onClick="proceed('${supplier_name}','${contact}','${email}','${address}','${datecreated}','${order_ref}')">Save</button>
                                 </div>
                             </div>
                     </div>
@@ -108,10 +109,10 @@ function poModal(supplier_name,contact,email,address){
         
 }
 
-function proceed (){
+function proceed (supplier_name,contact,email,address,datecreated,order_ref){
 
     let items = document.querySelector('#tbody')
-    let arrayAlItems = []
+    // let arrayAlItems = []
     let x =items.children
 
     for(let i=0;i<items.children.length;i++){
@@ -123,7 +124,7 @@ function proceed (){
         let subtotal = y[4].children[0].value
         let discount = document.getElementById('discount').value
         let currency = document.getElementById('currency').value
-        let supplier_name = document.getElementById('suppliername').innerHTML
+        //let supplier_name = document.getElementById('suppliername').innerHTML
         let serve = {
             sn:sn,
             description:description,
@@ -132,9 +133,14 @@ function proceed (){
             subtotal:subtotal,
             discount:discount,
             currency:currency,
-            supplier_name:supplier_name
+            supplier_name:supplier_name,
+            contact:contact,
+            email:email,
+            address:address,
+            datecreated:datecreated,
+            order_ref:order_ref
         }
-        arrayAlItems.push(serve)
+        AllItems.push(serve)
         // console.log(serve)
 
         _push(`#PO/details/conclude/template`)

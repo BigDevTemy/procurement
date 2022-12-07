@@ -677,7 +677,7 @@ function makeloader(id){
                                     <td>${d.received == 1 ? 'Received':'Not Received'}</td>
                                     <td>${d.received == 1 ? `<a href="/procurement/quotation/${d.quotation_receipt}" target="_blank">quotation_receipt</a>` : 'NULL'}</td>
                                     <td>${d.created_at}</td>
-                                    <td><button class="btn btn-primary" onclick="poModal('${d.supplier_name}','${d.contact}','${d.email}','${d.address}')">Approved<button></td>
+                                    <td><button class="btn btn-primary" onclick="poModal('${d.supplier_name}','${d.contact}','${d.email}','${d.address}','${d.created_at}','${d.order_ref}')">Approved<button></td>
 
                                 </tr>
                             
@@ -697,6 +697,10 @@ function makeloader(id){
        
 
 }
+
+
+
+
 
 
 async function  PrintElem(id)
