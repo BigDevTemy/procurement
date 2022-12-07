@@ -143,8 +143,10 @@ function proceed (supplier_name,contact,email,address,datecreated,order_ref){
         AllItems.push(serve)
         // console.log(serve)
 
-        _push(`#PO/details/conclude/template`)
+        
     }
+
+    _push(`#PO/details/conclude/template`)
 
 
 

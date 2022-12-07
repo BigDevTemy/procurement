@@ -154,6 +154,7 @@ function PODetails(xcontent){
 let content 
  if(xcontent == "template"){
     console.log('AllItems',AllItems)
+    tableDescriptionContent(AllItems);
     content =    `
                     <div class="supplierDiv">
                        
@@ -326,6 +327,41 @@ let content
 }
 
 
+function tableDescriptionContent(arrayDescription){
+    console.log('array',arrayDescription)
+    dataset="";
+    arrayDescription.forEach((d,index)=>{
+        sum += parseFloat(d.total)
+        dataset +=`
+                    <tr style="width:100%;">
+                        <td style="text-align: center;">
+                            ${index+1}
+                        </td>
+                        <td style="text-align: center;">
+                            ${d.description}
+                        </td>
+                        <td style="text-align: center;">
+                            098765
+                        </td>
+                        <td style="text-align: center;">
+                            ${d.quantity}
+                        </td>
+                        <td style="text-align: center;">
+                            ${d.price}
+                        </td>
+                        <td style="text-align: center;">
+                        <b>${numberWithCommas(d.total)}</b> 
+                        </td>
+                    </tr>
+        
+                    `
+    })
+}
+
+function numberWithCommas(x) {
+    console.log(x)
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 
 function back(){
