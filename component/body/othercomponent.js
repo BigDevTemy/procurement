@@ -249,7 +249,7 @@ let content
                                 <div style="display:flex;margin-top:10px">
                                     <div>Delivery Address:</div>
                                     <div style="margin-left:20px;width:50%;">
-                                        <textarea class="form-control" style="text-align:left" row="5" col="25">Mothercat Limited C/o EV Cargo Unit 2, The Faraday Centre, Faraday Road Manor Royal, Crawley, West Sussex RH10 9PX</textarea>
+                                        <textarea class="form-control" style="text-align:left" row="5" id="address" col="25">Mothercat Limited C/o EV Cargo Unit 2, The Faraday Centre, Faraday Road Manor Royal, Crawley, West Sussex RH10 9PX</textarea>
                                     
                                     </div>
                                 </div>
@@ -282,7 +282,7 @@ let content
     
                 
                 <div style="width:100%;display:flex;flex-direction:row;justify-content:end;padding:20px">
-                        <button class="btn btn-success">Save & Print</button>
+                        <div class="btn btn-success" onclick="save_n_print()">Save & Print</div>
                 
                 </div>                
 
@@ -330,6 +330,62 @@ let content
  }
  return content;
 }
+
+function save_n_print(){
+    
+    let supplier_name = document.getElementById('supplier_name').value
+    let contact = document.getElementById('contact').value
+    let email = document.getElementById('email').value
+    alert(email);
+    
+}
+
+
+async function getprintdata(id){
+
+    fetch('/procurement/app/customroute/printPO',{
+        method:'POST',
+        body:JSON.stringify({
+            id    
+        }),
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                            
+    })
+    .then(res=>res.json())
+    .then(result=>{
+        
+       if(result.status){
+        
+        display(result.data)
+       }
+        
+    })
+    .catch(err=> {
+        
+        console.log(err)
+        
+       
+    })
+
+}
+
+
+
+
+async function  PrintElem(id)
+{
+   await getprintdata(id);
+   
+}
+
+function printpart () {
+    var printwin = window.open("");
+    printwin.document.write(document.getElementById("toprint").innerHTML);
+    printwin.stop();
+    printwin.print();
+    printwin.close();
+  }
+
 
 function totalBal(arrayDescription){
     let sum = 0;
@@ -393,7 +449,7 @@ function ShippmentDetails(additional){
     getaboardagent();
     let content = ` 
                     <div class="supplierDiv">
-                        <div onClick="back()" style="cursor:pointer"> << Back</div> 
+                        <div onclick="back()" style="cursor:pointer"> << Back</div> 
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="form-group">
