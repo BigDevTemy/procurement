@@ -281,7 +281,10 @@ let content
      
     
                 
-                        
+                <div style="width:100%;display:flex;flex-direction:row;justify-content:end;padding:20px">
+                        <button class="btn btn-success">Save & Print</button>
+                
+                </div>                
 
                 </div>
                     
