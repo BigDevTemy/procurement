@@ -216,7 +216,7 @@ let content
                         <div style="width:100%;margin-top:20px">
                             <div style="font-weight: bold;font-size: 18px;" id="order_type"></div>
                             <div style="font-size:20px;margin-top: 10px;">
-                                <textarea class="form-control" style="padding: 0px !important; margin: 0px !important;text-align: left;">We are pleased to confirm the order for the following items as per your offer ref.${AllItems[0].order_ref}  dated ${AllItems[0].datecreated}  copy attached.</textarea>
+                                <textarea class="form-control" style="padding: 0px !important; margin: 0px !important;text-align: left;" id="body">We are pleased to confirm the order for the following items as per your offer ref.${AllItems[0].order_ref}  dated ${AllItems[0].datecreated}  copy attached.</textarea>
                                 </div>
                             <div>
                                 <table class="table-striped" style="width:100%;border-collapse: collapse;margin-top: 20px;">
@@ -336,7 +336,12 @@ function save_n_print(){
     let supplier_name = document.getElementById('supplier_name').value
     let contact = document.getElementById('contact').value
     let email = document.getElementById('email').value
-    alert(email);
+    let body = document.getElementById('body').value
+    let days = document.getElementById('days').value
+    let address = document.getElementById('address').value
+    console.log('AllItem',AllItems)
+
+    alert('Doen')
     
 }
 
