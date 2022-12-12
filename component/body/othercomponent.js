@@ -408,6 +408,13 @@ async function getprintdata(id){
 async function  PrintElem(id)
 {
    await getprintdata(id);
+
+   setTimeout(()=>{
+    _push("/procurement/dashboard/app#PO");
+
+   },2000)
+   
+  
    
 }
 
@@ -417,6 +424,8 @@ function printpart () {
     printwin.stop();
     printwin.print();
     printwin.close();
+   
+    
   }
 
 

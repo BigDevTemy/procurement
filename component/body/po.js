@@ -320,11 +320,15 @@ function POClickfetchapproved(){
                        }
                    
                    },
-                    {data:"order_title"},
+                    {data:"order_description"},
                     {data:'order_ref'},
                     {data:"supplier_name"},
-                    {data:"level_1_approval"},
-                    {data:"po_approval"},
+                    {data:"",render:function(a,b,c){
+                            return `<div>Approved</div>`
+                    }},
+                    {data:"",render:function(a,b,c){
+                        return `<div>Approved</div>`
+                    }},
                     {data:"created_at"},
                     {
                         data:"",
@@ -336,10 +340,11 @@ function POClickfetchapproved(){
                     {
                        data:"",
                        render:function(data,type,row){
-                            printdata.push(row);
+                        console.log(row)
+                           
                            return  `
                                        <div style="cursor:pointer;width:100%">
-                                               <button class="btn btn-sm btn-primary" onclick="PrintElem(${row.id})">Print</button>
+                                               <button class="btn btn-sm btn-primary" onclick="PrintElemx(${row.printID})">Print</button>
                                        </div>
                                    `
                        }
@@ -376,7 +381,7 @@ async function getprintdata(id){
     .then(result=>{
         console.log(result)
        if(result.status){
-        
+        console.log(result.data)
         display(result.data)
        }
         
@@ -706,8 +711,9 @@ function makeloader(id){
 
 
 
-async function  PrintElem(id)
+async function  PrintElemx(id)
 {
+    alert(id)
    await getprintdata(id);
    
     

@@ -797,19 +797,24 @@ $router->get('getPO',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM requisition_new LEFT JOIN `supplier` ON `requisition_new`.`supplier_id`=`supplier`.`id` GROUP BY `requisition_new`.`order_ref`";
+  $query="SELECT * FROM requisition_new LEFT JOIN `supplier` ON `requisition_new`.`supplier_id`=`supplier`.`id`   GROUP BY `requisition_new`.`order_ref`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
     $totalFilter=$totalData;
     $data = [];
     while($row = mysqli_fetch_assoc($result)){
-      // $subarray=[];
-      // $subarray[]=$row['id'];
-      // $subarray[]=$row['order_title'];
-      // $subarray[]=$row['level_1_approval'];
-      // $subarray[]=$row['created_at'];
-      $data[] = $row;
+     
+      
+      $query="SELECT `order_ref` FROM `po` WHERE `order_ref` = '".$row['order_ref']."'";
+      $x = $connection->query($query)or die(mysqli_error($connection));
+      
+      if(mysqli_num_rows($x) == 0 ){
+        $data[] = $row;
+      }
+     
+      
+     
     }
     $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
     
@@ -1212,7 +1217,7 @@ $router->get('getPOapproved',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `requisition` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id`=`supplier`.`id` WHERE po_approval = 'approved' GROUP BY `approval_process`.order_id";
+  $query="SELECT `po`.*,`supplier`.*,`requisition_new`.*,`items`.`id` AS printID FROM po  LEFT JOIN `items` ON `po`.`id`=`items`.`po_id` LEFT JOIN `supplier` ON `po`.`supplier_id`=  `supplier`.`id` LEFT JOIN `requisition_new` ON `po`.`order_ref` = `requisition_new`.`order_ref` GROUP BY `po`.`order_ref`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
