@@ -333,15 +333,40 @@ let content
 
 function save_n_print(){
     
-    let supplier_name = document.getElementById('supplier_name').value
+    let supplier_name = document.getElementById('supplier_name').innerHTML
     let contact = document.getElementById('contact').value
     let email = document.getElementById('email').value
     let body = document.getElementById('body').value
     let days = document.getElementById('days').value
     let address = document.getElementById('address').value
-    console.log('AllItem',AllItems)
+    let order_ref = document.getElementById('ref').value
+    
 
-    alert('Doen')
+    fetch('/procurement/app/customroute/savenewpo',{
+        method:'POST',
+        body:JSON.stringify({
+            AllItems,body,days,address,supplier_name,contact,email,order_ref 
+        }),
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                            
+    })
+    .then(res=>res.json())
+    .then(result=>{
+        console.log(result)
+       if(result.status){
+        
+        PrintElem(result.data)
+       
+       }
+        
+    })
+    .catch(err=> {
+        
+        console.log(err)
+        
+       
+    })
+   
     
 }
 

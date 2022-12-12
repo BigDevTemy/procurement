@@ -420,6 +420,41 @@ $router->get('getAllorder',function(){
 
 });
 
+$router->post('savenewpo',function($request){
+  $connection = new mysqli("localhost","root","","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+ 
+
+  $query = "INSERT INTO po (supplier_id,order_ref,delivery_days,delivery_address,body_note)VALUES('".$data['supplier_id']."','".$data['order_ref']."','".$data['days']."','".$data['address']."','".$data['body']."')";
+  
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  if($result){
+    $lastInserted = $connection->insert_id;
+    for($i=0;$i<count($data['AllItems']);$i++){
+      // echo json_encode(["data"=>$data['AllItems'][$i]['description'],"status"=>false]);
+      $query = "INSERT INTO items (description,quantity,price,subtotal,po_id,discount)VALUES('".$data['AllItems'][$i]['description']."','".$data['AllItems'][$i]['quantity']."','".$data['AllItems'][$i]['price']."','".$data['AllItems'][$i]['subtotal']."','".$lastInserted."','".$data['AllItems'][$i]['discount']."')";
+      $result = $connection->query($query)or die(mysqli_error($connection));
+      if($result){
+        
+      }
+      else{
+        echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+        die();
+      }
+
+    }
+    echo json_encode(["data"=>$lastInserted,"status"=>true]);
+   
+
+  }
+  else{
+    echo json_encode(["data"=>"Internal Server Error","status"=>false]);
+  }
+  
+ 
+});
+
+
 $router->post('upoadrequisition',function($request){
 
   $connection = new mysqli("localhost","root","","procurement");
@@ -1203,10 +1238,9 @@ $router->get('getPOapproved',function(){
 
 $router->post('printPO',function(){
   $connection = new mysqli("localhost","root","","procurement");
-  
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT * FROM approval_process LEFT JOIN orders ON `approval_process`.`order_id`=  `orders`.`id` LEFT JOIN `requisition` ON `orders`.`id` = `requisition`.`order_id` LEFT JOIN `supplier` ON `approval_process`.`supplier_id`=`supplier`.`id` WHERE po_approval = 'approved' AND `approval_process`.`id` = '".$data['id']."'";
+  $query="SELECT * FROM po LEFT JOIN items ON `items`.`po_id`=  `po`.`id` LEFT JOIN `supplier` ON `po`.`supplier_id` = `supplier`.id WHERE `po`.`id` = '".$data['id']."' GROUP BY `items`.`po_id`";
   $result = $connection->query($query)or die(mysqli_error($connection));
     $totalData = mysqli_num_rows($result);
     $totalFilter=$totalData;
