@@ -631,9 +631,10 @@ let handleInput  = document.querySelector('.fileUploadInput');
         let parent = e.target.parentNode;
         
         let childInputId = parent.children[0].id;
-        
         let childNumFiles = parent.children[2].id;
         let childSelectedFiles = parent.children[3].id;
+        
+        
         let handleInput  = document.querySelector(`#${childInputId}`);
         handleInput.click();
         

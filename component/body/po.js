@@ -411,11 +411,15 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 function display(params){
+    
     let supplier_name,order_type,supplier_email,created_at,currency,discount
     let dataset="";
     let moredataset = "";
     let sum = 0;
     let calculateddiscount=0
+    let body_note  = "" 
+    let delivery_address=""   
+    let delivery_days=""
 
     params.forEach((d,index)=>{
         supplier_email = d.email;
@@ -426,7 +430,10 @@ function display(params){
         created_at = d.created_at
         currency = d.currency
         discount = d.discount
-        sum += parseFloat(d.total)
+        body_note = d.body_note
+        delivery_address = d.delivery_address
+        delivery_days = d.delivery_days
+        sum += parseFloat(d.subtotal)
         dataset +=`
                     <tr style="width:100%;">
                         <td style="text-align: center;">
@@ -445,7 +452,7 @@ function display(params){
                             ${d.price}
                         </td>
                         <td style="text-align: center;">
-                        <b>${numberWithCommas(d.total)}</b> 
+                        <b>${d.subtotal}</b> 
                         </td>
                     </tr>
         
@@ -464,7 +471,7 @@ function display(params){
                         </td>
                         
                         <td style="text-align: center;">
-                            ${numberWithCommas(sum)}
+                            ${sum}
                         </td>
                     </tr>
                     <tr style="width:100%;">
@@ -473,7 +480,7 @@ function display(params){
                         </td>
                         
                         <td style="text-align: center;">
-                            ${numberWithCommas(calculateddiscount)}
+                            ${calculateddiscount}
                         </td>
                     </tr>
                     <tr style="width:100%;">
@@ -554,7 +561,7 @@ function display(params){
                         <div style="margin-top:10px"><hr style="border:2px solid #858585"/></div>
                         <div style="width:100%;margin-top:20px">
                             <div style="font-weight: bold;font-size: 18px;" id="order_type"></div>
-                            <div style="font-size:20px;margin-top: 10px;">We are pleased to confirm the order for the following items as per your offer ref. ${order_ref} dated ${created_at} copy attached.</div>
+                            <div style="font-size:20px;margin-top: 10px;">${body_note}</div>
                             <div>
                                 <table  border="1" style="width:100%;border-collapse: collapse;margin-top: 20px;">
                                     <tr>
@@ -581,16 +588,12 @@ function display(params){
                                 <div style="font-weight: bold;font-size:18px;">Delivery</div>
                                 <div style="display:flex;margin-top:10px;width:50%;">
                                     <div>Delivery time is</div>
-                                    <div style="margin-left:10px">5days</div>
+                                    <div style="margin-left:10px">${delivery_days}</div>
                                 </div>
                                 <div style="display:flex;margin-top:10px">
                                     <div>Delivery Address:</div>
                                     <div style="margin-left:20px;width:50%;">
-                                        Mothercat Limited
-                                        C/o EV Cargo
-                                        Unit 2, The Faraday Centre, Faraday Road
-                                        Manor Royal, Crawley, West Sussex
-                                        RH10 9PX
+                                       ${delivery_address}
                                     
                                     </div>
                                 </div>
@@ -677,7 +680,7 @@ function makeloader(id){
                                     <td>${d.received == 1 ? 'Received':'Not Received'}</td>
                                     <td>${d.received == 1 ? `<a href="/procurement/quotation/${d.quotation_receipt}" target="_blank">quotation_receipt</a>` : 'NULL'}</td>
                                     <td>${d.created_at}</td>
-                                    <td><button class="btn btn-primary" onclick="poModal('${d.supplier_name}','${d.contact}','${d.email}','${d.address}','${d.created_at}','${d.order_ref}')">Approved<button></td>
+                                    <td><button class="btn btn-primary" onclick="poModal('${d.supplier_name}','${d.contact}','${d.email}','${d.address}','${d.created_at}','${d.order_ref}','${d.supplier_id}')">Approved<button></td>
 
                                 </tr>
                             

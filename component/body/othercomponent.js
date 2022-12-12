@@ -156,7 +156,7 @@ let content
     console.log('AllItems',AllItems)
     let datax = tableDescriptionContent(AllItems);
     let totalBalx = totalBal(AllItems)
-
+  
     content =    `
                     <div class="supplierDiv">
                        
@@ -168,7 +168,9 @@ let content
                             <div><img src='../assets/images/company.png' id="company_logo" style="width:100%" /></div>
                             <div style="font-weight:bold" id="supplier_name">${AllItems[0].supplier_name}</div>
                         </div>
-
+                        <input type="hidden" id="supplier_id" value=${AllItems[0].supplier_id} />
+                        <input type="text" id="discount" value=${AllItems[0].discount} />
+                        <div id="toprint" style="display:none"></div>
                         <div><hr style="border:1px solid #ff0000"/></div>
 
                         <div style="width:100%;display:flex; ">
@@ -340,12 +342,13 @@ function save_n_print(){
     let days = document.getElementById('days').value
     let address = document.getElementById('address').value
     let order_ref = document.getElementById('ref').value
-    
+    let supplier_id = document.getElementById('supplier_id').value
+    let discount= document.getElementById('discount').value     
 
     fetch('/procurement/app/customroute/savenewpo',{
         method:'POST',
         body:JSON.stringify({
-            AllItems,body,days,address,supplier_name,contact,email,order_ref 
+            AllItems,body,days,address,supplier_name,contact,email,order_ref,supplier_id,discount
         }),
         headers: { "Content-type": "application/x-www-form-urlencoded"},
                                             
@@ -383,7 +386,7 @@ async function getprintdata(id){
     })
     .then(res=>res.json())
     .then(result=>{
-        
+        console.log('print',result)
        if(result.status){
         
         display(result.data)

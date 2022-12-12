@@ -4,7 +4,7 @@ const AllItems=[]
 let currency;
 let datasetAddRow=""
 let countVar = 0;
-function poModal(supplier_name,contact,email,address,datecreated,order_ref){
+function poModal(supplier_name,contact,email,address,datecreated,order_ref,supplier_id){
   
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
@@ -63,7 +63,7 @@ function poModal(supplier_name,contact,email,address,datecreated,order_ref){
                             <div class="modalFooter">
                                 <div class="mybutton ">
                                     <button class="btn btn-primary closeModal">Close</button>
-                                    <button class="btn btn-primary closeModal" onClick="proceed('${supplier_name}','${contact}','${email}','${address}','${datecreated}','${order_ref}')">Save</button>
+                                    <button class="btn btn-primary closeModal" onClick="proceed('${supplier_name}','${contact}','${email}','${address}','${datecreated}','${order_ref}','${supplier_id}')">Save</button>
                                 </div>
                             </div>
                     </div>
@@ -109,7 +109,7 @@ function poModal(supplier_name,contact,email,address,datecreated,order_ref){
         
 }
 
-function proceed (supplier_name,contact,email,address,datecreated,order_ref){
+function proceed (supplier_name,contact,email,address,datecreated,order_ref,supplier_id){
 
     let items = document.querySelector('#tbody')
     // let arrayAlItems = []
@@ -138,7 +138,8 @@ function proceed (supplier_name,contact,email,address,datecreated,order_ref){
             email:email,
             address:address,
             datecreated:datecreated,
-            order_ref:order_ref
+            order_ref:order_ref,
+            supplier_id:supplier_id
         }
         AllItems.push(serve)
         // console.log(serve)
