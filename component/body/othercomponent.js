@@ -169,7 +169,7 @@ let content
                             <div style="font-weight:bold" id="supplier_name">${AllItems[0].supplier_name}</div>
                         </div>
                         <input type="hidden" id="supplier_id" value=${AllItems[0].supplier_id} />
-                        <input type="text" id="discount" value=${AllItems[0].discount} />
+                        <input type="hidden" id="discount" value=${AllItems[0].discount} />
                         <div id="toprint" style="display:none"></div>
                         <div><hr style="border:1px solid #ff0000"/></div>
 
@@ -431,7 +431,7 @@ function printpart () {
 
 function totalBal(arrayDescription){
     let sum = 0;
-    console.log(arrayDescription)
+    console.log('here',arrayDescription)
     arrayDescription.forEach((d,index)=>{
         sum += parseFloat(d.subtotal)
 

@@ -333,8 +333,8 @@ function POClickfetchapproved(){
                     {
                         data:"",
                         render:function(data,type,row){
-                            
-                            return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id},${row.id})">Delete Approval</div>`
+                            console.log(row)
+                            return `<div style="cursor:pointer;text-decoration:underline" onclick="deleteItem('po',${row.order_id},${row.supplier_id},${row.poID})">Delete Approval</div>`
                           } 
                     },
                     {
@@ -344,7 +344,7 @@ function POClickfetchapproved(){
                            
                            return  `
                                        <div style="cursor:pointer;width:100%">
-                                               <button class="btn btn-sm btn-primary" onclick="PrintElemx(${row.printID})">Print</button>
+                                               <button class="btn btn-sm btn-primary" onclick="PrintElemx(${row.poID})">Print</button>
                                        </div>
                                    `
                        }

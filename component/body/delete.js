@@ -11,7 +11,7 @@ function deleteItem(TableName,first_ID,second_ID,approve_id){
             return DeleteRequisition(first_ID,second_ID);
             break;
         case 'po':
-            return DeletePOApproval(first_ID,second_ID,approve_id)
+            return DeletePONew(approve_id)
             
     }
 }
@@ -211,4 +211,48 @@ function DeleteSupplier(tablename,id){
       })
     
     
+   }
+
+   
+   function DeletePONew(rowid){
+    
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it Item!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/procurement/app/customroute/deletePOnew',{
+                method:'POST',
+                body:JSON.stringify({
+                   rowid
+                }),
+                headers: { "Content-type": "application/x-www-form-urlencoded"},
+                                                    
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                
+                if(data['status']){
+                    Swal.fire(data['data'],'','success')
+                    POClickfetchapproved();
+        
+                }
+                else{
+                    Swal.fire('An Error Occurred','','error')
+                }
+                
+            })
+            .catch(err=> {
+                
+                console.log(err)
+              
+               
+            }) 
+        }
+      })
    }

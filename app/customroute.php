@@ -1217,7 +1217,7 @@ $router->get('getPOapproved',function(){
   
   // $data = json_decode(file_get_contents('php://input'), true);
 
-  $query="SELECT `po`.*,`supplier`.*,`requisition_new`.*,`items`.`id` AS printID FROM po  LEFT JOIN `items` ON `po`.`id`=`items`.`po_id` LEFT JOIN `supplier` ON `po`.`supplier_id`=  `supplier`.`id` LEFT JOIN `requisition_new` ON `po`.`order_ref` = `requisition_new`.`order_ref` GROUP BY `po`.`order_ref`";
+  $query="SELECT `po`.*,`supplier`.*,`requisition_new`.*,`items`.`id` AS printID, `po`.`id` AS poID FROM po  LEFT JOIN `items` ON `po`.`id`=`items`.`po_id` LEFT JOIN `supplier` ON `po`.`supplier_id`=  `supplier`.`id` LEFT JOIN `requisition_new` ON `po`.`order_ref` = `requisition_new`.`order_ref` GROUP BY `po`.`order_ref`";
   $result = $connection->query($query)or die(mysqli_error($connection));
   // if(mysqli_num_rows($result) > 0){
     $totalData = mysqli_num_rows($result);
@@ -1284,6 +1284,34 @@ $router->post('deletePOapproval',function(){
     $connection->close();
 });
 
+
+
+$router->post('deletePOnew',function(){
+  $connection = new mysqli("localhost","root","","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+ 
+  
+    $query = "DELETE  FROM `po`  WHERE `po`.`id` ='".$data["rowid"]."'";
+    $queryItem = "DELETE  FROM `items`  WHERE `items`.`po_id` ='".$data["rowid"]."'";
+    $result = $connection->query($query)or die(mysqli_error($connection));
+    $resultItem = $connection->query($queryItem)or die(mysqli_error($connection));
+    if($result && $resultItem){
+      $json_data = array("data"=>"Deletion was Successful","status"=>true);
+      echo json_encode($json_data);
+    }
+    else{
+      $json_data = array("data"=>"Deletion Failed","status"=>false);
+    echo json_encode($json_data);
+    }
+   
+  
+  // else{
+  //   $json_data = array("data"=>"Update Failed","status"=>false);
+  //   echo json_encode($json_data);
+  // } 
+
+    $connection->close();
+});
 
 $router->post('getsupplierquotation',function(){
   $connection = new mysqli("localhost","root","","procurement");
