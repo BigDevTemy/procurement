@@ -425,14 +425,14 @@ $router->post('savenewpo',function($request){
   $data = json_decode(file_get_contents('php://input'), true);
  
 
-  $query = "INSERT INTO po (supplier_id,order_ref,delivery_days,delivery_address,body_note)VALUES('".$data['supplier_id']."','".$data['order_ref']."','".$data['days']."','".$data['address']."','".$data['body']."')";
+  $query = "INSERT INTO po (supplier_id,order_ref,delivery_days,delivery_address,body_note,shippment_type)VALUES('".$data['supplier_id']."','".$data['order_ref']."','".$data['days']."','".$data['address']."','".$data['body']."','".$data['shippment_type']."')";
   
   $result = $connection->query($query)or die(mysqli_error($connection));
   if($result){
     $lastInserted = $connection->insert_id;
     for($i=0;$i<count($data['AllItems']);$i++){
       // echo json_encode(["data"=>$data['AllItems'][$i]['description'],"status"=>false]);
-      $query = "INSERT INTO items (description,quantity,price,subtotal,po_id,discount)VALUES('".$data['AllItems'][$i]['description']."','".$data['AllItems'][$i]['quantity']."','".$data['AllItems'][$i]['price']."','".$data['AllItems'][$i]['subtotal']."','".$lastInserted."','".$data['AllItems'][$i]['discount']."')";
+      $query = "INSERT INTO items (description,quantity,price,subtotal,po_id,discount,currency)VALUES('".$data['AllItems'][$i]['description']."','".$data['AllItems'][$i]['quantity']."','".$data['AllItems'][$i]['price']."','".$data['AllItems'][$i]['subtotal']."','".$lastInserted."','".$data['AllItems'][$i]['discount']."','".$data['AllItems'][$i]['currency']."')";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
         

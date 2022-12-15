@@ -40,6 +40,7 @@ function poModal(supplier_name,contact,email,address,datecreated,order_ref,suppl
                                         <tr>
                                             <td>SN</td>
                                             <td>Description</td>
+                                            <td>Part Number</td>
                                             <td>Quantity</td>
                                             <td>Price</td>
                                             <td>Total</td>
@@ -78,9 +79,9 @@ function poModal(supplier_name,contact,email,address,datecreated,order_ref,suppl
             let y = e.target.parentElement.parentElement.parentElement
             let x = e.target.parentElement.parentElement;
             let sum = 0;
-            let quantity = x.children[2].children[0];
-            let price =  x.children[3].children[0];
-            let Sumtotal =  x.children[4].children[0];
+            let quantity = x.children[3].children[0];
+            let price =  x.children[4].children[0];
+            let Sumtotal =  x.children[5].children[0];
             let grandtotal = document.getElementById('grandtotal')
             let discount = document.getElementById('discount').value;
            
@@ -119,15 +120,17 @@ function proceed (supplier_name,contact,email,address,datecreated,order_ref,supp
         let y = x[i].children
         let sn = y[0].innerHTML
         let description = y[1].children[0].value
-        let quantity = y[2].children[0].value
-        let price = y[3].children[0].value
-        let subtotal = y[4].children[0].value
+        let partNumber = y[2].children[0].value
+        let quantity = y[3].children[0].value
+        let price = y[4].children[0].value
+        let subtotal = y[5].children[0].value
         let discount = document.getElementById('discount').value
         let currency = document.getElementById('currency').value
         //let supplier_name = document.getElementById('suppliername').innerHTML
         let serve = {
             sn:sn,
             description:description,
+            partnumber:partNumber,
             quantity:quantity,
             price:price,
             subtotal:subtotal,
@@ -160,7 +163,8 @@ function addRow(){
     datasetAddRow += `
                     <tr style="width:100%">
                             <td style="width:10%">${countVar}</td>
-                            <td style="width:50%"><input type="text" style="width:100%"  /></td>
+                            <td style="width:30%"><input type="text" style="width:100%"  /></td>
+                            <td style="width:20%"><input type="text" style="width:100%"  /></td>
                             <td style="width:10%"><input type="number" min="0" style="width:100%" /></td>
                             <td style="width:10%"><input type="number" min="0" style="width:100%" /></td>
                             <td style="width:20%"><input type="number" disabled min="0" style="width:100%" /></td>
@@ -180,7 +184,7 @@ function myDiscountChange(){
         let sum =0;
         let z =document.querySelector('tbody').children;
             for(let i=0;i<z.length;i++){
-                let xy = z[i].children[4];
+                let xy = z[i].children[5];
                 console.log(xy.children[0].value)
                 sum += parseFloat(xy.children[0].value)
             }
@@ -210,8 +214,8 @@ function sumTotal(grandtotal,discount){
     let x = document.querySelector('tbody').children;
     let sum =0;
     for(let i=0;i<x.length;i++){
-        console.log(x[i].children[4].children[0].value)
-        if(x[i].children[4].children[0].value){
+        console.log(x[i].children[5].children[0].value)
+        if(x[i].children[5].children[0].value){
             sum += parseFloat(x[i].children[4].children[0].value)
         }
         

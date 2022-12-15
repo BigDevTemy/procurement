@@ -421,10 +421,11 @@ function display(params){
     let dataset="";
     let moredataset = "";
     let sum = 0;
-    let calculateddiscount=0
-    let body_note  = "" 
-    let delivery_address=""   
-    let delivery_days=""
+    let calculateddiscount=0;
+    let body_note  = "" ;
+    let delivery_address="" ;
+    let delivery_days="";
+    let delivery_type = "";
 
     params.forEach((d,index)=>{
         supplier_email = d.email;
@@ -438,6 +439,7 @@ function display(params){
         body_note = d.body_note
         delivery_address = d.delivery_address
         delivery_days = d.delivery_days
+        delivery_type = d.shippment_type
         sum += parseFloat(d.subtotal)
         dataset +=`
                     <tr style="width:100%;">
@@ -589,11 +591,16 @@ function display(params){
                                 <div>The total Price delivered will be ${currencySelect(currency)}  ${numberWithCommas(parseFloat(sum - calculateddiscount))}</div>
 
                             </div>
+                            <div style="margin-top: 10px;">
+                                <div style="font-weight: bold;font-size:18px;">Delivery Type</div>
+                                <div>${delivery_type} </div>
+
+                            </div>
                             <div style="margin-top:10px">
                                 <div style="font-weight: bold;font-size:18px;">Delivery</div>
                                 <div style="display:flex;margin-top:10px;width:50%;">
                                     <div>Delivery time is</div>
-                                    <div style="margin-left:10px">${delivery_days}</div>
+                                    <div style="margin-left:10px">${delivery_days} days</div>
                                 </div>
                                 <div style="display:flex;margin-top:10px">
                                     <div>Delivery Address:</div>
@@ -713,7 +720,7 @@ function makeloader(id){
 
 async function  PrintElemx(id)
 {
-    alert(id)
+  
    await getprintdata(id);
    
     

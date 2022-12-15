@@ -11,9 +11,11 @@ function otherComponent(name){
         let getContent = Switcher(splitSplash[0]+''+ splitSplash[1],splitSplash[splitSplash.length - 1]);
         wrapper.innerHTML=getContent
         if(splitSplash[0] === "Approval"){
+            
             makeloader(splitSplash[splitSplash.length - 1]);
         }
         else if(splitSplash[0] === "PO" ){
+           
             makeloader(splitSplash[splitSplash.length - 1]);
             
             // if(newQuotation.length > 0){
@@ -170,6 +172,7 @@ let content
                         </div>
                         <input type="hidden" id="supplier_id" value=${AllItems[0].supplier_id} />
                         <input type="hidden" id="discount" value=${AllItems[0].discount} />
+                        <input type="hidden" id="currency" value=${AllItems[0].currency} />
                         <div id="toprint" style="display:none"></div>
                         <div><hr style="border:1px solid #ff0000"/></div>
 
@@ -254,6 +257,16 @@ let content
                                         <textarea class="form-control" style="text-align:left" row="5" id="address" col="25">Mothercat Limited C/o EV Cargo Unit 2, The Faraday Centre, Faraday Road Manor Royal, Crawley, West Sussex RH10 9PX</textarea>
                                     
                                     </div>
+                                </div>
+                                <div style="padding-top:10px;padding-bottom:10px;width:25%">
+
+                                    <select class="form-control" id="shippment_type">
+                                        
+                                        <option value="">Select Shippment Type</option>
+                                        <option value="Land Freight">Land Freight</option>
+                                        <option value="Sea Freight">Sea Freight</option>
+                                        <option value="Air Freight">Air Freight</option>
+                                    </select>
                                 </div>
 
                                 <div style="display:flex;margin-top:10px">
@@ -343,12 +356,14 @@ function save_n_print(){
     let address = document.getElementById('address').value
     let order_ref = document.getElementById('ref').value
     let supplier_id = document.getElementById('supplier_id').value
-    let discount= document.getElementById('discount').value     
+    let discount= document.getElementById('discount').value  
+    let currency = document.getElementById('currency').value
+    let shippment_type = document.getElementById('shippment_type').value   
 
     fetch('/procurement/app/customroute/savenewpo',{
         method:'POST',
         body:JSON.stringify({
-            AllItems,body,days,address,supplier_name,contact,email,order_ref,supplier_id,discount
+            AllItems,body,days,address,supplier_name,contact,email,order_ref,supplier_id,discount,currency,shippment_type
         }),
         headers: { "Content-type": "application/x-www-form-urlencoded"},
                                             
@@ -457,7 +472,7 @@ function tableDescriptionContent(arrayDescription){
                             ${d.description}
                         </td>
                         <td style="text-align: left;font-size:18px;height:50px" >
-                            098765
+                        ${d.partnumber}
                         </td>
                         <td style="text-align: left;font-size:18px;height:50px" >
                             ${d.quantity}
