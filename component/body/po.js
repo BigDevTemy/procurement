@@ -321,7 +321,7 @@ function POClickfetchapproved(){
                    
                    },
                     {data:"order_description"},
-                    {data:'order_ref'},
+                    {data:'new_order_ref'},
                     {data:"supplier_name"},
                     {data:"",render:function(a,b,c){
                             return `<div>Approved</div>`
@@ -344,7 +344,7 @@ function POClickfetchapproved(){
                            
                            return  `
                                        <div style="cursor:pointer;width:100%">
-                                                <button class="btn btn-sm btn-primary" onclick="Edit(${row.poID})">Print</button>
+                                                <button class="btn btn-sm btn-secondary" onclick="Edit(${row.poID})">Edit</button>
                                                <button class="btn btn-sm btn-primary" onclick="PrintElemx(${row.poID})">Print</button>
                                        </div>
                                    `
@@ -433,7 +433,7 @@ function display(params){
         supplier_phonenumber = d.contact;
         order_type = d.order_type;
         supplier_name = d.supplier_name;
-        order_ref = d.order_ref
+        order_ref = d.new_order_ref
         created_at = d.created_at
         currency = d.currency
         discount = d.discount
