@@ -344,6 +344,7 @@ function POClickfetchapproved(){
                            
                            return  `
                                        <div style="cursor:pointer;width:100%">
+                                                <button class="btn btn-sm btn-primary" onclick="Edit(${row.poID})">Print</button>
                                                <button class="btn btn-sm btn-primary" onclick="PrintElemx(${row.poID})">Print</button>
                                        </div>
                                    `
