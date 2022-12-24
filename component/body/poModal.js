@@ -76,6 +76,22 @@ function poModal(supplier_name,contact,email,address,datecreated,order_ref,suppl
 
         close();
         document.querySelector('#tbody').addEventListener('click',function(e){
+            if(e.target.classList.contains('deleteRow')){
+                let currentParent = e.target.parentElement.parentElement
+                
+               
+                currentParent.parentElement.removeChild(currentParent)
+                countVar--;
+                // let parent  = currentParent.parentElement;
+                // parent.remove(parent.children[0])
+              
+                // for(let i=0; i<parent.children.length;i++){
+                    
+                // }
+
+                //document.querySelector('#tbody').children
+            }
+
             let y = e.target.parentElement.parentElement.parentElement
             let x = e.target.parentElement.parentElement;
             let sum = 0;
@@ -160,20 +176,21 @@ function proceed (supplier_name,contact,email,address,datecreated,order_ref,supp
 
 function addRow(){
     countVar++;
-    datasetAddRow += `
+    datasetAddRow = `
                     <tr style="width:100%">
                             <td style="width:10%">${countVar}</td>
                             <td style="width:30%"><input type="text" style="width:100%"  /></td>
                             <td style="width:20%"><input type="text" style="width:100%"  /></td>
                             <td style="width:10%"><input type="number" min="0" style="width:100%" /></td>
                             <td style="width:10%"><input type="number" min="0" style="width:100%" /></td>
-                            <td style="width:20%"><input type="number" disabled min="0" style="width:100%" /></td>
+                            <td style="width:20%"><input type="number" disabled min="0" style="width:90%; margin-right:5" /><span aria-hidden="true" class="deleteRow" style="cursor:pointer">×</span></td>
                     </tr>
 
                  `
 
-                document.querySelector('#tbody').innerHTML= datasetAddRow
+                document.querySelector('#tbody').insertAdjacentHTML("beforeend", datasetAddRow)
 }
+
 
 function myDiscountChange(){
         

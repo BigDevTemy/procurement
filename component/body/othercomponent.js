@@ -185,11 +185,11 @@ let content
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Attention:</i></div>
-                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text" disabled value=${AllItems[0].contact} id="contact" /></div>
+                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text"  value=${AllItems[0].contact} id="contact" /></div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
-                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text" disabled id="email" value=${AllItems[0].email} /></div>
+                                    <div style="width:50%;font-size:15px;margin-top: 10px;"><input type="text"  id="email" value=${AllItems[0].email} /></div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>From:</i></div>
@@ -207,7 +207,7 @@ let content
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Total Pages:</i></div>
-                                    <div style="width:50%;font-weight:bold;font-size:15px;;margin-top: 10px;">1</div>
+                                    <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;">1</div>
                                 </div>
                                 <div style="display: flex;">
                                     <div style="width:50%;font-weight:bold;font-size:15px;margin-top: 10px;"><i>Email:</i></div>
@@ -242,7 +242,7 @@ let content
                             </div>
                             <div style="margin-top: 10px;">
                                 <div style="font-weight: bold;font-size:18px;">Price</div>
-                                <div>The total Price delivered will be ${AllItems[0].currency} ${totalBalx} </div>
+                                <div>The total Price delivered will be ${AllItems[0].currency} ${totalBalx.toLocaleString('en-US')} </div>
 
                             </div>
                             <div style="margin-top:10px">
@@ -289,7 +289,7 @@ let content
                         </div>
 
                         <div style="margin-top:20px">Thanks and regards.</div>   
-                        <div style="margin-top:40px"> <b>Abdelbaset Shehadeh</b></div>                       
+                        <div style="margin-top:40px"> <input type="text" id="signamture" value="Abdelbaset Shehadeh" /></div>                       
                     </div>
 
                 </div>
@@ -358,12 +358,13 @@ function save_n_print(){
     let supplier_id = document.getElementById('supplier_id').value
     let discount= document.getElementById('discount').value  
     let currency = document.getElementById('currency').value
-    let shippment_type = document.getElementById('shippment_type').value   
+    let shippment_type = document.getElementById('shippment_type').value 
+    let signature = document.getElementById('signature').value   
 
     fetch('/procurement/app/customroute/savenewpo',{
         method:'POST',
         body:JSON.stringify({
-            AllItems,body,days,address,supplier_name,contact,email,order_ref,supplier_id,discount,currency,shippment_type
+            AllItems,body,days,address,supplier_name,contact,email,order_ref,supplier_id,discount,currency,shippment_type,signature
         }),
         headers: { "Content-type": "application/x-www-form-urlencoded"},
                                             
