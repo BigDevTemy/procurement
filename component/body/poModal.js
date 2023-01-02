@@ -127,7 +127,7 @@ function poModal(supplier_name,contact,email,address,datecreated,order_ref,suppl
 }
 
 
-function poEditModal(supplier_name,contact,email,address,datecreated,order_ref,supplier_id){
+function poEditModal(supplier_name,contact,email,address,datecreated,order_ref,supplier_id,poId){
   
     document.querySelector('.modalClass').classList.add('modalClassCustom');
     let content =  ` 
@@ -196,6 +196,7 @@ function poEditModal(supplier_name,contact,email,address,datecreated,order_ref,s
         document.querySelector('.modalClass').innerHTML=content
         // supplier_quotationDetails(orderid,supplierid);
         myDiscountChange();
+        getItems(poId)
 
         close();
         document.querySelector('#tbody').addEventListener('click',function(e){
@@ -291,10 +292,47 @@ function proceed (supplier_name,contact,email,address,datecreated,order_ref,supp
 
     _push(`#PO/details/conclude/template`)
 
-
-
-
     
+}
+
+function getItems(id){
+
+    fetch('/procurement/app/customroute/getItems',{
+        method:'POST',
+        headers: { "Content-type": "application/x-www-form-urlencoded"},
+        body:JSON.stringify({id})
+    })
+    .then(result=>result.json())
+    .then(res=>{
+        console.log(res.data)
+       
+       if(res.status){
+            let dataset = ""
+            
+            countVar += res.data.length
+            
+            res.data.forEach((d,index)=>{
+                
+                document.getElementById('discount').value=d.discount
+                dataset += `
+                    <tr style="width:100%">
+                            <td style="width:10%">${index + 1}</td>
+                            <td style="width:30%"><input type="text" style="width:100%" value= ${d.description}  /></td>
+                            <td style="width:20%"><input type="text" style="width:100%" value= ${d.partnumber}  /></td>
+                            <td style="width:10%"><input type="number" min="0" style="width:100%" value= ${d.quantity} /></td>
+                            <td style="width:10%"><input type="number" min="0" style="width:100%" value= ${d.price} /></td>
+                            <td style="width:20%"><input type="number" disabled min="0" style="width:90%; margin-right:5" value=${d.subtotal} /><span aria-hidden="true" class="deleteRow" style="cursor:pointer">×</span></td>
+                    </tr>
+
+                 `
+
+            })
+
+            document.getElementById('tbody').innerHTML = dataset
+            
+       }
+    })
+    .catch(err=>console.log(err))
 }
 
 function addRow(){

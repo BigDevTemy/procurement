@@ -344,7 +344,7 @@ function POClickfetchapproved(){
                            
                            return  `
                                        <div style="cursor:pointer;width:100%">
-                                                <button class="btn btn-sm btn-secondary" onclick="poEditModal('${row.supplier_name}','${row.contact}','${row.email}','${row.address}','${row.created_at}','${row.order_ref}','${row.supplier_id}')">Edit</button>
+                                                <button class="btn btn-sm btn-secondary" onclick="poEditModal('${row.supplier_name}','${row.contact}','${row.email}','${row.address}','${row.created_at}','${row.order_ref}','${row.supplier_id}','${row.poID}')">Edit</button>
                                                <button class="btn btn-sm btn-primary" onclick="PrintElemx(${row.poID})">Print</button>
                                        </div>
                                    `
@@ -417,6 +417,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 function display(params){
+    console.log(params);
     
     let supplier_name,order_type,supplier_email,created_at,currency,discount
     let dataset="";
@@ -443,7 +444,7 @@ function display(params){
         delivery_days = d.delivery_days
         delivery_type = d.shippment_type
         sum += parseFloat(d.subtotal)
-        signature = d.signature
+        signature = d.signatures
         dataset +=`
                     <tr style="width:100%;">
                         <td style="text-align: center;">
@@ -453,7 +454,7 @@ function display(params){
                             ${d.description}
                         </td>
                         <td style="text-align: center;">
-                            098765
+                            ${d.partnumber}
                         </td>
                         <td style="text-align: center;">
                             ${d.quantity}

@@ -420,20 +420,41 @@ $router->get('getAllorder',function(){
 
 });
 
+$router->post('getItems',function($request){
+  $connection = new mysqli("localhost","root","","procurement");
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  $query="SELECT * FROM `items` WHERE `po_id` = '".$data['id']."'";
+  $result = $connection->query($query)or die(mysqli_error($connection));
+  // if(mysqli_num_rows($result) > 0){
+    $totalData = mysqli_num_rows($result);
+    $totalFilter=$totalData;
+    $data = [];
+    while($row = mysqli_fetch_assoc($result)){
+    
+      $data[] = $row;
+    }
+    $json_data = array("data"=>$data,"recordsTotal"=>intval($totalData),"recordsFiltered"=>intval($totalFilter),"status"=>true);
+    echo json_encode($json_data);
+  
+  $connection->close();
+
+});
+
 $router->post('savenewpo',function($request){
   $connection = new mysqli("localhost","root","","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
  
   $newOrderref = createOrderRef($data['order_ref']);
 
-  $query = "INSERT INTO po (supplier_id,order_ref,delivery_days,delivery_address,body_note,shippment_type,new_order_ref,signature)VALUES('".$data['supplier_id']."','".$data['order_ref']."','".$data['days']."','".$data['address']."','".$data['body']."','".$data['shippment_type']."','".$newOrderref."','".$data['signature']."')";
+  $query = "INSERT INTO po (supplier_id,order_ref,delivery_days,delivery_address,body_note,shippment_type,new_order_ref,signatures)VALUES('".$data['supplier_id']."','".$data['order_ref']."','".$data['days']."','".$data['address']."','".$data['body']."','".$data['shippment_type']."','".$newOrderref."','".$data['signature']."')";
   
   $result = $connection->query($query)or die(mysqli_error($connection));
   if($result){
     $lastInserted = $connection->insert_id;
     for($i=0;$i<count($data['AllItems']);$i++){
       // echo json_encode(["data"=>$data['AllItems'][$i]['description'],"status"=>false]);
-      $query = "INSERT INTO items (description,quantity,price,subtotal,po_id,discount,currency)VALUES('".$data['AllItems'][$i]['description']."','".$data['AllItems'][$i]['quantity']."','".$data['AllItems'][$i]['price']."','".$data['AllItems'][$i]['subtotal']."','".$lastInserted."','".$data['AllItems'][$i]['discount']."','".$data['AllItems'][$i]['currency']."')";
+      $query = "INSERT INTO items (description,quantity,price,subtotal,po_id,discount,currency,partnumber)VALUES('".$data['AllItems'][$i]['description']."','".$data['AllItems'][$i]['quantity']."','".$data['AllItems'][$i]['price']."','".$data['AllItems'][$i]['subtotal']."','".$lastInserted."','".$data['AllItems'][$i]['discount']."','".$data['AllItems'][$i]['currency']."','".$data['AllItems'][$i]['partnumber']."')";
       $result = $connection->query($query)or die(mysqli_error($connection));
       if($result){
         

@@ -356,7 +356,7 @@ function save_n_print(){
     let currency = document.getElementById('currency').value
     let shippment_type = document.getElementById('shippment_type').value 
     let signature = document.getElementById('signature').value   
-
+    
     fetch('/procurement/app/customroute/savenewpo',{
         method:'POST',
         body:JSON.stringify({
