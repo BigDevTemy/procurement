@@ -292,8 +292,6 @@ let content
 
                 </div>
      
-    
-                
                 <div style="width:100%;display:flex;flex-direction:row;justify-content:end;padding:20px">
                         <div class="btn btn-success" onclick="save_n_print()">Save & Print</div>
                 

@@ -380,7 +380,7 @@ async function getprintdata(id){
     })
     .then(res=>res.json())
     .then(result=>{
-        console.log(result)
+        console.log('result',result)
        if(result.status){
         console.log(result.data)
         display(result.data)
