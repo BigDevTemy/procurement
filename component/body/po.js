@@ -427,6 +427,7 @@ function display(params){
     let delivery_address="" ;
     let delivery_days="";
     let delivery_type = "";
+    let signature = ""
 
     params.forEach((d,index)=>{
         supplier_email = d.email;
@@ -442,6 +443,7 @@ function display(params){
         delivery_days = d.delivery_days
         delivery_type = d.shippment_type
         sum += parseFloat(d.subtotal)
+        signature = d.signature
         dataset +=`
                     <tr style="width:100%;">
                         <td style="text-align: center;">
@@ -626,7 +628,7 @@ function display(params){
                         </div>
 
                         <div style="margin-top:20px">Thanks and regards.</div>   
-                        <div style="margin-top:40px"> <b>Abdelbaset Shehadeh</b></div>                       
+                        <div style="margin-top:40px"> <b>${signature}</b></div>                       
                     </div>
 
                 </div>
