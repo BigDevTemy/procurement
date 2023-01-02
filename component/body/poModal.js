@@ -187,7 +187,7 @@ function poEditModal(supplier_name,contact,email,address,datecreated,order_ref,s
                             <div class="modalFooter">
                                 <div class="mybutton ">
                                     <button class="btn btn-primary closeModal">Close</button>
-                                    <button class="btn btn-primary closeModal" onClick="proceed('${supplier_name}','${contact}','${email}','${address}','${datecreated}','${order_ref}','${supplier_id}')">Save</button>
+                                    <button class="btn btn-primary closeModal" onClick="proceedEdit('${supplier_name}','${contact}','${email}','${address}','${datecreated}','${order_ref}','${supplier_id}','${poId}')">Save</button>
                                 </div>
                             </div>
                     </div>
@@ -195,8 +195,9 @@ function poEditModal(supplier_name,contact,email,address,datecreated,order_ref,s
 
         document.querySelector('.modalClass').innerHTML=content
         // supplier_quotationDetails(orderid,supplierid);
-        myDiscountChange();
         getItems(poId)
+        myDiscountChange();
+        
 
         close();
         document.querySelector('#tbody').addEventListener('click',function(e){
@@ -249,6 +250,54 @@ function poEditModal(supplier_name,contact,email,address,datecreated,order_ref,s
         })
         
 }
+
+function proceedEdit (supplier_name,contact,email,address,datecreated,order_ref,supplier_id,poId){
+
+    let items = document.querySelector('#tbody')
+    // let arrayAlItems = []
+    let x =items.children
+
+    for(let i=0;i<items.children.length;i++){
+        let y = x[i].children
+        let sn = y[0].innerHTML
+        let description = y[1].children[0].value
+        let partNumber = y[2].children[0].value
+        let quantity = y[3].children[0].value
+        let price = y[4].children[0].value
+        let subtotal = y[5].children[0].value
+        let discount = document.getElementById('discount').value
+        let currency = document.getElementById('currency').value
+        //let supplier_name = document.getElementById('suppliername').innerHTML
+        let serve = {
+            sn:sn,
+            description:description,
+            partnumber:partNumber,
+            quantity:quantity,
+            price:price,
+            subtotal:subtotal,
+            discount:discount,
+            currency:currency,
+            supplier_name:supplier_name,
+            contact:contact,
+            email:email,
+            address:address,
+            datecreated:datecreated,
+            order_ref:order_ref,
+            supplier_id:supplier_id,
+            poId:poId
+        }
+        AllItems.push(serve)
+        // console.log(serve)
+
+        
+    }
+
+    _push(`#PO/details/conclude/template`)
+
+    
+}
+
+
 
 function proceed (supplier_name,contact,email,address,datecreated,order_ref,supplier_id){
 
@@ -308,12 +357,13 @@ function getItems(id){
        
        if(res.status){
             let dataset = ""
+            let discountEdit
             
             countVar += res.data.length
             
             res.data.forEach((d,index)=>{
                 
-                document.getElementById('discount').value=d.discount
+                discountEdit=d.discount
                 dataset += `
                     <tr style="width:100%">
                             <td style="width:10%">${index + 1}</td>
@@ -327,8 +377,10 @@ function getItems(id){
                  `
 
             })
-
+            document.getElementById('discount').value = discountEdit
             document.getElementById('tbody').innerHTML = dataset
+            let x = document.getElementById('grandtotal')
+            sumTotal(x,discountEdit);
             
        }
     })
@@ -354,7 +406,7 @@ function addRow(){
 
 
 function myDiscountChange(){
-        
+    
         
     document.getElementById('discount').addEventListener('change',function(e){
         
@@ -390,11 +442,12 @@ function sumTotal(grandtotal,discount){
     let currency = document.getElementById('currency').value
     
     let x = document.querySelector('tbody').children;
+    console.log(x)
     let sum =0;
     for(let i=0;i<x.length;i++){
         console.log(x[i].children[5].children[0].value)
         if(x[i].children[5].children[0].value){
-            sum += parseFloat(x[i].children[4].children[0].value)
+            sum += parseFloat(x[i].children[5].children[0].value)
         }
         
     }

@@ -173,6 +173,7 @@ let content
                         <input type="hidden" id="supplier_id" value=${AllItems[0].supplier_id} />
                         <input type="hidden" id="discount" value=${AllItems[0].discount} />
                         <input type="hidden" id="currency" value=${AllItems[0].currency} />
+                        <input type="hidden" id="poid" value=${AllItems[0].poId} />
                         <div id="toprint" style="display:none"></div>
                         <div><hr style="border:1px solid #ff0000"/></div>
 
@@ -343,7 +344,10 @@ let content
 }
 
 function save_n_print(){
-    
+    let poId;
+    if(document.getElementById('poid').value !=""){
+        poId = document.getElementById('poid').value
+    }
     let supplier_name = document.getElementById('supplier_name').innerHTML
     let contact = document.getElementById('contact').value
     let email = document.getElementById('email').value
@@ -360,7 +364,7 @@ function save_n_print(){
     fetch('/procurement/app/customroute/savenewpo',{
         method:'POST',
         body:JSON.stringify({
-            AllItems,body,days,address,supplier_name,contact,email,order_ref,supplier_id,discount,currency,shippment_type,signature
+            AllItems,body,days,address,supplier_name,contact,email,order_ref,supplier_id,discount,currency,shippment_type,signature,poId
         }),
         headers: { "Content-type": "application/x-www-form-urlencoded"},
                                             
