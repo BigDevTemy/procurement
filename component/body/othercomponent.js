@@ -280,8 +280,6 @@ let content
                                         <li>Please include delivery note on the outer packaging.</li>
                                         <li>Please mark outer carton with our order reference number.</li>
                                         <li>Please acknowledge receipt of order by email.</li>
-                                      
-                                    
                                     </div>
                                 </div>
 
