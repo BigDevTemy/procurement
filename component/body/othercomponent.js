@@ -289,7 +289,7 @@ let content
                         </div>
 
                         <div style="margin-top:20px">Thanks and regards.</div>   
-                        <div style="margin-top:40px"> <input type="text" id="signamture" value="Abdelbaset Shehadeh" /></div>                       
+                        <div style="margin-top:40px"> <input type="text" id="signature" value="Abdelbaset Shehadeh" /></div>                       
                     </div>
 
                 </div>

@@ -520,7 +520,7 @@ function display(params){
                     <div style="display: flex;flex-direction: column; justify-content: center; width: 100%;">
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <div><img src='../assets/images/company.png' id="company_logo" style="width:100%" /></div>
-                            <div style="font-weight:bold" id="supplier_name">${supplier_name.toUpperCase()}</div>
+                            
                         </div>
 
                         <div><hr style="border:1px solid #ff0000"/></div>
