@@ -445,6 +445,7 @@ $router->post('savenewpo',function($request){
   $connection = new mysqli("localhost","root","","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
   $newOrderref = createOrderRef($data['order_ref']);
+  
   $query = "INSERT INTO po (supplier_id,order_ref,delivery_days,delivery_address,body_note,shippment_type,new_order_ref,signatures)VALUES('".$data['supplier_id']."','".$data['order_ref']."','".$data['days']."','".$data['address']."','".$data['body']."','".$data['shippment_type']."','".$newOrderref."','".$data['signature']."')";
   $result = $connection->query($query)or die(mysqli_error($connection));
   if($result){
