@@ -344,7 +344,7 @@ function POClickfetchapproved(){
                            
                            return  `
                                        <div style="cursor:pointer;width:100%">
-                                                <button class="btn btn-sm btn-secondary" onclick="Edit(${row.poID})">Edit</button>
+                                                <button class="btn btn-sm btn-secondary" onclick="poEditModal('${row.supplier_name}','${row.contact}','${row.email}','${row.address}','${row.created_at}','${row.order_ref}','${row.supplier_id}')">Edit</button>
                                                <button class="btn btn-sm btn-primary" onclick="PrintElemx(${row.poID})">Print</button>
                                        </div>
                                    `

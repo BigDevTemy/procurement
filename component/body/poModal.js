@@ -126,6 +126,129 @@ function poModal(supplier_name,contact,email,address,datecreated,order_ref,suppl
         
 }
 
+
+function poEditModal(supplier_name,contact,email,address,datecreated,order_ref,supplier_id){
+  
+    document.querySelector('.modalClass').classList.add('modalClassCustom');
+    let content =  ` 
+                    <div class="customModal modalApproval">
+                            <div class="modalTitle" >
+                                <div style="width:100%"> 
+                                    <div>${supplier_name}</div>
+                                    <div style="font-size:14px">${address}</div>
+                                    <div style="display:flex;align-items:center;width:60%;justify-content:space-between">
+                                        <div style="font-size:12px"><em>contact: </em>${contact}</div>
+                                        <div style="font-size:12px"><em>emailaddress: </em>${email}</div>
+                                    </div>
+                                </div> 
+                                
+                            </div>
+                            <div style="width:100%;margin-top:30px;display:flex;justify-content:space-between" >
+                                <button class="btn btn-primary" onclick="addRow()">Add Item</button>
+                                <select id="currency">
+                                    <option value="NGN">NGN</option>
+                                    <option value="USD">USD</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="YEN">YEN</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+                            </div>
+                            <div class="modalBody">
+                               <div id="suppliername"></div>
+                               <div id="addr"></div>
+                               <div id="phonenumber"></div>
+                               <div id="invoice"></div>
+                               <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>SN</td>
+                                            <td>Description</td>
+                                            <td>Part Number</td>
+                                            <td>Quantity</td>
+                                            <td>Price</td>
+                                            <td>Total</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody" style="width:100%">
+
+                                    </tbody>
+
+                               </table>
+                               <div class="discountTotal">
+                                    <div>Discount(%):-</div> 
+                                    <input type="number" class="form-control" min="0" value=0 id="discount" />
+                                </div>
+                                <div class="discountTotal">
+                                    <div>Grand Total</div> 
+                                    <div id="grandtotal">0</div>
+                                </div>
+                            </div>
+
+                            <div class="modalFooter">
+                                <div class="mybutton ">
+                                    <button class="btn btn-primary closeModal">Close</button>
+                                    <button class="btn btn-primary closeModal" onClick="proceed('${supplier_name}','${contact}','${email}','${address}','${datecreated}','${order_ref}','${supplier_id}')">Save</button>
+                                </div>
+                            </div>
+                    </div>
+        `
+
+        document.querySelector('.modalClass').innerHTML=content
+        // supplier_quotationDetails(orderid,supplierid);
+        myDiscountChange();
+
+        close();
+        document.querySelector('#tbody').addEventListener('click',function(e){
+            if(e.target.classList.contains('deleteRow')){
+                let currentParent = e.target.parentElement.parentElement
+                
+               
+                currentParent.parentElement.removeChild(currentParent)
+                countVar--;
+                // let parent  = currentParent.parentElement;
+                // parent.remove(parent.children[0])
+              
+                // for(let i=0; i<parent.children.length;i++){
+                    
+                // }
+
+                //document.querySelector('#tbody').children
+            }
+
+            let y = e.target.parentElement.parentElement.parentElement
+            let x = e.target.parentElement.parentElement;
+            let sum = 0;
+            let quantity = x.children[3].children[0];
+            let price =  x.children[4].children[0];
+            let Sumtotal =  x.children[5].children[0];
+            let grandtotal = document.getElementById('grandtotal')
+            let discount = document.getElementById('discount').value;
+           
+            quantity.addEventListener('change',function(e){
+                let pricex = price.value 
+                let quantityx = e.target.value
+                let total = parseFloat(pricex * quantityx);
+                Sumtotal.value = total
+                sumTotal(grandtotal,discount);
+                
+                
+            })
+            price.addEventListener('change',function(e){
+                let quantityx= quantity.value 
+                let  pricex= e.target.value
+                let total = parseFloat(pricex * quantityx);
+                Sumtotal.value = total
+                sumTotal(grandtotal,discount);
+
+                
+            })
+
+    
+
+        })
+        
+}
+
 function proceed (supplier_name,contact,email,address,datecreated,order_ref,supplier_id){
 
     let items = document.querySelector('#tbody')
