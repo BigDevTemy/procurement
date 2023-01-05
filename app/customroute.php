@@ -1324,7 +1324,8 @@ $router->post('deletePOnew',function(){
   $connection = new mysqli("localhost","root","","procurement");
   $data = json_decode(file_get_contents('php://input'), true);
  
-  
+
+
     $query = "DELETE  FROM `po`  WHERE `po`.`id` ='".$data["rowid"]."'";
     $queryItem = "DELETE  FROM `items`  WHERE `items`.`po_id` ='".$data["rowid"]."'";
     $result = $connection->query($query)or die(mysqli_error($connection));
